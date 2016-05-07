@@ -1,13 +1,23 @@
 {
-	"manifest_version": 2,
 	"name": "Vim Click",
+	"description": "Chrome extension for faster browser use, especially with complex web apps."
 	"version": "0.1",
-	"content_scripts": [
-		{
-			"matches": [
-				"<all_urls>"
-			],
-			"js": ["content.js"]
+	"content_scripts": [{
+		"matches": ["<all_urls>"],
+		"js": ["content.js"]
+	}],
+	"background": {
+		"persistent": false,
+		"scripts": ["background.js"]
+	},
+	"commands": {
+		"cmdline": {
+			"suggested_key": {
+				"default": "Ctrl+F",
+				"mac": "MacCtrl+F"
+			},
+			"description": "Enter cmdline mode"
 		}
-	]
+	},
+	"manifest_version": 2
 }
