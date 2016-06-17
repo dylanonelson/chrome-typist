@@ -1,4 +1,4 @@
-div {
+main {
 	position: fixed;
 	right: 0;
 	bottom: 0;
@@ -13,6 +13,7 @@ label {
 	font-weight: 700;
 	text-align: right;
 	width: 5%;
+	font-family: monospace;
 }
 input {
 	border: 0;

@@ -1,0 +1,30 @@
+{
+  "name": "vim-click",
+  "version": "0.0.1",
+  "description": "Chrome extension for faster browser use, especially with complex web apps.",
+  "main": "manifest.json",
+  "scripts": {
+    "build": "webpack --colors --progress",
+    "watch": "webpack --colors --progress --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dylanonelson/chrome-vim-click.git"
+  },
+  "author": "Dylan Nelson",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dylanonelson/chrome-vim-click/issues"
+  },
+  "homepage": "https://github.com/dylanonelson/chrome-vim-click#readme",
+  "devDependencies": {
+    "babel-core": "^6.9.1",
+    "babel-loader": "^6.2.4",
+    "babel-preset-es2015": "^6.9.0",
+    "css-loader": "^0.23.1",
+    "dom-loader": "^1.0.4",
+    "html-loader": "^0.4.3",
+    "style-loader": "^0.13.1",
+    "webpack": "^1.13.1"
+  }
+}

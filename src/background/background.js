@@ -5,3 +5,9 @@ chrome.commands.onCommand.addListener(function(command) {
 		});
 	});
 })
+
+chrome.runtime.onMessage.addListener(function (request) {
+	if (request.query) {
+		console.log(request.query);
+	}
+})
