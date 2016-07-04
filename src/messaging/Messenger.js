@@ -6,7 +6,10 @@ module.exports = class Messenger {
 
   start() {
     chrome.runtime.onMessage.addListener((request) => {
-      if (request.to === this.correspondent.name)
+      if (
+        (request.to === this.correspondent.name) ||
+        (request.to === 'all')
+      )
         this.correspondent.trigger(request.message, request.info);
     })
 
@@ -18,16 +21,7 @@ module.exports = class Messenger {
   }
 
   sendMessage (to, data) {
-    var msg = {
-      from: this.correspondent.name,
-      to: to
-    }
-
-    for (var p in data) {
-      if (p !== 'from') {
-        msg[p] = data[p];
-      }
-    }
+    let msg = this.buildMessage(to, data);
 
     if (typeof chrome.tabs !== 'undefined') {
       chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
@@ -36,6 +30,20 @@ module.exports = class Messenger {
     } else {
       chrome.runtime.sendMessage(msg);
     }
+  }
+
+  buildMessage(to, data) {
+    let msg = {
+      to: to
+    }
+
+    for (var p in data) {
+      if (p !== 'to') {
+        msg[p] = data[p];
+      }
+    }
+
+    return msg;
   }
 
 }

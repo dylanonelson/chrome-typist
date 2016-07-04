@@ -16,7 +16,10 @@ module.exports = class Correspondent {
         (piece.slice(0, 1).toUpperCase() + piece.slice(1, piece.length));
     }
 
-    if (typeof methodName === 'string')
+    if (
+      typeof methodName === 'string' &&
+      typeof this[methodName] === 'function'
+    )
       return this[methodName].call(this, args);
   }
 

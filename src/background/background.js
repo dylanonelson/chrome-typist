@@ -1,10 +1,12 @@
 var Correspondent = require('../messaging/Correspondent');
+var Dispatcher = require('../messaging/Dispatcher');
 
 class BackgroundCorrespondent extends Correspondent {
 
-  constructor() {
-    super();
+  start() {
     this.showing = true;
+    this.dispatcher = new Dispatcher({ correspondent: this });
+    this.dispatcher.start();
   }
 
   get name() {
@@ -42,4 +44,4 @@ class BackgroundCorrespondent extends Correspondent {
 
 }
 
-new BackgroundCorrespondent();
+new BackgroundCorrespondent().start();

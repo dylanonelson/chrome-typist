@@ -33,6 +33,9 @@ class ContentCorrespondent extends Correspondent {
   }
 
   onBackgroundQuery(value) {
+  }
+
+  onCmdlineQuery(value) {
     console.log(value);
   }
 
