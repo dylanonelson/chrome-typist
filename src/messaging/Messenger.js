@@ -10,18 +10,18 @@ module.exports = class Messenger {
         (request.to === this.correspondent.name) ||
         (request.to === 'all')
       )
-        this.correspondent.trigger(request.message, request.info);
+        this.correspondent.trigger(request.message, request.data);
     })
 
     if (typeof chrome.commands !== 'undefined') {
-      chrome.commands.onCommand.addListener(function(command) {
+      chrome.commands.onCommand.addListener((command) => {
         this.correspondent.trigger('command:' + command);
-      }.bind(this))
+      })
     }
   }
 
-  sendMessage (to, data) {
-    let msg = this.buildMessage(to, data);
+  sendMessage (to, message, data) {
+    let msg = this.buildMessage(to, message, data);
 
     if (typeof chrome.tabs !== 'undefined') {
       chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
@@ -32,15 +32,11 @@ module.exports = class Messenger {
     }
   }
 
-  buildMessage(to, data) {
+  buildMessage(to, message, data) {
     let msg = {
-      to: to
-    }
-
-    for (var p in data) {
-      if (p !== 'to') {
-        msg[p] = data[p];
-      }
+      to: to,
+      message: message,
+      data: data
     }
 
     return msg;

@@ -23,10 +23,7 @@ class BackgroundCorrespondent extends Correspondent {
   }
 
   onCmdlineQuery(value) {
-    this.sendMessage('content', {
-      message: 'background:query',
-      info: value
-    })
+    this.sendMessage('content', 'background:query', value)
   }
 
   onCommandCmdline() {
@@ -38,8 +35,8 @@ class BackgroundCorrespondent extends Correspondent {
       this.showing = true;
     }
 
-    this.sendMessage('content', { message: message });
-    this.sendMessage('cmdline', { message: message });
+    this.sendMessage('content', message);
+    this.sendMessage('cmdline', message);
   }
 
 }

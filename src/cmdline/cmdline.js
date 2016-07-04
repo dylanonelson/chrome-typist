@@ -33,10 +33,7 @@ class CmdlineCorrespondent extends Correspondent {
 
   listenForInput() {
     this.query.addEventListener('keyup', () => {
-      this.sendMessage('content', {
-        message: 'cmdline:query',
-        info: this.query.value
-      })
+      this.sendMessage('content', 'cmdline:query', this.query.value)
     })
   }
 

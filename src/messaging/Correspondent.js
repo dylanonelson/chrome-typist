@@ -8,6 +8,7 @@ module.exports = class Correspondent {
   }
 
   trigger(action, args) {
+    if (typeof action !== 'string') debugger
     let pieces = action.split(':');
     let methodName = 'on';
 
@@ -23,8 +24,8 @@ module.exports = class Correspondent {
       return this[methodName].call(this, args);
   }
 
-  sendMessage(to, data) {
-    this.messenger.sendMessage(to, data);
+  sendMessage(to, message, data) {
+    this.messenger.sendMessage(to, message, data);
   }
 
 }
