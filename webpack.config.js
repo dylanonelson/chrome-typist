@@ -21,7 +21,7 @@ module.exports = {
     }, {
       test: /\.html$/,
       exclude: /node_modules/,
-      loader: 'dom?tag=body!html'
+      loader: 'dom?tag=main!html'
     }]
   }
 }

@@ -1,35 +1,55 @@
-var body = require('./cmdline.html');
 require('./cmdline.css');
-document.body = body;
+var main = require('./main.html');
+var Messenger = require('../messaging/Messenger');
+var Correspondent = require('../messaging/Correspondent');
 
-var query = document.getElementById('query');
+class CmdlineCorrespondent extends Correspondent {
 
-chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-  if (request.message === 'Yo') {
-    // WTF?
+  start() {
+    document.addEventListener('DOMContentLoaded', this.setupCmdline);
+    document.addEventListener('DOMContentLoaded', this.listenForInput.bind(this));
+  }
+
+  // Name property is used by the messenger object.
+  get name() {
+    return 'cmdline'
+  }
+
+  get query() {
+    return document.getElementById('query');
+  }
+
+  onBackgroundShow() {
+    this.focusInput();
+  }
+
+  onBackgroundHide() {
+    this.blurInput();
+  }
+
+  setupCmdline() {
+    document.body.appendChild(main);
+  }
+
+  listenForInput() {
+    this.query.addEventListener('change', function () {
+      this.sendMessage('background', {
+        message: 'cmdline:query',
+        info: this.query.value
+      })
+    }.bind(this))
+  }
+
+  focusInput() {
     setTimeout(function () {
-      query.focus();
-    }, 0);
-  }
-});
-
-function sendMessage (data) {
-  var msg = {
-    from: 'cmdline'
+      this.query.focus();
+    }.bind(this), 0);
   }
 
-  for (var p in data) {
-    if (p !== 'from') {
-      msg[p] = data[p];
-    }
+  blurInput() {
+    this.query.blur();
   }
 
-  //window.parent.postMessage(msg);
 }
 
-query.addEventListener('keyup', (e) => {
-  sendMessage({
-    query: query.value,
-    test: 'test'
-  })
-});
+new CmdlineCorrespondent().start();

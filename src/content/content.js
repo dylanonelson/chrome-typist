@@ -1,39 +1,50 @@
 require('./content.css');
+var Messenger = require('../messaging/Messenger');
+var Correspondent = require('../messaging/Correspondent');
+const hiddenStyle = 'display:none;'
+const displayedStyle = 'display:block;'
 
-var vimClickIframe = document.createElement('iframe');
-var hiddenStyle = 'display:none;'
-var displayedStyle = 'display:block;'
+var vimClickIframe;
 
-vimClickIframe.setAttribute('src', 'chrome-extension://ghgpkhnkmggacmkokplofpcnbaldjloh/dist/cmdline.html');
-vimClickIframe.setAttribute('style', hiddenStyle);
-vimClickIframe.setAttribute('id', 'vim-click');
+class ContentCorrespondent extends Correspondent {
 
-document.body.appendChild(vimClickIframe);
-
-var activateCmdline = function () {
-  vimClickIframe.setAttribute('style', displayedStyle);
-  vimClickIframe.focus();
-}
-
-var hideCmdline = function () {
-  vimClickIframe.setAttribute('style', hiddenStyle);
-}
-
-chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-  if (request.message === 'Yo') {
-    if (vimClickIframe.getAttribute('style') === hiddenStyle) {
-      activateCmdline();
-    } else {
-      hideCmdline();
-    }
+  start() {
+    this.buildIframe();
   }
-});
 
-function onQuery () {
+  get name() {
+    return 'content';
+  }
+
+  buildIframe() {
+    vimClickIframe = document.createElement('iframe');
+    vimClickIframe.setAttribute('src', 'chrome-extension://pfginjoddahjoklagemdmajifkjdaafn/dist/cmdline.html');
+    vimClickIframe.setAttribute('style', hiddenStyle);
+    vimClickIframe.setAttribute('id', 'vim-click');
+    document.body.appendChild(vimClickIframe);
+  }
+
+  onBackgroundShow() {
+    this.activateCmdline();
+  }
+
+  onBackgroundHide() {
+    this.hideCmdline();
+  }
+
+  onBackgroundQuery(value) {
+    console.log(value);
+  }
+
+  activateCmdline() {
+    vimClickIframe.setAttribute('style', displayedStyle);
+    vimClickIframe.focus();
+  }
+
+  hideCmdline() {
+    vimClickIframe.setAttribute('style', hiddenStyle);
+  }
+
 }
 
-window.addEventListener('message', () => {
-  if (event.data.query) {
-    onQuery(event.data.query);
-  }
-});
+new ContentCorrespondent().start();

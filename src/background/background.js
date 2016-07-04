@@ -1,13 +1,47 @@
-chrome.commands.onCommand.addListener(function(command) {
-	chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
-		chrome.tabs.sendMessage(tabs[0].id, {
-			message: 'Yo'
-		});
-	});
-})
+var Correspondent = require('../messaging/Correspondent');
 
-chrome.runtime.onMessage.addListener(function (request) {
-	if (request.query) {
-		console.log(request.query);
-	}
-})
+class BackgroundCorrespondent extends Correspondent {
+
+  constructor() {
+    super();
+    this.showing = true;
+  }
+
+  get name() {
+    return 'background';
+  }
+
+  get showing() {
+    return this._showing;
+  }
+
+  set showing(showing) {
+    this._showing = showing;
+    return this;
+  }
+
+  start() {
+    chrome.commands.onCommand.addListener(function(command) {
+      if (this.showing) {
+        var message = 'background:hide';
+        this.showing = false;
+      } else {
+        var message = 'background:show';
+        this.showing = true;
+      }
+
+      this.sendMessage('content', { message: message });
+      this.sendMessage('cmdline', { message: message });
+    }.bind(this))
+  }
+
+  onCmdlineQuery(value) {
+    this.sendMessage('content', {
+      message: 'background:query',
+      info: value
+    })
+  }
+
+}
+
+new BackgroundCorrespondent().start();
