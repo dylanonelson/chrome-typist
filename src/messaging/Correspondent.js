@@ -8,24 +8,29 @@ module.exports = class Correspondent {
   }
 
   trigger(action, args) {
-    if (typeof action !== 'string') debugger
     let pieces = action.split(':');
-    let methodName = 'on';
 
-    for (var piece of pieces) {
-      methodName = methodName +
-        (piece.slice(0, 1).toUpperCase() + piece.slice(1, piece.length));
+    while (pieces.length >= 1) {
+      let methodName = 'on';
+      for (var piece of pieces) {
+        methodName = methodName +
+          (piece.slice(0, 1).toUpperCase() + piece.slice(1, piece.length));
+      }
+      this.tryMethod(methodName, args);
+      pieces.shift();
     }
-
-    if (
-      typeof methodName === 'string' &&
-      typeof this[methodName] === 'function'
-    )
-      return this[methodName].call(this, args);
   }
 
   sendMessage(to, message, data) {
     this.messenger.sendMessage(to, message, data);
+  }
+
+  tryMethod(name, args) {
+    if (
+      typeof name === 'string' &&
+      typeof this[name] === 'function'
+    )
+      this[name].call(this, args);
   }
 
 }
