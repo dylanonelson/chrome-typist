@@ -23,15 +23,15 @@ class BackgroundCorrespondent extends Correspondent {
   }
 
   onCmdlineQuery(value) {
-    this.sendMessage('content', 'background:query', value)
+    this.sendMessage('content', 'query', value)
   }
 
   onCommandCmdline() {
     if (this.showing) {
-      var message = 'background:hide';
+      var message = 'hide';
       this.showing = false;
     } else {
-      var message = 'background:show';
+      var message = 'show';
       this.showing = true;
     }
 

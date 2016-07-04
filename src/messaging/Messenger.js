@@ -35,7 +35,7 @@ module.exports = class Messenger {
   buildMessage(to, message, data) {
     let msg = {
       to: to,
-      message: message,
+      message: `${this.correspondent.name}:${message}`,
       data: data
     }
 
