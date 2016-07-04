@@ -20,6 +20,13 @@
         "mac": "MacCtrl+F"
       },
       "description": "Enter cmdline mode"
+    },
+    "exit": {
+      "suggested_key": {
+        "default": "Ctrl+C",
+        "mac": "MacCtrl+C"
+      },
+      "description": "Exit current mode"
     }
   },
   "manifest_version": 2
