@@ -9,6 +9,12 @@ module.exports = class Messenger {
       if (request.to === this.correspondent.name)
         this.correspondent.trigger(request.message, request.info);
     })
+
+    if (typeof chrome.commands !== 'undefined') {
+      chrome.commands.onCommand.addListener(function(command) {
+        this.correspondent.trigger('command:' + command);
+      }.bind(this))
+    }
   }
 
   sendMessage (to, data) {

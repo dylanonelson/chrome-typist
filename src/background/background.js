@@ -20,21 +20,6 @@ class BackgroundCorrespondent extends Correspondent {
     return this;
   }
 
-  start() {
-    chrome.commands.onCommand.addListener(function(command) {
-      if (this.showing) {
-        var message = 'background:hide';
-        this.showing = false;
-      } else {
-        var message = 'background:show';
-        this.showing = true;
-      }
-
-      this.sendMessage('content', { message: message });
-      this.sendMessage('cmdline', { message: message });
-    }.bind(this))
-  }
-
   onCmdlineQuery(value) {
     this.sendMessage('content', {
       message: 'background:query',
@@ -42,6 +27,19 @@ class BackgroundCorrespondent extends Correspondent {
     })
   }
 
+  onCommandCmdline() {
+    if (this.showing) {
+      var message = 'background:hide';
+      this.showing = false;
+    } else {
+      var message = 'background:show';
+      this.showing = true;
+    }
+
+    this.sendMessage('content', { message: message });
+    this.sendMessage('cmdline', { message: message });
+  }
+
 }
 
-new BackgroundCorrespondent().start();
+new BackgroundCorrespondent();
