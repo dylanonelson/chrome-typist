@@ -20,7 +20,7 @@ class ContentCorrespondent extends Correspondent {
     vimClickIframe = document.createElement('iframe');
     vimClickIframe.setAttribute('src', 'chrome-extension://pfginjoddahjoklagemdmajifkjdaafn/dist/cmdline.html');
     vimClickIframe.setAttribute('style', hiddenStyle);
-    vimClickIframe.setAttribute('id', 'vim-click');
+    vimClickIframe.setAttribute('id', 'typist-cmdline');
     document.body.appendChild(vimClickIframe);
   }
 

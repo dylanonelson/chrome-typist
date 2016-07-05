@@ -1,5 +1,5 @@
 {
-  "name": "vim-click",
+  "name": "chrome-typist",
   "version": "0.0.1",
   "description": "Chrome extension for faster browser use, especially with complex web apps.",
   "main": "manifest.json",
@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dylanonelson/chrome-vim-click.git"
+    "url": "git+https://github.com/dylanonelson/chrome-typist.git"
   },
   "author": "Dylan Nelson",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/dylanonelson/chrome-vim-click/issues"
+    "url": "https://github.com/dylanonelson/chrome-typist/issues"
   },
-  "homepage": "https://github.com/dylanonelson/chrome-vim-click#readme",
+  "homepage": "https://github.com/dylanonelson/chrome-typist#readme",
   "devDependencies": {
     "babel-core": "^6.9.1",
     "babel-loader": "^6.2.4",

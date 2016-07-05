@@ -1,5 +1,5 @@
 {
-  "name": "Vim Click",
+  "name": "Chrome Typist",
   "description": "Chrome extension for faster browser use, especially with complex web apps.",
   "version": "0.1",
   "content_scripts": [{

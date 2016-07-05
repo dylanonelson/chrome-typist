@@ -1,4 +1,4 @@
-# vim-click
+# chrome-typist
 
 > Chrome extension for faster browser use, especially with complex web apps.
 
