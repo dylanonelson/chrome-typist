@@ -6,9 +6,11 @@ module.exports = class Messenger {
 
   start() {
     chrome.runtime.onMessage.addListener((request) => {
-      if (
+      if ((
         (request.to === this.correspondent.name) ||
         (request.to === 'all')
+      ) &&
+        (request.from !== this.correspondent.name)
       )
         this.correspondent.trigger(request.message, request.data);
     })
@@ -35,6 +37,7 @@ module.exports = class Messenger {
   buildMessage(to, message, data) {
     let msg = {
       to: to,
+      from: this.correspondent.name,
       message: `${this.correspondent.name}:${message}`,
       data: data
     }
