@@ -11,7 +11,7 @@ Stop clicking on things! Use Vim-style shortcuts to find and select inputs or li
 - Stop using Cmd+F to find fields buried on the page
 
 ### Development checklist
-- [ ] Show Vim cmdline-style input bar on invoking shortcut
+- [x] Show Vim cmdline-style input bar on invoking shortcut
 - [ ] Highlight first match on current page as user types
 - [ ] Move into normal mode on enter
 - [ ] Trigger click on selected item on enter
