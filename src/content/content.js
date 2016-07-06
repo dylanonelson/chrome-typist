@@ -18,7 +18,7 @@ class ContentCorrespondent extends Correspondent {
 
   buildIframe() {
     vimClickIframe = document.createElement('iframe');
-    vimClickIframe.setAttribute('src', 'chrome-extension://pfginjoddahjoklagemdmajifkjdaafn/dist/cmdline.html');
+    vimClickIframe.setAttribute('src', `chrome-extension://${chrome.runtime.id}/dist/cmdline.html`);
     vimClickIframe.setAttribute('style', hiddenStyle);
     vimClickIframe.setAttribute('id', 'typist-cmdline');
     document.body.appendChild(vimClickIframe);
