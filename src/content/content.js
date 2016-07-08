@@ -1,6 +1,7 @@
 require('./content.css');
 var Messenger = require('../messaging/Messenger');
 var Correspondent = require('../messaging/Correspondent');
+var DOMSearcher = require('../search/DOMSearcher');
 const hiddenStyle = 'display:none;'
 const displayedStyle = 'display:block;'
 
@@ -32,11 +33,8 @@ class ContentCorrespondent extends Correspondent {
     this.hideCmdline();
   }
 
-  onBackgroundQuery(value) {
-  }
-
   onQuery(value) {
-    console.log(value);
+    new DOMSearcher(value).search();
   }
 
   activateCmdline() {
