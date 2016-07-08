@@ -34,7 +34,7 @@ class ContentCorrespondent extends Correspondent {
   }
 
   onQuery(value) {
-    new DOMSearcher(value).search();
+    new DOMSearcher(value).start();
   }
 
   activateCmdline() {
