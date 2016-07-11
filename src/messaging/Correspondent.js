@@ -1,6 +1,6 @@
-var Messenger = require('./Messenger.js');
+import Messenger from './Messenger'
 
-module.exports = class Correspondent {
+class Correspondent {
 
   constructor() {
     this.messenger = new Messenger({ correspondent: this });
@@ -34,3 +34,5 @@ module.exports = class Correspondent {
   }
 
 }
+
+export default Correspondent

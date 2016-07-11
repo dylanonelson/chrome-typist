@@ -1,5 +1,5 @@
-var Correspondent = require('../messaging/Correspondent');
-var Dispatcher = require('../messaging/Dispatcher');
+import Correspondent from '../messaging/Correspondent';
+import Dispatcher from '../messaging/Dispatcher';
 
 class BackgroundCorrespondent extends Correspondent {
 
