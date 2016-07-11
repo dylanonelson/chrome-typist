@@ -1,7 +1,7 @@
-require('./cmdline.css');
-var main = require('./main.html');
-var Messenger = require('../messaging/Messenger');
-var Correspondent = require('../messaging/Correspondent');
+import './cmdline.css';
+import Correspondent from '../messaging/Correspondent';
+import Messenger from '../messaging/Messenger';
+import main from './main.html';
 
 class CmdlineCorrespondent extends Correspondent {
 

@@ -1,4 +1,4 @@
-module.exports = class Messenger {
+class Messenger {
 
   constructor(options) {
     this.correspondent = options.correspondent;
@@ -46,3 +46,5 @@ module.exports = class Messenger {
   }
 
 }
+
+export default Messenger

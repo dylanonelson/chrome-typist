@@ -1,9 +1,10 @@
-require('./content.css');
-var Messenger = require('../messaging/Messenger');
-var Correspondent = require('../messaging/Correspondent');
-var DOMSearcher = require('../search/DOMSearcher');
-const hiddenStyle = 'display:none;'
+import './content.css';
+import Correspondent from '../messaging/Correspondent';
+import DOMSearcher from '../search/DOMSearcher';
+import Messenger from '../messaging/Messenger';
+
 const displayedStyle = 'display:block;'
+const hiddenStyle = 'display:none;'
 
 var vimClickIframe;
 

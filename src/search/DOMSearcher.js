@@ -1,6 +1,4 @@
-require('./DOMSearcher.css');
-
-module.exports = class DOMSearcher {
+class DOMSearcher {
 
   constructor(query) {
     this.query = new RegExp(query, 'ig');
@@ -46,3 +44,5 @@ module.exports = class DOMSearcher {
   }
 
 }
+
+export default DOMSearcher

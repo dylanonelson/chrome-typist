@@ -1,6 +1,6 @@
-var Messenger = require('./Messenger');
+import Messenger from './Messenger'
 
-module.exports = class Dispatcher extends Messenger {
+class Dispatcher extends Messenger {
 
   start() {
     chrome.runtime.onMessage.addListener((request) => {
@@ -22,3 +22,5 @@ module.exports = class Dispatcher extends Messenger {
   }
 
 }
+
+export default Dispatcher
