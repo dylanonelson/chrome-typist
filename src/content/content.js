@@ -12,6 +12,7 @@ class ContentCorrespondent extends Correspondent {
 
   start() {
     this.buildIframe();
+    this.searcher = new DOMSearcher();
   }
 
   get name() {
@@ -35,7 +36,7 @@ class ContentCorrespondent extends Correspondent {
   }
 
   onQuery(value) {
-    new DOMSearcher(value).start();
+    this.searcher.search(value);
   }
 
   activateCmdline() {
