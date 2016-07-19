@@ -39,6 +39,18 @@ class ContentCorrespondent extends Correspondent {
     this.searcher.search(value);
   }
 
+  onCmdlineBrowse() {
+    this.searcher.focusMatch();
+  }
+
+  onCmdlineNext() {
+    this.searcher.focusMatch('previous');
+  }
+
+  onCmdlinePrevious() {
+    this.search.focusMatch('next');
+  }
+
   activateCmdline() {
     vimClickIframe.setAttribute('style', displayedStyle);
     vimClickIframe.focus();

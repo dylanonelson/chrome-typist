@@ -34,4 +34,12 @@ module.exports = class Match {
     this.highlightNode.remove();
   }
 
+  focus() {
+    this.highlightNode.style = 'background-color: orange';
+  }
+
+  unfocus() {
+    this.highlightNode.style = '';
+  }
+
 }
