@@ -68,30 +68,18 @@ class DOMSearcher {
     this.matches = [];
   }
 
-  focusMatch(which) {
-    switch (which) {
-      case 'next':
-        this.matches[0].unfocus();
-        this.nextMatch().focus();
-        break;
-      case 'previous':
-        this.matches[0].unfocus();
-        this.previousMatch().focus();
-        break;
-      default:
-        this.matches[0].focus();
-        break;
-    }
+  currentMatch() {
+    return this.matches[0];
   }
 
   nextMatch() {
-    this.matches.push(this.matches.unshift());
-    return this.matches[0];
+    this.matches.push(this.matches.shift());
+    return this.currentMatch();
   }
 
   previousMatch() {
     this.matches.unshift(this.matches.pop());
-    return this.matches[0];
+    return this.currentMatch();
   }
 
 }

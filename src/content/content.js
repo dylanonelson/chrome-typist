@@ -40,15 +40,18 @@ class ContentCorrespondent extends Correspondent {
   }
 
   onCmdlineBrowse() {
-    this.searcher.focusMatch();
+    this.searcher.currentMatch().focus();
   }
 
   onCmdlineNext() {
-    this.searcher.focusMatch('previous');
+    console.log(this.searcher.currentMatch());
+    this.searcher.currentMatch().unfocus();
+    this.searcher.nextMatch().focus();
   }
 
   onCmdlinePrevious() {
-    this.search.focusMatch('next');
+    this.searcher.currentMatch().unfocus()
+    this.searcher.previousMatch().focus();
   }
 
   activateCmdline() {
