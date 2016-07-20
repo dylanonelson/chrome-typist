@@ -36,6 +36,7 @@ module.exports = class Match {
 
   focus() {
     this.highlightNode.style = 'background-color: orange';
+    this.highlightNode.scrollIntoViewIfNeeded(true);
   }
 
   unfocus() {
