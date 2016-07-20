@@ -43,4 +43,8 @@ module.exports = class Match {
     this.highlightNode.style = '';
   }
 
+  select() {
+    this.node.parentNode.click();
+  }
+
 }

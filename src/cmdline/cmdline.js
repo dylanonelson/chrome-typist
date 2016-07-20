@@ -47,6 +47,9 @@ class CmdlineCorrespondent extends Correspondent {
       if (e.which === 78 && e.getModifierState('Shift')) {
         this.sendMessage('content', 'previous');
       }
+      if (e.which === 13) {
+        this.sendMessage('content', 'select');
+      }
     })
   }
 
