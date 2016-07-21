@@ -15,12 +15,14 @@ class ContentCorrespondent extends Correspondent {
     return 'content';
   }
 
-  onBackgroundShow() {
-    this.cmdline.show();
-  }
-
-  onBackgroundHide() {
-    this.cmdline.hide();
+  onCommandCmdline() {
+    if (this.cmdline.showing) {
+      this.cmdline.hide();
+      this.sendMessage('cmdline', 'hide');
+    } else {
+      this.cmdline.show();
+      this.sendMessage('cmdline', 'show');
+    }
   }
 
   onQuery(value) {

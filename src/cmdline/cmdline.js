@@ -19,11 +19,11 @@ class CmdlineCorrespondent extends Correspondent {
     return document.getElementById('query');
   }
 
-  onBackgroundShow() {
+  onShow() {
     this.focusInput();
   }
 
-  onBackgroundHide() {
+  onHide() {
     this.blurInput();
   }
 

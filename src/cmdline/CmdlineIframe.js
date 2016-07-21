@@ -10,17 +10,18 @@ class CmdlineIframe {
       return container.childNodes[0];
     })();
 
-    console.log(this.node);
     document.body.appendChild(this.node);
   }
 
   hide() {
     this.node.style = 'display:none';
+    this.showing = false;
   }
 
   show() {
     this.node.style = 'display:block';
     this.node.focus();
+    this.showing = true;
   }
 
 }
