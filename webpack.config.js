@@ -22,6 +22,10 @@ module.exports = {
       test: /\.html$/,
       exclude: /node_modules/,
       loader: 'dom?tag=main!html'
+    }, {
+      test: /\.ejs$/,
+      exclude: /node_modules/,
+      loader: 'ejs-loader'
     }]
   }
 }
