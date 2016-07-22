@@ -68,6 +68,20 @@ class DOMSearcher {
     this.matches = [];
   }
 
+  currentMatch() {
+    return this.matches[0];
+  }
+
+  nextMatch() {
+    this.matches.push(this.matches.shift());
+    return this.currentMatch();
+  }
+
+  previousMatch() {
+    this.matches.unshift(this.matches.pop());
+    return this.currentMatch();
+  }
+
 }
 
 export default DOMSearcher

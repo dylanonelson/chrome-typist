@@ -34,4 +34,17 @@ module.exports = class Match {
     this.highlightNode.remove();
   }
 
+  focus() {
+    this.highlightNode.style = 'background-color: orange';
+    this.highlightNode.scrollIntoViewIfNeeded(true);
+  }
+
+  unfocus() {
+    this.highlightNode.style = '';
+  }
+
+  select() {
+    this.node.parentNode.click();
+  }
+
 }

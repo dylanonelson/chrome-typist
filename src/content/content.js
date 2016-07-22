@@ -29,6 +29,25 @@ class ContentCorrespondent extends Correspondent {
     this.searcher.search(value);
   }
 
+  onCmdlineBrowse() {
+    this.searcher.currentMatch().focus();
+  }
+
+  onCmdlineNext() {
+    console.log(this.searcher.currentMatch());
+    this.searcher.currentMatch().unfocus();
+    this.searcher.nextMatch().focus();
+  }
+
+  onCmdlinePrevious() {
+    this.searcher.currentMatch().unfocus()
+    this.searcher.previousMatch().focus();
+  }
+
+  onCmdlineSelect() {
+    this.searcher.currentMatch().select();
+    this.searcher.clearMatches();
+  }
 }
 
 new ContentCorrespondent().start();

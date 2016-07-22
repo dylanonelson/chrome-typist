@@ -32,8 +32,24 @@ class CmdlineCorrespondent extends Correspondent {
   }
 
   listenForInput() {
-    this.query.addEventListener('keyup', () => {
+    this.query.addEventListener('keyup', (e) => {
       this.sendMessage('content', 'query', this.query.value)
+      if (e.which === 13) {
+        this.sendMessage('content', 'browse');
+        document.getElementById('browse').focus();
+      }
+    })
+
+    document.getElementById('browse').addEventListener('keyup', (e) => {
+      if (e.which === 78 && !e.getModifierState('Shift')) {
+        this.sendMessage('content', 'next');
+      }
+      if (e.which === 78 && e.getModifierState('Shift')) {
+        this.sendMessage('content', 'previous');
+      }
+      if (e.which === 13) {
+        this.sendMessage('content', 'select');
+      }
     })
   }
 
