@@ -56,6 +56,7 @@ class CmdlineCorrespondent extends Correspondent {
   focusInput() {
     setTimeout(function () {
       this.query.focus();
+      this.query.select();
     }.bind(this), 0);
   }
 

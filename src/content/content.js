@@ -31,6 +31,7 @@ class ContentCorrespondent extends Correspondent {
 
   onCmdlineBrowse() {
     this.searcher.currentMatch().focus();
+    this.cmdline.hide();
   }
 
   onCmdlineNext() {
@@ -47,6 +48,7 @@ class ContentCorrespondent extends Correspondent {
   onCmdlineSelect() {
     this.searcher.currentMatch().select();
     this.searcher.clearMatches();
+    this.cmdline.hide();
   }
 }
 
