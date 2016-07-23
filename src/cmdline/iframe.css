@@ -1,0 +1,14 @@
+iframe#typist-cmdline.showing {
+  background: #eee;
+  border: 0;
+  bottom: 0;
+  height: 51px;
+  left: 0;
+  position: fixed;
+  width: 100%;
+  z-index: 5000;
+}
+
+iframe#typist-cmdline.hidden {
+  bottom: -51px;
+}

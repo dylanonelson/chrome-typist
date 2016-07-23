@@ -1,5 +1,4 @@
-import './content.css';
-import CmdlineIframe from '../cmdline/CmdlineIframe';
+import CmdlineIframe from '../cmdline/iframe';
 import Correspondent from '../messaging/Correspondent';
 import DOMSearcher from '../search/DOMSearcher';
 import Messenger from '../messaging/Messenger';

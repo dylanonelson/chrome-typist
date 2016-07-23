@@ -1,3 +1,4 @@
+import './iframe.css'
 import iframe from './iframe.ejs'
 
 class CmdlineIframe {
@@ -14,12 +15,12 @@ class CmdlineIframe {
   }
 
   hide() {
-    this.node.style = 'display:none';
+    this.node.className = 'hidden';
     this.showing = false;
   }
 
   show() {
-    this.node.style = 'display:block';
+    this.node.className = 'showing';
     this.node.focus();
     this.showing = true;
   }
