@@ -29,19 +29,23 @@ class ContentCorrespondent extends Correspondent {
   }
 
   onCmdlineBrowse() {
-    this.searcher.currentMatch().focus();
+    if (this.searcher.currentMatch())
+      this.searcher.currentMatch().focus();
     this.cmdline.hide();
   }
 
   onCmdlineNext() {
-    console.log(this.searcher.currentMatch());
-    this.searcher.currentMatch().unfocus();
-    this.searcher.nextMatch().focus();
+    if (this.searcher.currentMatch())
+      this.searcher.currentMatch().unfocus();
+    if (this.searcher.nextMatch())
+      this.searcher.currentMatch().focus();
   }
 
   onCmdlinePrevious() {
-    this.searcher.currentMatch().unfocus()
-    this.searcher.previousMatch().focus();
+    if (this.searcher.currentMatch())
+      this.searcher.currentMatch().unfocus()
+    if (this.searcher.previousMatch())
+      this.searcher.currentMatch().focus();
   }
 
   onCmdlineSelect() {
