@@ -1,14 +1,19 @@
-iframe#typist-cmdline.showing {
+iframe#typist-cmdline {
   background: #eee;
   border: 0;
-  bottom: 0;
-  height: 51px;
+  border-top: 1px solid #444;
+  box-shadow: 0 0 3px 0 #444;
+  height: 70px;
   left: 0;
   position: fixed;
   width: 100%;
   z-index: 5000;
 }
 
+iframe#typist-cmdline.showing {
+  bottom: 0;
+}
+
 iframe#typist-cmdline.hidden {
-  bottom: -51px;
+  bottom: -70px;
 }

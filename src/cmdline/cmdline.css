@@ -1,13 +1,14 @@
 main {
-  border-top: 2px solid #aaa;
   bottom: 0;
   height: 50px;
+  font-size: 15px;
   left: 0;
-  padding: 0 10px 0 10px;
+  padding: 10px;
   position: fixed;
   right: 0;
   width: 100%;
 }
+
 label {
   font-family: monospace;
   font-weight: 700;
@@ -15,16 +16,21 @@ label {
   text-align: right;
   width: 5%;
 }
+
 input {
   background: #eee;
   border: 0;
   font-family: monospace;
+  font-size: inherit;
   line-height: 20px;
   width: 95%;
 }
+
 input:focus {
   outline: none;
 }
+
 input#query {
-  border-bottom: 1px solid #aaa;
+  font-weight: 700;
+  margin-bottom: 38px;
 }
