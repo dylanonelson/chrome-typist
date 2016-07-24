@@ -1,0 +1,8 @@
+mark.unfocused {
+  outline: 1px solid yellow;
+}
+
+mark.focused {
+  background: orange;
+  outline: 1px solid orange;
+}

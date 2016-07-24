@@ -1,4 +1,6 @@
-module.exports = class Match {
+import './match.css'
+
+class Match {
 
   constructor({ node }) {
     this.node = node;
@@ -35,16 +37,27 @@ module.exports = class Match {
   }
 
   focus() {
-    this.highlightNode.style = 'background-color: orange';
+    this.highlightNode.className = 'focused';
     this.highlightNode.scrollIntoViewIfNeeded(true);
   }
 
   unfocus() {
-    this.highlightNode.style = '';
+    this.highlightNode.className = 'unfocused';
   }
 
   select() {
-    this.node.parentNode.click();
+    switch (this.node.nodeType) {
+      // ELEMENT_NODE (either an input or a textarea)
+      case 1:
+        setTimeout(() => { this.node.focus(); }, 0)
+        break;
+      // TEXT_NODE
+      case 3:
+        this.node.parentNode.click();
+        break;
+    }
   }
 
 }
+
+export default Match

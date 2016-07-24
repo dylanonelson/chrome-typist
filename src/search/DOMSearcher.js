@@ -30,9 +30,20 @@ class DOMSearcher {
     let d = window.document;
     if (!d || !d.body) return;
 
-    let nodeIterator = d.createNodeIterator(document.body, NodeFilter.SHOW_TEXT, {
+    let nodeIterator = d.createNodeIterator(document.body, NodeFilter.SHOW_ALL, {
       acceptNode: (n) => {
-        if (this.query.test(n.data)) {
+        if (
+          (
+            // Check if the text matches the query
+            this.query.test(n.data) ||
+            this.query.test(n.value)
+          ) &&
+          (
+            // Check if the node is visible
+            (n.parentNode.offsetWidth !== 0) &&
+            (n.parentNode.offsetHeight !== 0)
+          )
+        ) {
           return NodeFilter.FILTER_ACCEPT
         }
       }
