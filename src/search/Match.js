@@ -19,20 +19,25 @@ class Match {
   }
 
   get highlightNode() {
+    if (typeof this._highlightNode !== 'undefined')
+      return this._highlightNode;
+
+    this._highlightNode = document.createElement('mark');
+    this._highlightNode.className = 'unfocused';
     return this._highlightNode;
   }
 
   highlight() {
-    let parent = this.node.parentNode
-    this.highlightNode = document.createElement('mark');
+    let parent;
+    if (!(parent = this.node.parentNode)) return;
+    parent.insertBefore(this.highlightNode, this.node);
     this.highlightNode.appendChild(this.node);
-    parent.appendChild(this.highlightNode);
   }
 
   clear() {
     let parent;
     if (!(parent = this.highlightNode.parentNode)) return;
-    parent.appendChild(this.node);
+    parent.insertBefore(this.node, this.highlightNode);
     this.highlightNode.remove();
   }
 
