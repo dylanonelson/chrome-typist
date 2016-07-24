@@ -35,7 +35,11 @@ class ContentCorrespondent extends Correspondent {
   }
 
   onCmdlineQuery(value) {
-    this.searcher.search(value);
+    let number = this.searcher.search(value);
+    this.sendMessage('cmdline', 'search', {
+      numberOfMatches: number,
+      overMaxNumber: number > this.searcher.MAX_NUMBER_MATCHES
+    })
   }
 
   onCmdlineSelect() {

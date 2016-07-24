@@ -19,16 +19,19 @@ class CmdlineCorrespondent extends Correspondent {
     return document.getElementById('query');
   }
 
-  onShow() {
-    this.focusInput();
+  get info() {
+    return document.getElementById('info');
   }
 
-  onHide() {
-    this.blurInput();
+  blurInput() {
+    this.query.blur();
   }
 
-  setupCmdline() {
-    document.body.appendChild(main);
+  focusInput() {
+    setTimeout(function () {
+      this.query.focus();
+      this.query.select();
+    }.bind(this), 0);
   }
 
   listenForInput() {
@@ -56,15 +59,21 @@ class CmdlineCorrespondent extends Correspondent {
     })
   }
 
-  focusInput() {
-    setTimeout(function () {
-      this.query.focus();
-      this.query.select();
-    }.bind(this), 0);
+  onHide() {
+    this.blurInput();
   }
 
-  blurInput() {
-    this.query.blur();
+  onSearch({ numberOfMatches, overMaxNumber }) {
+    this.info.innerHTML = numberOfMatches;
+    this.info.className = (overMaxNumber ? 'warning' : '');
+  }
+
+  onShow() {
+    this.focusInput();
+  }
+
+  setupCmdline() {
+    document.body.appendChild(main);
   }
 
 }

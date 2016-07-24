@@ -19,6 +19,10 @@ class DOMSearcher {
     }
   }
 
+  get MAX_NUMBER_MATCHES() {
+    return 15;
+  }
+
   set matches(matches) {
     this._matches = matches;
   }
@@ -60,10 +64,11 @@ class DOMSearcher {
 
     console.log(this.matches);
     this.highlightMatches();
+    return this.matches.length;
   }
 
   highlightMatches() {
-    if (this.matches.length > 10) return;
+    if (this.matches.length > this.MAX_NUMBER_MATCHES) return;
 
     this.matches.forEach((match) => {
       match.highlight();
@@ -71,7 +76,7 @@ class DOMSearcher {
   }
 
   clearMatches() {
-    if (this.matches.length <= 10) {
+    if (this.matches.length <= this.MAX_NUMBER_MATCHES) {
       this.matches.forEach((match) => {
         match.clear();
       });
