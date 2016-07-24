@@ -9,6 +9,9 @@
   "web_accessible_resources": [
     "dist/cmdline.html"
   ],
+  "permissions": [
+    "clipboardWrite"
+  ],
   "background": {
     "persistent": false,
     "scripts": ["dist/background.bundle.js"]

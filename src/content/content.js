@@ -14,20 +14,6 @@ class ContentCorrespondent extends Correspondent {
     return 'content';
   }
 
-  onCommandCmdline() {
-    if (this.cmdline.showing) {
-      this.cmdline.hide();
-      this.sendMessage('cmdline', 'hide');
-    } else {
-      this.cmdline.show();
-      this.sendMessage('cmdline', 'show');
-    }
-  }
-
-  onQuery(value) {
-    this.searcher.search(value);
-  }
-
   onCmdlineBrowse() {
     if (this.searcher.currentMatch())
       this.searcher.currentMatch().focus();
@@ -48,11 +34,34 @@ class ContentCorrespondent extends Correspondent {
       this.searcher.currentMatch().focus();
   }
 
+  onCmdlineQuery(value) {
+    this.searcher.search(value);
+  }
+
   onCmdlineSelect() {
-    this.searcher.currentMatch().select();
+    if (this.searcher.currentMatch())
+      this.searcher.currentMatch().select();
     this.searcher.clearMatches();
     this.cmdline.hide();
   }
+
+  onCmdlineYank() {
+    if (this.searcher.currentMatch())
+      this.searcher.currentMatch().copy();
+    this.searcher.clearMatches();
+    this.cmdline.hide();
+  }
+
+  onCommandCmdline() {
+    if (this.cmdline.showing) {
+      this.cmdline.hide();
+      this.sendMessage('cmdline', 'hide');
+    } else {
+      this.cmdline.show();
+      this.sendMessage('cmdline', 'show');
+    }
+  }
+
 }
 
 new ContentCorrespondent().start();

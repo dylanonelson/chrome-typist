@@ -41,6 +41,23 @@ class Match {
     this.highlightNode.remove();
   }
 
+  copy() {
+    switch (this.node.nodeType) {
+      // ELEMENT_NODE (either an input or a textarea)
+      case 1:
+        this.node.select();
+        document.execCommand('copy');
+        break;
+      // TEXT_NODE
+      case 3:
+        let range = document.createRange();
+        range.selectNode(this.node);
+        window.getSelection().addRange(range);
+        document.execCommand('copy');
+        break;
+    }
+  }
+
   focus() {
     this.highlightNode.className = 'focused';
     this.highlightNode.scrollIntoViewIfNeeded(true);

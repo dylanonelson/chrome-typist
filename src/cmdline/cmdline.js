@@ -50,6 +50,9 @@ class CmdlineCorrespondent extends Correspondent {
       if (e.which === 13) {
         this.sendMessage('content', 'select');
       }
+      if (e.which === 89) {
+        this.sendMessage('content', 'yank');
+      }
     })
   }
 
