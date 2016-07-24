@@ -36,7 +36,8 @@ class DOMSearcher {
           (
             // Check if the text matches the query
             this.query.test(n.data) ||
-            this.query.test(n.value)
+            this.query.test(n.value) ||
+            this.query.test(n.placeholder)
           ) &&
           (
             // Check if the node is visible
