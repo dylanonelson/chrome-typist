@@ -60,8 +60,10 @@ class TextMatch extends Match {
 
   copy() {
     let range = document.createRange();
+    let selection = window.getSelection();
     range.selectNode(this.node);
-    window.getSelection().addRange(range);
+    selection.removeAllRanges();
+    selection.addRange(range);
     document.execCommand('copy');
   }
 
