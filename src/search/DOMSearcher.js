@@ -42,11 +42,14 @@ class DOMSearcher {
             this.query.test(n.data) ||
             this.query.test(n.value) ||
             this.query.test(n.placeholder)
-          ) &&
-          (
+          ) && (
             // Check if the node is visible
             (n.parentNode.offsetWidth !== 0) &&
             (n.parentNode.offsetHeight !== 0)
+          ) && (
+            // Check that node is either an element (1) or text (3)
+            (n.nodeType == 1) ||
+            (n.nodeType == 3)
           )
         ) {
           return NodeFilter.FILTER_ACCEPT
@@ -56,10 +59,9 @@ class DOMSearcher {
 
     let node;
     while (node = nodeIterator.nextNode()) {
-      if (node.parentNode.tagName.toLowerCase() !== 'script')
-        this.matches.push(
-          MatchFactory({ node })
-        );
+      this.matches.push(
+        MatchFactory({ node })
+      )
     }
 
     console.log(this.matches);
@@ -70,14 +72,14 @@ class DOMSearcher {
   highlightMatches() {
     if (this.matches.length > this.MAX_NUMBER_MATCHES) return;
 
-    this.matches.forEach((match) => {
+    this.matches.forEach(match => {
       match.highlight();
     })
   }
 
   clearMatches() {
     if (this.matches.length <= this.MAX_NUMBER_MATCHES) {
-      this.matches.forEach((match) => {
+      this.matches.forEach(match => {
         match.clear();
       });
     }

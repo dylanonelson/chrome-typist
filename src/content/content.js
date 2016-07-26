@@ -31,6 +31,12 @@ class ContentCorrespondent extends Correspondent {
     })
   }
 
+  onCmdlineOpen() {
+    this.searcher.currentMatch(match => match.open())
+    this.searcher.clearMatches();
+    this.cmdline.hide();
+  }
+
   onCmdlineSelect() {
     this.searcher.currentMatch(match => match.select())
     this.searcher.clearMatches();

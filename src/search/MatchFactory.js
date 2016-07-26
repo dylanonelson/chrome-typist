@@ -4,6 +4,7 @@ class Match {
 
   constructor({ node }) {
     this.node = node;
+    this.parent = node.parentNode;
   }
 
   set highlightNode(node) {
@@ -28,9 +29,8 @@ class Match {
   }
 
   clear() {
-    let parent;
-    if (!(parent = this.highlightNode.parentNode)) return;
-    parent.insertBefore(this.node, this.highlightNode);
+    if (!this.parent) return;
+    this.parent.insertBefore(this.node, this.highlightNode);
     this.highlightNode.remove();
   }
 
@@ -40,9 +40,8 @@ class Match {
   }
 
   highlight() {
-    let parent;
-    if (!(parent = this.node.parentNode)) return;
-    parent.insertBefore(this.highlightNode, this.node);
+    if (!this.parent) return;
+    this.parent.insertBefore(this.highlightNode, this.node);
     this.highlightNode.appendChild(this.node);
   }
 
@@ -55,11 +54,7 @@ class Match {
 class TextMatch extends Match {
 
   get nodeName() {
-    return this.highlightNode.parentNode.nodeName;
-  }
-
-  select() {
-    this.node.parentNode.click();
+    return this.parent.nodeName;
   }
 
   copy() {
@@ -69,6 +64,16 @@ class TextMatch extends Match {
     selection.removeAllRanges();
     selection.addRange(range);
     document.execCommand('copy');
+  }
+
+  open() {
+    if (typeof this.parent.href === 'string')
+      window.open(this.parent.href, '_blank');
+  }
+
+  select() {
+    if (typeof this.parent.click === 'function')
+      this.parent.click();
   }
 
 }
