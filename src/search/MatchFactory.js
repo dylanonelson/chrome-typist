@@ -6,14 +6,6 @@ class Match {
     this.node = node;
   }
 
-  set node(node) {
-    this._node = node;
-  }
-
-  get node() {
-    return this._node;
-  }
-
   set highlightNode(node) {
     this._highlightNode = node;
   }
@@ -27,11 +19,12 @@ class Match {
     return this._highlightNode;
   }
 
-  highlight() {
-    let parent;
-    if (!(parent = this.node.parentNode)) return;
-    parent.insertBefore(this.highlightNode, this.node);
-    this.highlightNode.appendChild(this.node);
+  set node(node) {
+    this._node = node;
+  }
+
+  get node() {
+    return this._node;
   }
 
   clear() {
@@ -46,6 +39,13 @@ class Match {
     this.highlightNode.scrollIntoViewIfNeeded(true);
   }
 
+  highlight() {
+    let parent;
+    if (!(parent = this.node.parentNode)) return;
+    parent.insertBefore(this.highlightNode, this.node);
+    this.highlightNode.appendChild(this.node);
+  }
+
   unfocus() {
     this.highlightNode.className = 'unfocused';
   }
@@ -53,6 +53,10 @@ class Match {
 }
 
 class TextMatch extends Match {
+
+  get nodeName() {
+    return this.highlightNode.parentNode.nodeName;
+  }
 
   select() {
     this.node.parentNode.click();
@@ -70,6 +74,10 @@ class TextMatch extends Match {
 }
 
 class InputMatch extends Match {
+
+  get nodeName() {
+    return this.node.nodeName;
+  }
 
   select() {
     setTimeout(() => { this.node.focus(); }, 0)

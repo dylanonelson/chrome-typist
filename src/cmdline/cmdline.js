@@ -10,6 +10,18 @@ class CmdlineCorrespondent extends Correspondent {
     document.addEventListener('DOMContentLoaded', this.listenForInput.bind(this));
   }
 
+  get info() {
+    return document.getElementById('info')
+  }
+
+  get numberOfMatches() {
+    return document.getElementById('number-of-matches');
+  }
+
+  get currentMatch() {
+    return document.getElementById('current-match');
+  }
+
   // Name property is used by the messenger object.
   get name() {
     return 'cmdline'
@@ -19,17 +31,14 @@ class CmdlineCorrespondent extends Correspondent {
     return document.getElementById('query');
   }
 
-  get info() {
-    return document.getElementById('info');
-  }
-
   blurInput() {
     this.query.blur();
   }
 
   focusInput() {
+    this.currentMatch.innerHTML = '';
+
     setTimeout(function () {
-      this.query.focus();
       this.query.select();
     }.bind(this), 0);
   }
@@ -38,17 +47,17 @@ class CmdlineCorrespondent extends Correspondent {
     this.query.addEventListener('keyup', (e) => {
       this.sendMessage('content', 'query', this.query.value)
       if (e.which === 13) {
-        this.sendMessage('content', 'browse');
+        this.sendMessage('content', 'browse', 'current');
         document.getElementById('browse').focus();
       }
     })
 
     document.getElementById('browse').addEventListener('keyup', (e) => {
       if (e.which === 78 && !e.getModifierState('Shift')) {
-        this.sendMessage('content', 'next');
+        this.sendMessage('content', 'browse', 'next');
       }
       if (e.which === 78 && e.getModifierState('Shift')) {
-        this.sendMessage('content', 'previous');
+        this.sendMessage('content', 'browse', 'previous');
       }
       if (e.which === 13) {
         this.sendMessage('content', 'select');
@@ -59,13 +68,17 @@ class CmdlineCorrespondent extends Correspondent {
     })
   }
 
+  onCurrentMatch(nodeName) {
+    this.currentMatch.innerHTML = `&lt;${nodeName.toLowerCase()}&gt;`;
+  }
+
   onHide() {
     this.blurInput();
   }
 
   onSearch({ numberOfMatches, overMaxNumber }) {
-    this.info.innerHTML = numberOfMatches;
-    this.info.className = (overMaxNumber ? 'warning' : '');
+    this.numberOfMatches.innerHTML = numberOfMatches;
+    this.numberOfMatches.className = (overMaxNumber ? 'warning' : '');
   }
 
   onShow() {

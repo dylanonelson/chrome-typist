@@ -51,8 +51,12 @@ div#info {
   width: 10%;
 }
 
-div#info.warning {
+span#number-of-matches.warning {
   color: red;
+}
+
+span#current-match {
+  color: blue;
 }
 
 input#browse {

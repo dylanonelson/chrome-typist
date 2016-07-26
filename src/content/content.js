@@ -14,23 +14,13 @@ class ContentCorrespondent extends Correspondent {
     return 'content';
   }
 
-  onCmdlineBrowse() {
-    if (this.searcher.currentMatch())
-      this.searcher.currentMatch().focus();
-  }
+  onCmdlineBrowse(which) {
+    this.searcher.currentMatch(match => match.unfocus());
 
-  onCmdlineNext() {
-    if (this.searcher.currentMatch())
-      this.searcher.currentMatch().unfocus();
-    if (this.searcher.nextMatch())
-      this.searcher.currentMatch().focus();
-  }
-
-  onCmdlinePrevious() {
-    if (this.searcher.currentMatch())
-      this.searcher.currentMatch().unfocus()
-    if (this.searcher.previousMatch())
-      this.searcher.currentMatch().focus();
+    this.searcher[`${which}Match`](match => {
+      match.focus();
+      this.sendMessage('cmdline', 'currentMatch', match.nodeName);
+    });
   }
 
   onCmdlineQuery(value) {
@@ -42,15 +32,13 @@ class ContentCorrespondent extends Correspondent {
   }
 
   onCmdlineSelect() {
-    if (this.searcher.currentMatch())
-      this.searcher.currentMatch().select();
+    this.searcher.currentMatch(match => match.select())
     this.searcher.clearMatches();
     this.cmdline.hide();
   }
 
   onCmdlineYank() {
-    if (this.searcher.currentMatch())
-      this.searcher.currentMatch().copy();
+    this.searcher.currentMatch(match => match.copy())
     this.searcher.clearMatches();
     this.cmdline.hide();
   }

@@ -85,18 +85,24 @@ class DOMSearcher {
     this.matches = [];
   }
 
-  currentMatch() {
-    return this.matches[0];
+  currentMatch(callback) {
+    if (
+      (typeof callback !== 'function') ||
+      (typeof this.matches[0] === 'undefined')
+    )
+      return;
+
+    return callback(this.matches[0]);
   }
 
-  nextMatch() {
+  nextMatch(callback) {
     this.matches.push(this.matches.shift());
-    return this.currentMatch();
+    return this.currentMatch(callback);
   }
 
-  previousMatch() {
+  previousMatch(callback) {
     this.matches.unshift(this.matches.pop());
-    return this.currentMatch();
+    return this.currentMatch(callback);
   }
 
 }
