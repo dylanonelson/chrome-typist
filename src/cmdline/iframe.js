@@ -16,6 +16,7 @@ class CmdlineIframe {
 
   hide() {
     this.node.className = 'hidden';
+    this.node.blur();
     this.showing = false;
   }
 
