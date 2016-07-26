@@ -17,7 +17,6 @@ class ContentCorrespondent extends Correspondent {
   onCmdlineBrowse() {
     if (this.searcher.currentMatch())
       this.searcher.currentMatch().focus();
-    this.cmdline.hide();
   }
 
   onCmdlineNext() {
