@@ -1,4 +1,4 @@
-import Match from './Match'
+import MatchFactory from './Match'
 
 class DOMSearcher {
 
@@ -58,7 +58,7 @@ class DOMSearcher {
     while (node = nodeIterator.nextNode()) {
       if (node.parentNode.tagName.toLowerCase() !== 'script')
         this.matches.push(
-          new Match({ node: node })
+          MatchFactory({ node })
         );
     }
 

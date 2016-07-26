@@ -41,23 +41,6 @@ class Match {
     this.highlightNode.remove();
   }
 
-  copy() {
-    switch (this.node.nodeType) {
-      // ELEMENT_NODE (either an input or a textarea)
-      case 1:
-        this.node.select();
-        document.execCommand('copy');
-        break;
-      // TEXT_NODE
-      case 3:
-        let range = document.createRange();
-        range.selectNode(this.node);
-        window.getSelection().addRange(range);
-        document.execCommand('copy');
-        break;
-    }
-  }
-
   focus() {
     this.highlightNode.className = 'focused';
     this.highlightNode.scrollIntoViewIfNeeded(true);
@@ -67,19 +50,49 @@ class Match {
     this.highlightNode.className = 'unfocused';
   }
 
+}
+
+class TextMatch extends Match {
+
   select() {
-    switch (this.node.nodeType) {
-      // ELEMENT_NODE (either an input or a textarea)
-      case 1:
-        setTimeout(() => { this.node.focus(); }, 0)
-        break;
-      // TEXT_NODE
-      case 3:
-        this.node.parentNode.click();
-        break;
-    }
+    this.node.parentNode.click();
+  }
+
+  copy() {
+    let range = document.createRange();
+    range.selectNode(this.node);
+    window.getSelection().addRange(range);
+    document.execCommand('copy');
   }
 
 }
 
-export default Match
+class InputMatch extends Match {
+
+  select() {
+    setTimeout(() => { this.node.focus(); }, 0)
+  }
+
+  copy() {
+    this.node.select();
+    document.execCommand('copy');
+  }
+
+}
+
+const MatchFactory = ({ node }) => {
+  switch (node.nodeType) {
+    // ELEMENT_NODE (either an input or a textarea)
+    case 1:
+      return new InputMatch({ node });
+      break;
+    // TEXT_NODE
+    case 3:
+      return new TextMatch({ node });
+      break;
+    default:
+      throw new Error(`Cannot generate match with node type ${node.nodeType}`);
+  }
+}
+
+export default MatchFactory
