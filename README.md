@@ -13,7 +13,7 @@ Stop clicking on things! Use Vim-style shortcuts to find and select inputs or li
 ### Development checklist
 - [x] Show cmdline-style input bar on cmdline command
 - [x] Highlight matches on current page as user types
-- [x} Go into normal mode and cycle through matches on enter
+- [x] Go into normal mode and cycle through matches on enter
 - [x] Trigger click on selected item on subsequent enter
 - [x] Improve search: don't match hidden elements; match form elements
 - [x] Copy selected text to clipboard with y
