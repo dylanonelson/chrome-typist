@@ -85,7 +85,7 @@ class InputMatch extends Match {
   }
 
   select() {
-    setTimeout(() => { this.node.focus(); }, 0)
+    setTimeout(() => { this.node.select(); }, 0)
   }
 
   copy() {
