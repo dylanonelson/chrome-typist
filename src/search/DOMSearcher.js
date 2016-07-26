@@ -1,4 +1,4 @@
-import MatchFactory from './Match'
+import MatchFactory from './MatchFactory'
 
 class DOMSearcher {
 
