@@ -3,8 +3,9 @@ var path = require('path');
 module.exports = {
   entry: {
     'background': './src/background/background',
+    'cmdline': './src/cmdline/cmdline',
     'content': './src/content/content',
-    'cmdline': './src/cmdline/cmdline'
+    'options': './src/options/options'
   },
   output: {
     path: path.join(__dirname, 'dist'),
