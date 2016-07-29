@@ -26,7 +26,10 @@
   "description": "Chrome extension for faster browser use, especially with complex web apps.",
   "manifest_version": 2,
   "name": "Chrome Typist",
-  "options_page": "dist/options.html",
+  "options_ui": {
+    "page": "dist/options.html",
+    "chrome_style": true
+  },
   "permissions": [
     "clipboardWrite"
   ],
