@@ -34,19 +34,19 @@ class ContentCorrespondent extends Correspondent {
   onCmdlineOpen() {
     this.searcher.currentMatch(match => match.open())
     this.searcher.clearMatches();
-    this.cmdline.hide();
+    this.cmdline.blur();
   }
 
   onCmdlineSelect() {
     this.searcher.currentMatch(match => match.select())
     this.searcher.clearMatches();
-    this.cmdline.hide();
+    this.cmdline.blur();
   }
 
   onCmdlineYank() {
     this.searcher.currentMatch(match => match.copy())
     this.searcher.clearMatches();
-    this.cmdline.hide();
+    this.cmdline.blur();
   }
 
   onCmdlineModeInactive() {
