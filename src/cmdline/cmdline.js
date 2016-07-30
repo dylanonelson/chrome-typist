@@ -1,7 +1,9 @@
 import './cmdline.css';
+import Cmdline from './Cmdline.jsx'
 import Correspondent from '../messaging/Correspondent';
 import Messenger from '../messaging/Messenger';
-import main from './main.html';
+import React from 'react'
+import ReactDOM from 'react-dom'
 
 const settings = {
 }
@@ -9,8 +11,54 @@ const settings = {
 class CmdlineCorrespondent extends Correspondent {
 
   start() {
-    document.addEventListener('DOMContentLoaded', this.setupCmdline);
-    document.addEventListener('DOMContentLoaded', this.listenForInput.bind(this));
+    document.addEventListener('DOMContentLoaded', () => {
+
+      let root = document.createElement('div');
+      document.body.appendChild(root);
+
+      chrome.storage.sync.get([
+        'fontFamily',
+        'backgroundColor',
+        'infoColor',
+        'textColor',
+        'warningColor'
+      ], (items) => {
+
+        Object.assign(settings, items);
+
+        ReactDOM.render(
+          <Cmdline
+            settings={settings}
+            onQueryKeyUp={(e) => {
+              this.sendMessage('content', 'query', this.query.value);
+              if (e.which === 13) {
+                this.sendMessage('content', 'browse', 'current');
+                document.getElementById('browse').focus();
+              }
+            }}
+            onBrowseKeyUp={(e) => {
+              if (e.which === 78 && !e.getModifierState('Shift')) {
+                this.sendMessage('content', 'browse', 'next');
+              }
+              if (e.which === 78 && e.getModifierState('Shift')) {
+                this.sendMessage('content', 'browse', 'previous');
+              }
+              if (e.which === 13 && !e.getModifierState('Shift')) {
+                this.sendMessage('content', 'select');
+              }
+              if (e.which === 13 && e.getModifierState('Shift')) {
+                this.sendMessage('content', 'open');
+              }
+              if (e.which === 89) {
+                this.sendMessage('content', 'yank');
+              }
+            }}
+          />,
+          root
+        );
+
+      })
+    });
   }
 
   get info() {
@@ -46,34 +94,6 @@ class CmdlineCorrespondent extends Correspondent {
     }.bind(this), 0);
   }
 
-  listenForInput() {
-    this.query.addEventListener('keyup', (e) => {
-      this.sendMessage('content', 'query', this.query.value)
-      if (e.which === 13) {
-        this.sendMessage('content', 'browse', 'current');
-        document.getElementById('browse').focus();
-      }
-    })
-
-    document.getElementById('browse').addEventListener('keyup', (e) => {
-      if (e.which === 78 && !e.getModifierState('Shift')) {
-        this.sendMessage('content', 'browse', 'next');
-      }
-      if (e.which === 78 && e.getModifierState('Shift')) {
-        this.sendMessage('content', 'browse', 'previous');
-      }
-      if (e.which === 13 && !e.getModifierState('Shift')) {
-        this.sendMessage('content', 'select');
-      }
-      if (e.which === 13 && e.getModifierState('Shift')) {
-        this.sendMessage('content', 'open');
-      }
-      if (e.which === 89) {
-        this.sendMessage('content', 'yank');
-      }
-    })
-  }
-
   onCurrentMatch(nodeName) {
     this.currentMatch.innerHTML = `&lt;${nodeName.toLowerCase()}&gt;`;
   }
@@ -90,40 +110,6 @@ class CmdlineCorrespondent extends Correspondent {
 
   onShow() {
     this.focusInput();
-  }
-
-  setupCmdline() {
-    document.body.appendChild(main);
-
-    chrome.storage.sync.get([
-      'fontFamily',
-      'backgroundColor',
-      'infoColor',
-      'textColor',
-      'warningColor'
-    ], (items) => {
-
-      if (items.fontFamily) {
-        main.style['font-family'] = items.fontFamily;
-      }
-
-      if (items.backgroundColor) {
-        main.style['background-color'] = items.backgroundColor;
-      }
-
-      if (items.infoColor) {
-        document.getElementById('current-match').style.color = items.infoColor;
-      }
-
-      if (items.textColor) {
-        main.style.color = items.textColor;
-      }
-
-      if (items.warningColor) {
-        settings.warningColor = items.warningColor;
-      }
-
-    })
   }
 
 }
