@@ -3,17 +3,26 @@ body {
 }
 
 main {
+  background: #eee;
   bottom: 20;
   box-sizing: border-box;
   height: 50px;
   font-family: monospace;
   font-size: 15px;
-  font-weight: 700;
+  font-weight: 300;
+  height: 100%;
   left: 0;
   padding: 10px;
   position: fixed;
   right: 0;
   width: 100%;
+}
+
+input, label {
+  background: transparent;
+  border: 0;
+  color: inherit;
+  font-weight: inherit;
 }
 
 input:focus {
@@ -24,15 +33,12 @@ label[for=query] {
   display: block;
   float: left;
   font: inherit;
-  font-weight: 700;
   line-height: 20px;
   text-align: right;
   width: 5%;
 }
 
 input#query {
-  background: #eee;
-  border: 0;
   box-sizing: border-box;
   display: block;
   float: left;

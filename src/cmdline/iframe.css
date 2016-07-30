@@ -1,8 +1,9 @@
 iframe#typist-cmdline {
-  background: #eee;
+  background: transparent;
   border: 0;
   border-top: 1px solid #444;
   box-shadow: 0 0 3px 0 #444;
+  box-sizing: border-box;
   height: 70px;
   left: 0;
   position: fixed;

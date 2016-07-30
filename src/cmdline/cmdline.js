@@ -90,6 +90,22 @@ class CmdlineCorrespondent extends Correspondent {
 
   setupCmdline() {
     document.body.appendChild(main);
+    chrome.storage.sync.get([
+      'fontFamily',
+      'backgroundColor',
+      'color'
+    ], (items) => {
+
+      if (items.font)
+        main.style['font-family'] = items.font;
+
+      if (items.backgroundColor)
+        main.style['background-color'] = items.backgroundColor;
+
+      if (items.color)
+        main.style.color = items.color;
+
+    })
   }
 
 }
