@@ -11,26 +11,15 @@ class CmdlineIframe {
       return container.childNodes[0];
     })();
 
-    chrome.storage.sync.get('borderColor', (item) => {
-      if (item.borderColor) {
-        this.node.style.border = `2px solid ${item.borderColor}`;
-        this.node.style['box-shadow'] = `0 0 3px 0 ${item.borderColor}`;
-      }
-    })
-
     document.body.appendChild(this.node);
   }
 
-  hide() {
-    this.node.className = 'hidden';
+  blur() {
     this.node.blur();
-    this.showing = false;
   }
 
-  show() {
-    this.node.className = 'showing';
+  focus() {
     this.node.focus();
-    this.showing = true;
   }
 
 }

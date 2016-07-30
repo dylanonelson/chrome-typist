@@ -25,7 +25,7 @@ class ContentCorrespondent extends Correspondent {
 
   onCmdlineQuery(value) {
     let number = this.searcher.search(value);
-    this.sendMessage('cmdline', 'search', {
+    this.sendMessage('cmdline', 'search:result', {
       numberOfMatches: number,
       overMaxNumber: number > this.searcher.MAX_NUMBER_MATCHES
     })
@@ -49,14 +49,13 @@ class ContentCorrespondent extends Correspondent {
     this.cmdline.hide();
   }
 
-  onCommandCmdline() {
-    if (this.cmdline.showing) {
-      this.cmdline.hide();
-      this.sendMessage('cmdline', 'hide');
-    } else {
-      this.cmdline.show();
-      this.sendMessage('cmdline', 'show');
-    }
+  onCmdlineModeInactive() {
+    this.cmdline.blur();
+    this.searcher.clearMatches();
+  }
+
+  onCmdlineModeRegex() {
+    this.cmdline.focus();
   }
 
 }

@@ -1,13 +1,16 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-const Cmdline = ({ onBrowseKeyUp, onQueryKeyUp, settings }) => {
+const Cmdline = ({ mode, onBrowseKeyUp, onQueryKeyUp, settings }) => {
   return (
     <main
       style={{
-        fontFamily: settings.fontFamily,
         backgroundColor: settings.backgroundColor,
-        color: settings.textColor
+        border: `2px solid ${settings.borderColor}`,
+        boxShadow: `0 0 3px 0 ${settings.borderColor}`,
+        color: settings.textColor,
+        display: (mode === 'INACTIVE' ? 'none' : 'block'),
+        fontFamily: settings.fontFamily
       }}
     >
       <label htmlFor="query">/ </label>

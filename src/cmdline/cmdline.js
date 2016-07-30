@@ -14,17 +14,27 @@ const initialState = {
 }
 
 const store = createStore((previous, action) => {
-  return Object.assign({}, previous, {
-    settings: action.settings
-  });
+  switch (action.type) {
+    case 'UPDATE_SETTINGS':
+      return Object.assign({}, previous, {
+        settings: action.settings
+      });
+    case 'CHANGE_MODE':
+      return Object.assign({}, previous, {
+        mode: action.mode
+      });
+    default:
+      return previous;
+  }
 }, initialState)
 
 class CmdlineCorrespondent extends Correspondent {
 
   render() {
+		console.log(store.getState());
     ReactDOM.render(
       <Cmdline
-        settings={store.getState().settings}
+        {...store.getState()}
         onQueryKeyUp={(e) => {
           this.sendMessage('content', 'query', this.query.value);
           if (e.which === 13) {
@@ -102,25 +112,35 @@ class CmdlineCorrespondent extends Correspondent {
 
     setTimeout(function () {
       this.query.select();
-    }.bind(this), 0);
+    }.bind(this), 10);
   }
 
   onCurrentMatch(nodeName) {
     this.currentMatch.innerHTML = `&lt;${nodeName.toLowerCase()}&gt;`;
   }
 
-  onHide() {
+  onCommandExit() {
+    store.dispatch({
+      type: 'CHANGE_MODE',
+      mode: 'INACTIVE'
+    })
+    this.sendMessage('content', 'mode:inactive');
     this.blurInput();
   }
 
-  onSearch({ numberOfMatches, overMaxNumber }) {
+  onCommandCmdline() {
+    store.dispatch({
+      type: 'CHANGE_MODE',
+      mode: 'REGEX'
+    })
+    this.sendMessage('content', 'mode:regex');
+    this.focusInput();
+  }
+
+  onSearchResult({ numberOfMatches, overMaxNumber }) {
     this.numberOfMatches.innerHTML = numberOfMatches;
     this.numberOfMatches.style.color =
       (overMaxNumber ? settings.warningColor || 'red' : '');
-  }
-
-  onShow() {
-    this.focusInput();
   }
 
 }
