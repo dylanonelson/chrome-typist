@@ -8,14 +8,15 @@ class OptionsPage extends React.Component {
       <main>
         <h1>Options</h1>
 
-        {this.props.settings.map(setting => {
+        {Object.keys(this.props.settings).map(setting => {
+          let settingValue = this.props.settings[setting];
           return (
             <Setting
               key={setting}
               name={setting}
-              ref={setting}
               rowHeight={24}
               store={this.props.store}
+              value={settingValue}
             />
           )
         })}

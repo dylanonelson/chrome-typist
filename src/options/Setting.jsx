@@ -5,6 +5,7 @@ import ReactDOM from 'react-dom'
 class Setting extends React.Component {
 
   render() {
+    console.log(this.props);
     return (
       <div
         className="setting clearfix"
@@ -35,7 +36,7 @@ class Setting extends React.Component {
           onChange={(e) => {
             e.preventDefault();
             this.props.store.dispatch({
-              type: 'UPDATE_SETTING',
+              type: 'UPDATE_SETTINGS',
               [this.props.name]: this.refs.input.value
             })
           }}
@@ -48,6 +49,7 @@ class Setting extends React.Component {
             float: 'right',
             width: '60%'
           }}
+          value={this.props.value}
         />
       </div>
     )
