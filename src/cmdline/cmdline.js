@@ -4,60 +4,71 @@ import Correspondent from '../messaging/Correspondent';
 import Messenger from '../messaging/Messenger';
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { createStore } from 'redux'
 
-const settings = {
+const initialState = {
+  currentMatch: null,
+  mode: 'INACTIVE',
+  numberOfMatches: null,
+  settings: {}
 }
+
+const store = createStore((previous, action) => {
+  return Object.assign({}, previous, {
+    settings: action.settings
+  });
+}, initialState)
 
 class CmdlineCorrespondent extends Correspondent {
 
+  render() {
+    ReactDOM.render(
+      <Cmdline
+        settings={store.getState().settings}
+        onQueryKeyUp={(e) => {
+          this.sendMessage('content', 'query', this.query.value);
+          if (e.which === 13) {
+            this.sendMessage('content', 'browse', 'current');
+            document.getElementById('browse').focus();
+          }
+        }}
+        onBrowseKeyUp={(e) => {
+          if (e.which === 78 && !e.getModifierState('Shift')) {
+            this.sendMessage('content', 'browse', 'next');
+          }
+          if (e.which === 78 && e.getModifierState('Shift')) {
+            this.sendMessage('content', 'browse', 'previous');
+          }
+          if (e.which === 13 && !e.getModifierState('Shift')) {
+            this.sendMessage('content', 'select');
+          }
+          if (e.which === 13 && e.getModifierState('Shift')) {
+            this.sendMessage('content', 'open');
+          }
+          if (e.which === 89) {
+            this.sendMessage('content', 'yank');
+          }
+        }}
+      />,
+      document.getElementById('root')
+    );
+  }
+
   start() {
-    document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', this.render.bind(this));
+    store.subscribe(this.render.bind(this));
 
-      let root = document.createElement('div');
-      document.body.appendChild(root);
-
-      chrome.storage.sync.get([
-        'fontFamily',
-        'backgroundColor',
-        'infoColor',
-        'textColor',
-        'warningColor'
-      ], (items) => {
-
-        Object.assign(settings, items);
-
-        ReactDOM.render(
-          <Cmdline
-            settings={settings}
-            onQueryKeyUp={(e) => {
-              this.sendMessage('content', 'query', this.query.value);
-              if (e.which === 13) {
-                this.sendMessage('content', 'browse', 'current');
-                document.getElementById('browse').focus();
-              }
-            }}
-            onBrowseKeyUp={(e) => {
-              if (e.which === 78 && !e.getModifierState('Shift')) {
-                this.sendMessage('content', 'browse', 'next');
-              }
-              if (e.which === 78 && e.getModifierState('Shift')) {
-                this.sendMessage('content', 'browse', 'previous');
-              }
-              if (e.which === 13 && !e.getModifierState('Shift')) {
-                this.sendMessage('content', 'select');
-              }
-              if (e.which === 13 && e.getModifierState('Shift')) {
-                this.sendMessage('content', 'open');
-              }
-              if (e.which === 89) {
-                this.sendMessage('content', 'yank');
-              }
-            }}
-          />,
-          root
-        );
-
-      })
+    chrome.storage.sync.get([
+      'fontFamily',
+      'backgroundColor',
+      'infoColor',
+      'textColor',
+      'warningColor'
+    ], (items) => {
+      store.dispatch({
+        type: 'UPDATE_SETTINGS',
+        settings: items
+      });
     });
   }
 
