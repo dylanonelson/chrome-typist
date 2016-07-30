@@ -6,8 +6,10 @@ import ReactDOM from 'react-dom'
 const SETTING_TYPES = [
   'backgroundColor',
   'borderColor',
-  'color',
-  'fontFamily'
+  'fontFamily',
+  'infoColor',
+  'textColor',
+  'warningColor'
 ]
 
 const store = createStore((previous, action) => {

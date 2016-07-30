@@ -3,6 +3,9 @@ import Correspondent from '../messaging/Correspondent';
 import Messenger from '../messaging/Messenger';
 import main from './main.html';
 
+const settings = {
+}
+
 class CmdlineCorrespondent extends Correspondent {
 
   start() {
@@ -81,7 +84,8 @@ class CmdlineCorrespondent extends Correspondent {
 
   onSearch({ numberOfMatches, overMaxNumber }) {
     this.numberOfMatches.innerHTML = numberOfMatches;
-    this.numberOfMatches.className = (overMaxNumber ? 'warning' : '');
+    this.numberOfMatches.style.color =
+      (overMaxNumber ? settings.warningColor || 'red' : '');
   }
 
   onShow() {
@@ -90,20 +94,34 @@ class CmdlineCorrespondent extends Correspondent {
 
   setupCmdline() {
     document.body.appendChild(main);
+
     chrome.storage.sync.get([
       'fontFamily',
       'backgroundColor',
-      'color'
+      'infoColor',
+      'textColor',
+      'warningColor'
     ], (items) => {
 
-      if (items.font)
-        main.style['font-family'] = items.font;
+      if (items.fontFamily) {
+        main.style['font-family'] = items.fontFamily;
+      }
 
-      if (items.backgroundColor)
+      if (items.backgroundColor) {
         main.style['background-color'] = items.backgroundColor;
+      }
 
-      if (items.color)
-        main.style.color = items.color;
+      if (items.infoColor) {
+        document.getElementById('current-match').style.color = items.infoColor;
+      }
+
+      if (items.textColor) {
+        main.style.color = items.textColor;
+      }
+
+      if (items.warningColor) {
+        settings.warningColor = items.warningColor;
+      }
 
     })
   }
