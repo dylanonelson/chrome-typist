@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-const Cmdline = ({ mode, onBrowseKeyUp, onQueryKeyUp, settings }) => {
+const Cmdline = ({ mode, onBrowseKeyUp, onQueryKeyUp, searchResults, settings }) => {
   return (
     <main
       style={{
@@ -19,7 +19,12 @@ const Cmdline = ({ mode, onBrowseKeyUp, onQueryKeyUp, settings }) => {
         onKeyUp={onQueryKeyUp}
       />
       <div id="info">
-        <span id="number-of-matches"></span>
+        <span
+          id="number-of-matches"
+          style={{
+            color: (searchResults.overMaxNumber ? (settings.warningColor || 'red') : '')
+          }}
+        >{searchResults.numberOfMatches}</span>
         <span id="current-match"></span>
       </div>
       <input

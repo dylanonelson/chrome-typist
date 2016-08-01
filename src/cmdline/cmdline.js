@@ -9,7 +9,7 @@ import { createStore } from 'redux'
 const initialState = {
   currentMatch: null,
   mode: 'INACTIVE',
-  numberOfMatches: null,
+  searchResults: {},
   settings: {}
 }
 
@@ -23,6 +23,10 @@ const store = createStore((previous, action) => {
       return Object.assign({}, previous, {
         mode: action.mode
       });
+    case 'UPDATE_SEARCH_RESULTS':
+      return Object.assign({}, previous, {
+        searchResults: action.searchResults
+    })
     default:
       return previous;
   }
@@ -31,7 +35,6 @@ const store = createStore((previous, action) => {
 class CmdlineCorrespondent extends Correspondent {
 
   render() {
-		console.log(store.getState());
     ReactDOM.render(
       <Cmdline
         {...store.getState()}
@@ -132,15 +135,19 @@ class CmdlineCorrespondent extends Correspondent {
     store.dispatch({
       type: 'CHANGE_MODE',
       mode: 'REGEX'
-    })
+    });
     this.sendMessage('content', 'mode:regex');
     this.focusInput();
   }
 
   onSearchResult({ numberOfMatches, overMaxNumber }) {
-    this.numberOfMatches.innerHTML = numberOfMatches;
-    this.numberOfMatches.style.color =
-      (overMaxNumber ? settings.warningColor || 'red' : '');
+    store.dispatch({
+      type: 'UPDATE_SEARCH_RESULTS',
+      searchResults: {
+        numberOfMatches: numberOfMatches,
+        overMaxNumber: overMaxNumber
+      }
+    })
   }
 
 }
