@@ -59,6 +59,11 @@ class ContentCorrespondent extends Correspondent {
     }
   }
 
+  onCommandExit() {
+    if (document.activeElement)
+      document.activeElement.blur();
+  }
+
 }
 
 new ContentCorrespondent().start();
