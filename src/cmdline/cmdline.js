@@ -132,7 +132,7 @@ class CmdlineCorrespondent extends Correspondent {
     store.dispatch({
       type: 'CHANGE_MODE',
       mode: 'REGEX'
-    })
+    });
     this.sendMessage('content', 'mode:regex');
     this.focusInput();
   }
