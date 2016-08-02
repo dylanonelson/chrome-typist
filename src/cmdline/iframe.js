@@ -18,8 +18,16 @@ class CmdlineIframe {
     this.node.blur();
   }
 
+  hide() {
+    this.node.style.height = '0';
+  }
+
   focus() {
     this.node.focus();
+  }
+
+  show() {
+    this.node.style.height = '70px';
   }
 
 }

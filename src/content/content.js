@@ -31,30 +31,29 @@ class ContentCorrespondent extends Correspondent {
     })
   }
 
+  onCmdlineModeInactive() {
+    this.searcher.clearMatches();
+    this.cmdline.hide();
+    this.cmdline.blur();
+  }
+
   onCmdlineOpen() {
     this.searcher.currentMatch(match => match.open())
-    this.searcher.clearMatches();
-    this.cmdline.blur();
+    this.onCmdlineModeInactive();
   }
 
   onCmdlineSelect() {
     this.searcher.currentMatch(match => match.select())
-    this.searcher.clearMatches();
-    this.cmdline.blur();
+    this.onCmdlineModeInactive();
   }
 
   onCmdlineYank() {
     this.searcher.currentMatch(match => match.copy())
-    this.searcher.clearMatches();
-    this.cmdline.blur();
-  }
-
-  onCmdlineModeInactive() {
-    this.cmdline.blur();
-    this.searcher.clearMatches();
+    this.onCmdlineModeInactive();
   }
 
   onCmdlineModeRegex() {
+    this.cmdline.show();
     this.cmdline.focus();
   }
 

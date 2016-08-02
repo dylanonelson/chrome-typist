@@ -59,8 +59,8 @@ div#info {
   width: 10%;
 }
 
-span#number-of-matches.warning {
-  color: red;
+span#number-of-matches {
+  padding-right: 10px;
 }
 
 span#current-match {

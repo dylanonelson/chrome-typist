@@ -3,6 +3,7 @@ iframe#typist-cmdline {
   border: 0;
   bottom: 0;
   box-sizing: border-box;
+  height: 0;
   left: 0;
   position: fixed;
   width: 100%;
