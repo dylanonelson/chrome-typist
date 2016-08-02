@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-const Cmdline = ({ currentMatch, mode, onBrowseKeyUp, onQueryKeyUp, searchResults, settings }) => {
+const Cmdline = ({ currentMatch, mode, onBrowseKeyDown, onQueryInput, onQueryKeyDown, searchResults, settings }) => {
   return (
     <main
       style={{
@@ -16,8 +16,9 @@ const Cmdline = ({ currentMatch, mode, onBrowseKeyUp, onQueryKeyUp, searchResult
       <label htmlFor="query">/ </label>
       <input
         id="query"
-        onKeyUp={onQueryKeyUp}
-      />
+        onInput={onQueryInput}
+        onKeyDown={onQueryKeyDown}
+        />
       <div id="info">
         <span
           id="number-of-matches"
@@ -31,7 +32,7 @@ const Cmdline = ({ currentMatch, mode, onBrowseKeyUp, onQueryKeyUp, searchResult
       </div>
       <input
         id="browse"
-        onKeyUp={onBrowseKeyUp}
+        onKeyDown={onBrowseKeyDown}
       />
     </main>
   )
