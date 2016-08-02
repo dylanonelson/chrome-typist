@@ -20,20 +20,18 @@ class CmdlineCorrespondent extends Correspondent {
           }
         }}
         onBrowseKeyDown={(e) => {
-          if (e.which === 78 && !e.getModifierState('Shift')) {
-            this.sendMessage('content', 'browse', 'next');
-          }
-          if (e.which === 78 && e.getModifierState('Shift')) {
-            this.sendMessage('content', 'browse', 'previous');
-          }
-          if (e.which === 13 && !e.getModifierState('Shift')) {
-            this.sendMessage('content', 'select');
-          }
-          if (e.which === 13 && e.getModifierState('Shift')) {
-            this.sendMessage('content', 'open');
-          }
-          if (e.which === 89) {
-            this.sendMessage('content', 'yank');
+          switch (e.which) {
+            case 78:
+              let data = (e.getModifierState('Shift') ? 'previous' : 'next');
+              this.sendMessage('content', 'browse', data);
+              break;
+            case 13:
+              let msg = (e.getModifierState('Shift') ? 'open' : 'select');
+              this.sendMessage('content', msg);
+              break;
+            case 89:
+              this.sendMessage('content', 'yank');
+              break;
           }
         }}
       />,
@@ -42,8 +40,8 @@ class CmdlineCorrespondent extends Correspondent {
   }
 
   start() {
-    document.addEventListener('DOMContentLoaded', this.render.bind(this));
-    store.subscribe(this.render.bind(this));
+    document.addEventListener('DOMContentLoaded', () => this.render());
+    store.subscribe(() => this.render())
 
     chrome.storage.sync.get([
       'fontFamily',
