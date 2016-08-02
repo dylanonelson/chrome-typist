@@ -40,9 +40,10 @@ class CmdlineCorrespondent extends Correspondent {
         {...store.getState()}
         onQueryKeyUp={(e) => {
           this.sendMessage('content', 'query', this.query.value);
+
           if (e.which === 13) {
             this.sendMessage('content', 'browse', 'current');
-            document.getElementById('browse').focus();
+            this.browse.focus();
           }
         }}
         onBrowseKeyUp={(e) => {
@@ -85,16 +86,16 @@ class CmdlineCorrespondent extends Correspondent {
     });
   }
 
-  get info() {
-    return document.getElementById('info')
-  }
-
-  get numberOfMatches() {
-    return document.getElementById('number-of-matches');
+  get browse() {
+    return document.getElementById('browse');
   }
 
   get currentMatch() {
     return document.getElementById('current-match');
+  }
+
+  get info() {
+    return document.getElementById('info')
   }
 
   // Name property is used by the messenger object.
@@ -102,33 +103,12 @@ class CmdlineCorrespondent extends Correspondent {
     return 'cmdline'
   }
 
+  get numberOfMatches() {
+    return document.getElementById('number-of-matches');
+  }
+
   get query() {
     return document.getElementById('query');
-  }
-
-  blurInput() {
-    this.query.blur();
-  }
-
-  focusInput() {
-    this.currentMatch.innerHTML = '';
-
-    setTimeout(function () {
-      this.query.select();
-    }.bind(this), 10);
-  }
-
-  onCurrentMatch(nodeName) {
-    this.currentMatch.innerHTML = `&lt;${nodeName.toLowerCase()}&gt;`;
-  }
-
-  onCommandExit() {
-    store.dispatch({
-      type: 'CHANGE_MODE',
-      mode: 'INACTIVE'
-    })
-    this.sendMessage('content', 'mode:inactive');
-    this.blurInput();
   }
 
   onCommandCmdline() {
@@ -136,8 +116,20 @@ class CmdlineCorrespondent extends Correspondent {
       type: 'CHANGE_MODE',
       mode: 'REGEX'
     });
+
     this.sendMessage('content', 'mode:regex');
-    this.focusInput();
+    // Must use setTimeout or query will not get focus
+    setTimeout(() => { this.query.select() }, 0)
+  }
+
+  onCommandExit() {
+    store.dispatch({
+      type: 'CHANGE_MODE',
+      mode: 'INACTIVE'
+    })
+
+    this.sendMessage('content', 'mode:inactive');
+    this.query.blur();
   }
 
   onSearchResult({ numberOfMatches, overMaxNumber }) {
