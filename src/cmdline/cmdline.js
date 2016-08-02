@@ -15,18 +15,22 @@ const initialState = {
 
 const store = createStore((previous, action) => {
   switch (action.type) {
-    case 'UPDATE_SETTINGS':
-      return Object.assign({}, previous, {
-        settings: action.settings
-      });
     case 'CHANGE_MODE':
       return Object.assign({}, previous, {
         mode: action.mode
       });
+    case 'UPDATE_CURRENT_MATCH':
+      return Object.assign({}, previous, {
+        currentMatch: action.currentMatch
+      });
     case 'UPDATE_SEARCH_RESULTS':
       return Object.assign({}, previous, {
         searchResults: action.searchResults
-    })
+      })
+    case 'UPDATE_SETTINGS':
+      return Object.assign({}, previous, {
+        settings: action.settings
+      });
     default:
       return previous;
   }
@@ -130,6 +134,13 @@ class CmdlineCorrespondent extends Correspondent {
 
     this.sendMessage('content', 'mode:inactive');
     this.query.blur();
+  }
+
+  onCurrentMatch(nodeName) {
+    store.dispatch({
+      type: 'UPDATE_CURRENT_MATCH',
+      currentMatch: nodeName
+    })
   }
 
   onSearchResult({ numberOfMatches, overMaxNumber }) {
