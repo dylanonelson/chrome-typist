@@ -4,7 +4,8 @@ const initialState = {
   currentMatch: null,
   mode: 'INACTIVE',
   searchResults: {},
-  settings: {}
+  settings: {},
+  query: null
 }
 
 const store = createStore((previous, action) => {
@@ -24,6 +25,10 @@ const store = createStore((previous, action) => {
     case 'UPDATE_SETTINGS':
       return Object.assign({}, previous, {
         settings: action.settings
+      });
+    case 'UPDATE_QUERY':
+      return Object.assign({}, previous, {
+        query: action.query
       });
     default:
       return previous;

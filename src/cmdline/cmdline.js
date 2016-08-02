@@ -11,16 +11,19 @@ class CmdlineCorrespondent extends Correspondent {
       <Cmdline
         {...store.getState()}
         onQueryInput={(e) => {
-          this.sendMessage('content', 'query', this.query.value);
+          this.sendMessage('content', 'query', store.getState().query);
         }}
         onQueryKeyDown={(e) => {
-          if (e.which === 13) {
+          if (e.keyCode === 13) {
             this.sendMessage('content', 'browse', 'current');
-            this.browse.focus();
+            store.dispatch({
+              type: 'CHANGE_MODE',
+              mode: 'BROWSE'
+            })
           }
         }}
         onBrowseKeyDown={(e) => {
-          switch (e.which) {
+          switch (e.keyCode) {
             case 78:
               let data = (e.getModifierState('Shift') ? 'previous' : 'next');
               this.sendMessage('content', 'browse', data);
@@ -28,12 +31,21 @@ class CmdlineCorrespondent extends Correspondent {
             case 13:
               let msg = (e.getModifierState('Shift') ? 'open' : 'select');
               this.sendMessage('content', msg);
+              store.dispatch({
+                type: 'CHANGE_MODE',
+                mode: 'INACTIVE'
+              })
               break;
             case 89:
               this.sendMessage('content', 'yank');
+              store.dispatch({
+                type: 'CHANGE_MODE',
+                mode: 'INACTIVE'
+              })
               break;
           }
         }}
+        store={store}
       />,
       document.getElementById('root')
     );
@@ -57,29 +69,9 @@ class CmdlineCorrespondent extends Correspondent {
     });
   }
 
-  get browse() {
-    return document.getElementById('browse');
-  }
-
-  get currentMatch() {
-    return document.getElementById('current-match');
-  }
-
-  get info() {
-    return document.getElementById('info')
-  }
-
   // Name property is used by the messenger object.
   get name() {
     return 'cmdline'
-  }
-
-  get numberOfMatches() {
-    return document.getElementById('number-of-matches');
-  }
-
-  get query() {
-    return document.getElementById('query');
   }
 
   onCommandCmdline() {
@@ -89,8 +81,6 @@ class CmdlineCorrespondent extends Correspondent {
     });
 
     this.sendMessage('content', 'mode:regex');
-    // Must use setTimeout or query will not get focus
-    setTimeout(() => { this.query.select() }, 0)
   }
 
   onCommandExit() {
@@ -100,7 +90,6 @@ class CmdlineCorrespondent extends Correspondent {
     })
 
     this.sendMessage('content', 'mode:inactive');
-    this.query.blur();
   }
 
   onCurrentMatch(nodeName) {
