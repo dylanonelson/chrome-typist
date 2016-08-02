@@ -44,8 +44,17 @@ class DOMSearcher {
             this.query.test(n.placeholder)
           ) && (
             // Check if the node is visible
-            (n.parentNode.offsetWidth !== 0) &&
-            (n.parentNode.offsetHeight !== 0)
+            (
+              // Text nodes should have visible parents
+              (n.nodeType === 3) &&
+              (n.parentNode.offsetWidth !== 0) &&
+              (n.parentNode.offsetHeight !== 0)
+            ) || (
+              // Element nodes should be visible
+              (n.nodeType === 1) &&
+              (n.offsetWidth !== 0) &&
+              (n.offsetHeight !== 0)
+            )
           ) && (
             // Check that node is either an element (1) or text (3)
             (n.nodeType == 1) ||
