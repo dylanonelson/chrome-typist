@@ -27,7 +27,7 @@ class CmdlineIframe {
   }
 
   show() {
-    this.node.style.height = '70px';
+    this.node.style.height = '71px';
   }
 
 }
