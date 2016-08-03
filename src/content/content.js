@@ -58,6 +58,11 @@ class ContentCorrespondent extends Correspondent {
     this.cmdline.focus();
   }
 
+  onCommandExit() {
+    if (document.activeElement)
+      document.activeElement.blur();
+  }
+
 }
 
 new ContentCorrespondent().start();
