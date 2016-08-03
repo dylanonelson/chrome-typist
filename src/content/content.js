@@ -19,7 +19,7 @@ class ContentCorrespondent extends Correspondent {
 
     this.searcher[`${which}Match`](match => {
       match.focus();
-      this.sendMessage('cmdline', 'currentMatch', match.nodeName);
+      this.sendMessage('cmdline', 'browse:current', match.nodeName);
     });
   }
 
@@ -33,6 +33,7 @@ class ContentCorrespondent extends Correspondent {
 
   onCmdlineModeInactive() {
     this.searcher.clearMatches();
+    this.sendMessage('cmdline', 'browse:current', null);
     this.cmdline.hide();
     this.cmdline.blur();
   }

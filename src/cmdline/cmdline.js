@@ -92,7 +92,7 @@ class CmdlineCorrespondent extends Correspondent {
     this.sendMessage('content', 'mode:inactive');
   }
 
-  onCurrentMatch(nodeName) {
+  onBrowseCurrent(nodeName) {
     store.dispatch({
       type: 'UPDATE_CURRENT_MATCH',
       currentMatch: nodeName
