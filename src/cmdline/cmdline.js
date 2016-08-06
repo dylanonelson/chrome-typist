@@ -10,19 +10,19 @@ class CmdlineCorrespondent extends Correspondent {
     ReactDOM.render(
       <Cmdline
         {...store.getState()}
-        onQueryInput={(e) => {
+        onQuery={(e) => {
           this.sendMessage('content', 'query', store.getState().query);
         }}
-        onQueryKeyDown={(e) => {
+        onQueryCommand={(e) => {
           if (e.keyCode === 13) {
             this.sendMessage('content', 'browse', 'current');
             store.dispatch({
               type: 'CHANGE_MODE',
               mode: 'BROWSE'
-            })
+            });
           }
         }}
-        onBrowseKeyDown={(e) => {
+        onBrowseCommand={(e) => {
           switch (e.keyCode) {
             case 78:
               let data = (e.getModifierState('Shift') ? 'previous' : 'next');

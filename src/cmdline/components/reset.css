@@ -1,0 +1,14 @@
+body {
+  margin: 0;
+}
+
+input, label {
+  background: transparent;
+  border: 0;
+  color: inherit;
+  font-weight: inherit;
+}
+
+input:focus {
+  outline: none;
+}
