@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import Setting from './Setting.jsx'
+import Option from './Option.jsx'
 
 class OptionsPage extends React.Component {
   render () {

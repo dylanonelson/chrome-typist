@@ -1,3 +1,4 @@
+import './styles.css'
 import OptionsPage from './OptionsPage.jsx'
 import { createStore } from 'redux'
 import React from 'react'
