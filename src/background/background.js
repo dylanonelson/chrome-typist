@@ -1,5 +1,5 @@
-import Correspondent from '../messaging/Correspondent';
-import Dispatcher from '../messaging/Dispatcher';
+import Correspondent from 'messaging/Correspondent';
+import Dispatcher from 'messaging/Dispatcher';
 
 class BackgroundCorrespondent extends Correspondent {
 

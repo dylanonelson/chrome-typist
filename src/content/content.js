@@ -1,7 +1,7 @@
-import CmdlineIframe from '../cmdline/iframe';
-import Correspondent from '../messaging/Correspondent';
-import DOMSearcher from '../search/DOMSearcher';
-import Messenger from '../messaging/Messenger';
+import CmdlineIframe from 'iframe/iframe';
+import Correspondent from 'messaging/Correspondent';
+import DOMSearcher from 'search/DOMSearcher';
+import Messenger from 'messaging/Messenger';
 
 class ContentCorrespondent extends Correspondent {
 

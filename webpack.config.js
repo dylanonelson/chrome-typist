@@ -7,10 +7,6 @@ module.exports = {
     'content': './src/content/content',
     'options': './src/options/options'
   },
-  output: {
-    path: path.join(__dirname, 'dist'),
-    filename: '[name].bundle.js'
-  },
   module: {
     loaders: [{
       test: /\.js$/,
@@ -32,5 +28,12 @@ module.exports = {
       exclude: /node_modules/,
       loader: 'ejs-loader'
     }]
+  },
+  output: {
+    path: path.join(__dirname, 'dist'),
+    filename: '[name].bundle.js'
+  },
+  resolve: {
+    root: path.resolve('./src')
   }
 }

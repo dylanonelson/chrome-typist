@@ -1,5 +1,5 @@
 import Cmdline from './components/Cmdline.jsx'
-import Correspondent from '../messaging/Correspondent';
+import Correspondent from 'messaging/Correspondent';
 import React from 'react'
 import ReactDOM from 'react-dom'
 import store from './store'
