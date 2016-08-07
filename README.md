@@ -18,7 +18,7 @@ Stop clicking on things! Use Vim-style shortcuts to find and select inputs or li
 - [x] Improve search: don't match hidden elements; match form elements
 - [x] Copy selected text to clipboard with y
 - [x] Show number of matches in cmdline
-- [ ] Exit cmdline and normal mode and blur inputs on exit command
+- [x] Exit cmdline and normal mode and blur inputs on exit command
 - [ ] Expose search history via Ctrl-P
-- [ ] Customize appearance with extension settings
+- [x] Customize appearance with extension settings
 - [ ] Optimize DOM searching
