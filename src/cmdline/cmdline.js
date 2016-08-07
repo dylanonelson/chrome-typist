@@ -81,6 +81,7 @@ class CmdlineCorrespondent extends Correspondent {
     });
 
     this.sendMessage('content', 'mode:regex');
+    this.sendMessage('content', 'query', store.getState().query);
   }
 
   onCommandExit() {

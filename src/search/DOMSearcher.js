@@ -7,7 +7,11 @@ class DOMSearcher {
   }
 
   set query(query) {
-    this._query = new RegExp(query, 'i');
+    if (query) {
+      this._query = new RegExp(query, 'i');
+    } else {
+      this._query = new RegExp('', 'i');
+    }
   }
 
   get matches() {
