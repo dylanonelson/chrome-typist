@@ -3,9 +3,9 @@ var path = require('path');
 module.exports = {
   entry: {
     'background': './src/background/background',
-    'cmdline': './src/cmdline/cmdline',
+    'cmdline': './src/cmdline/cmdline.jsx',
     'content': './src/content/content',
-    'options': './src/options/options'
+    'options': './src/options/options.jsx'
   },
   module: {
     loaders: [{
@@ -27,7 +27,14 @@ module.exports = {
       test: /\.ejs$/,
       exclude: /node_modules/,
       loader: 'ejs-loader'
-    }]
+    }],
+    preLoaders: [
+      {
+        test: /\.jsx?$/,
+        loader: 'eslint?{fix:true}',
+        include: /src/,
+      }
+    ]
   },
   output: {
     path: path.join(__dirname, 'dist'),

@@ -1,7 +1,6 @@
 import CmdlineIframe from 'iframe/iframe';
 import Correspondent from 'messaging/Correspondent';
 import DOMSearcher from 'search/DOMSearcher';
-import Messenger from 'messaging/Messenger';
 
 class ContentCorrespondent extends Correspondent {
 
@@ -24,11 +23,11 @@ class ContentCorrespondent extends Correspondent {
   }
 
   onCmdlineQuery(value) {
-    let number = this.searcher.search(value);
+    const number = this.searcher.search(value);
     this.sendMessage('cmdline', 'search:result', {
       numberOfMatches: number,
-      overMaxNumber: number > this.searcher.MAX_NUMBER_MATCHES
-    })
+      overMaxNumber: number > this.searcher.MAX_NUMBER_MATCHES,
+    });
   }
 
   onCmdlineModeInactive() {
@@ -39,17 +38,17 @@ class ContentCorrespondent extends Correspondent {
   }
 
   onCmdlineOpen() {
-    this.searcher.currentMatch(match => match.open())
+    this.searcher.currentMatch(match => match.open());
     this.onCmdlineModeInactive();
   }
 
   onCmdlineSelect() {
-    this.searcher.currentMatch(match => match.select())
+    this.searcher.currentMatch(match => match.select());
     this.onCmdlineModeInactive();
   }
 
   onCmdlineYank() {
-    this.searcher.currentMatch(match => match.copy())
+    this.searcher.currentMatch(match => match.copy());
     this.onCmdlineModeInactive();
   }
 
@@ -59,8 +58,9 @@ class ContentCorrespondent extends Correspondent {
   }
 
   onCommandExit() {
-    if (document.activeElement)
+    if (document.activeElement) {
       document.activeElement.blur();
+    }
   }
 
 }

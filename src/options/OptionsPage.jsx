@@ -1,9 +1,8 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import Option from './Option.jsx'
+import React from 'react';
+import Option from './Option.jsx';
 
 class OptionsPage extends React.Component {
-  render () {
+  render() {
     return (
       <main>
         <h1>Options</h1>
@@ -11,14 +10,14 @@ class OptionsPage extends React.Component {
         {Object.keys(this.props.settings).map(setting => {
           let settingValue = this.props.settings[setting];
           return (
-            <Setting
+            <Option
               key={setting}
               name={setting}
               rowHeight={24}
               store={this.props.store}
               value={settingValue}
             />
-          )
+          );
         })}
 
         <button
@@ -26,12 +25,12 @@ class OptionsPage extends React.Component {
           onClick={this.props.onSave}
           style={{
             margin: 'auto',
-            width: 50
+            width: 50,
           }}
         >Save</button>
       </main>
-    )
+    );
   }
 }
 
-export default OptionsPage
+export default OptionsPage;

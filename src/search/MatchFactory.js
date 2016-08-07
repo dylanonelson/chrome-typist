@@ -1,4 +1,4 @@
-import './match.css'
+import './match.css';
 
 class Match {
 
@@ -12,8 +12,9 @@ class Match {
   }
 
   get highlightNode() {
-    if (typeof this._highlightNode !== 'undefined')
+    if (typeof this._highlightNode !== 'undefined') {
       return this._highlightNode;
+    }
 
     this._highlightNode = document.createElement('mark');
     this._highlightNode.className = 'unfocused';
@@ -58,8 +59,8 @@ class TextMatch extends Match {
   }
 
   copy() {
-    let range = document.createRange();
-    let selection = window.getSelection();
+    const range = document.createRange();
+    const selection = window.getSelection();
     range.selectNode(this.node);
     selection.removeAllRanges();
     selection.addRange(range);
@@ -67,13 +68,15 @@ class TextMatch extends Match {
   }
 
   open() {
-    if (typeof this.parent.href === 'string')
+    if (typeof this.parent.href === 'string') {
       window.open(this.parent.href, '_blank');
+    }
   }
 
   select() {
-    if (typeof this.parent.click === 'function')
+    if (typeof this.parent.click === 'function') {
       this.parent.click();
+    }
   }
 
 }
@@ -85,7 +88,7 @@ class InputMatch extends Match {
   }
 
   select() {
-    setTimeout(() => { this.node.select(); }, 0)
+    setTimeout(() => { this.node.select(); }, 0);
   }
 
   copy() {
@@ -100,14 +103,12 @@ const MatchFactory = ({ node }) => {
     // ELEMENT_NODE (either an input or a textarea)
     case 1:
       return new InputMatch({ node });
-      break;
     // TEXT_NODE
     case 3:
       return new TextMatch({ node });
-      break;
     default:
       throw new Error(`Cannot generate match with node type ${node.nodeType}`);
   }
-}
+};
 
-export default MatchFactory
+export default MatchFactory;

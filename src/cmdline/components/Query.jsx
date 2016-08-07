@@ -1,5 +1,4 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
+import React from 'react';
 
 class Query extends React.Component {
   render() {
@@ -9,7 +8,7 @@ class Query extends React.Component {
         style={{
           display: 'block',
           float: 'left',
-          width: '90%'
+          width: '90%',
         }}
       >
         <span
@@ -17,14 +16,14 @@ class Query extends React.Component {
             display: 'block',
             float: 'left',
             textAlign: 'right',
-            width: '10%'
+            width: '10%',
           }}
-         >/ </span>
+        >/ </span>
         <input
           ref="input"
           onInput={(e) => {
             this.setState({
-              value: e.target.value
+              value: e.target.value,
             });
 
             this.props.onInput(e);
@@ -38,12 +37,12 @@ class Query extends React.Component {
             lineHeight: '20px',
             marginBottom: 38,
             padding: '0 10px',
-            width: '90%'
+            width: '90%',
           }}
         />
       </label>
-    )
+    );
   }
 }
 
-export default Query
+export default Query;

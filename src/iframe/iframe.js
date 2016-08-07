@@ -1,12 +1,11 @@
-import './iframe.css'
-import iframe from './iframe.ejs'
+import './iframe.css';
+import iframe from './iframe.ejs';
 
 class CmdlineIframe {
 
   constructor() {
     this.node = (() => {
-      let container = document.createElement('div');
-      console.log(iframe());
+      const container = document.createElement('div');
       container.innerHTML = iframe();
       return container.childNodes[0];
     })();
@@ -32,4 +31,4 @@ class CmdlineIframe {
 
 }
 
-export default CmdlineIframe
+export default CmdlineIframe;

@@ -1,4 +1,4 @@
-import Messenger from './Messenger'
+import Messenger from './Messenger';
 
 class Correspondent {
 
@@ -8,12 +8,13 @@ class Correspondent {
   }
 
   trigger(action, args) {
-    let pieces = action.split(':');
+    const pieces = action.split(':');
+    let piece;
 
     while (pieces.length >= 1) {
       let methodName = 'on';
-      for (var piece of pieces) {
-        methodName = methodName +
+      for (piece of pieces) {
+        methodName +=
           (piece.slice(0, 1).toUpperCase() + piece.slice(1, piece.length));
       }
       this.tryMethod(methodName, args);
@@ -29,10 +30,11 @@ class Correspondent {
     if (
       typeof name === 'string' &&
       typeof this[name] === 'function'
-    )
+    ) {
       this[name].call(this, args);
+    }
   }
 
 }
 
-export default Correspondent
+export default Correspondent;

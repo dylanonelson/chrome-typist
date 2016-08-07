@@ -11,19 +11,20 @@ class Messenger {
         (request.to === 'all')
       ) &&
         (request.from !== this.correspondent.name)
-      )
+      ) {
         this.correspondent.trigger(request.message, request.data);
-    })
+      }
+    });
 
     if (typeof chrome.commands !== 'undefined') {
       chrome.commands.onCommand.addListener((command) => {
-        this.correspondent.trigger('command:' + command);
-      })
+        this.correspondent.trigger(`command:${command}`);
+      });
     }
   }
 
-  sendMessage (to, message, data) {
-    let msg = this.buildMessage(to, message, data);
+  sendMessage(to, message, data) {
+    const msg = this.buildMessage(to, message, data);
 
     if (typeof chrome.tabs !== 'undefined') {
       chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
@@ -35,16 +36,16 @@ class Messenger {
   }
 
   buildMessage(to, message, data) {
-    let msg = {
-      to: to,
+    const msg = {
+      to,
       from: this.correspondent.name,
       message: `${this.correspondent.name}:${message}`,
-      data: data
-    }
+      data,
+    };
 
     return msg;
   }
 
 }
 
-export default Messenger
+export default Messenger;

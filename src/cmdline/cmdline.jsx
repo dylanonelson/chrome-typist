@@ -1,8 +1,8 @@
-import Cmdline from './components/Cmdline.jsx'
+import React from 'react';
+import ReactDOM from 'react-dom';
 import Correspondent from 'messaging/Correspondent';
-import React from 'react'
-import ReactDOM from 'react-dom'
-import store from './store'
+import Cmdline from './components/Cmdline.jsx';
+import store from './store';
 
 class CmdlineCorrespondent extends Correspondent {
 
@@ -10,7 +10,7 @@ class CmdlineCorrespondent extends Correspondent {
     ReactDOM.render(
       <Cmdline
         {...store.getState()}
-        onQuery={(e) => {
+        onQuery={() => {
           this.sendMessage('content', 'query', store.getState().query);
         }}
         onQueryCommand={(e) => {
@@ -18,31 +18,38 @@ class CmdlineCorrespondent extends Correspondent {
             this.sendMessage('content', 'browse', 'current');
             store.dispatch({
               type: 'CHANGE_MODE',
-              mode: 'BROWSE'
+              mode: 'BROWSE',
             });
           }
         }}
         onBrowseCommand={(e) => {
           switch (e.keyCode) {
             case 78:
-              let data = (e.getModifierState('Shift') ? 'previous' : 'next');
-              this.sendMessage('content', 'browse', data);
+              this.sendMessage(
+                'content',
+                'browse',
+                (e.getModifierState('Shift') ? 'previous' : 'next')
+              );
               break;
             case 13:
-              let msg = (e.getModifierState('Shift') ? 'open' : 'select');
-              this.sendMessage('content', msg);
+              this.sendMessage(
+                'content',
+                (e.getModifierState('Shift') ? 'open' : 'select')
+              );
               store.dispatch({
                 type: 'CHANGE_MODE',
-                mode: 'INACTIVE'
-              })
+                mode: 'INACTIVE',
+              });
               break;
             case 89:
               this.sendMessage('content', 'yank');
               store.dispatch({
                 type: 'CHANGE_MODE',
-                mode: 'INACTIVE'
-              })
+                mode: 'INACTIVE',
+              });
               break;
+            default:
+              // do nothing
           }
         }}
         store={store}
@@ -53,31 +60,31 @@ class CmdlineCorrespondent extends Correspondent {
 
   start() {
     document.addEventListener('DOMContentLoaded', () => this.render());
-    store.subscribe(() => this.render())
+    store.subscribe(() => this.render());
 
     chrome.storage.sync.get([
       'fontFamily',
       'backgroundColor',
       'infoColor',
       'textColor',
-      'warningColor'
+      'warningColor',
     ], (items) => {
       store.dispatch({
         type: 'UPDATE_SETTINGS',
-        settings: items
+        settings: items,
       });
     });
   }
 
   // Name property is used by the messenger object.
   get name() {
-    return 'cmdline'
+    return 'cmdline';
   }
 
   onCommandCmdline() {
     store.dispatch({
       type: 'CHANGE_MODE',
-      mode: 'REGEX'
+      mode: 'REGEX',
     });
 
     this.sendMessage('content', 'mode:regex');
@@ -87,8 +94,8 @@ class CmdlineCorrespondent extends Correspondent {
   onCommandExit() {
     store.dispatch({
       type: 'CHANGE_MODE',
-      mode: 'INACTIVE'
-    })
+      mode: 'INACTIVE',
+    });
 
     this.sendMessage('content', 'mode:inactive');
   }
@@ -96,18 +103,18 @@ class CmdlineCorrespondent extends Correspondent {
   onBrowseCurrent(nodeName) {
     store.dispatch({
       type: 'UPDATE_CURRENT_MATCH',
-      currentMatch: nodeName
-    })
+      currentMatch: nodeName,
+    });
   }
 
   onSearchResult({ numberOfMatches, overMaxNumber }) {
     store.dispatch({
       type: 'UPDATE_SEARCH_RESULTS',
       searchResults: {
-        numberOfMatches: numberOfMatches,
-        overMaxNumber: overMaxNumber
-      }
-    })
+        numberOfMatches,
+        overMaxNumber,
+      },
+    });
   }
 
 }

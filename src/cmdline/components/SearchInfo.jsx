@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 class SearchInfo extends React.Component {
   render() {
@@ -9,25 +9,25 @@ class SearchInfo extends React.Component {
           float: 'left',
           font: 'inherit',
           lineHeight: '20px',
-          width: '10%'
+          width: '10%',
         }}
       >
         <span
           style={{
             color: (this.props.overMaxNumber ?
                      (this.props.warningColor || 'red') : ''),
-            paddingRight: 10
+            paddingRight: 10,
           }}
         >{this.props.numberOfMatches}</span>
         <span
           style={{
-            color: this.props.infoColor || 'blue'
+            color: this.props.infoColor || 'blue',
           }}
         >{this.props.currentMatch ?
           `<${this.props.currentMatch.toLowerCase()}>` : ''}</span>
       </div>
-    )
+    );
   }
 }
 
-export default SearchInfo
+export default SearchInfo;

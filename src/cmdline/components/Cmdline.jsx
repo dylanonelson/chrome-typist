@@ -1,18 +1,20 @@
-import './reset.css'
-import Browse from './Browse.jsx'
-import Query from './Query.jsx'
-import React from 'react'
-import ReactDOM from 'react-dom'
-import SearchInfo from './SearchInfo.jsx'
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+import './reset.css';
+import Browse from './Browse.jsx';
+import Query from './Query.jsx';
+import SearchInfo from './SearchInfo.jsx';
 
 class Cmdline extends React.Component {
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps) {
     if (
       (prevProps.mode !== 'REGEX') &&
       (this.props.mode === 'REGEX')
-    )
+    ) {
       ReactDOM.findDOMNode(this.refs.query.refs.input).select();
+    }
   }
 
   render() {
@@ -30,25 +32,26 @@ class Cmdline extends React.Component {
           fontSize: 16,
           height: 70,
           left: 0,
-          padding:10,
+          padding: 10,
           position: 'fixed',
           right: 0,
-          width: '100%'
+          width: '100%',
         }}
       >
         <Query
           onInput={(e) => {
             this.props.store.dispatch({
               type: 'UPDATE_QUERY',
-              query: this.refs.query.refs.input.value
+              query: this.refs.query.refs.input.value,
             });
 
             this.props.onQuery(e);
           }}
           onKeyDown={(e) => {
             this.props.onQueryCommand(e);
-            if (e.keyCode === 13)
+            if (e.keyCode === 13) {
               ReactDOM.findDOMNode(this.refs.browse.refs.input).focus();
+            }
           }}
           ref="query"
         />
@@ -64,9 +67,9 @@ class Cmdline extends React.Component {
           ref="browse"
         />
       </main>
-    )
+    );
   }
 
 }
 
-export default Cmdline
+export default Cmdline;

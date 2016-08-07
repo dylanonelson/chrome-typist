@@ -1,38 +1,38 @@
-import { createStore } from 'redux'
+import { createStore } from 'redux';
 
 const initialState = {
   currentMatch: null,
   mode: 'INACTIVE',
   searchResults: {},
   settings: {},
-  query: null
-}
+  query: null,
+};
 
 const store = createStore((previous, action) => {
   switch (action.type) {
     case 'CHANGE_MODE':
       return Object.assign({}, previous, {
-        mode: action.mode
+        mode: action.mode,
       });
     case 'UPDATE_CURRENT_MATCH':
       return Object.assign({}, previous, {
-        currentMatch: action.currentMatch
+        currentMatch: action.currentMatch,
       });
     case 'UPDATE_SEARCH_RESULTS':
       return Object.assign({}, previous, {
-        searchResults: action.searchResults
-      })
+        searchResults: action.searchResults,
+      });
     case 'UPDATE_SETTINGS':
       return Object.assign({}, previous, {
-        settings: action.settings
+        settings: action.settings,
       });
     case 'UPDATE_QUERY':
       return Object.assign({}, previous, {
-        query: action.query
+        query: action.query,
       });
     default:
       return previous;
   }
-}, initialState)
+}, initialState);
 
-export default store
+export default store;

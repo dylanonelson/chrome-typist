@@ -1,8 +1,9 @@
-import './styles.css'
-import OptionsPage from './OptionsPage.jsx'
-import { createStore } from 'redux'
-import React from 'react'
-import ReactDOM from 'react-dom'
+import { createStore } from 'redux';
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+import './styles.css';
+import OptionsPage from './OptionsPage.jsx';
 
 const SETTING_TYPES = [
   'backgroundColor',
@@ -10,35 +11,35 @@ const SETTING_TYPES = [
   'fontFamily',
   'infoColor',
   'textColor',
-  'warningColor'
-]
+  'warningColor',
+];
 
 const store = createStore((previous, action) => {
+  const settings = SETTING_TYPES.reduce((state, type) => {
+    state[type] = action[type] || previous.settings[type]; /* eslint no-param-reassign: 0 */
+    return state;
+  }, {});
+
   return {
-    settings: SETTING_TYPES.reduce((state, type) => {
-      state[type] = action[type] || previous.settings[type]
-      return state;
-    }, {})
-  }
+    settings,
+  };
 }, {
   // Fetching current settings is async, so set an empty object for now.
-  settings: {}
+  settings: {},
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-
-  let root = document.createElement('div');
+  const root = document.createElement('div');
   document.body.appendChild(root);
 
   chrome.storage.sync.get(SETTING_TYPES, (items) => {
-    let action = Object.assign({}, {
-        type: 'UPDATE_SETTING'
+    const action = Object.assign({}, {
+      type: 'UPDATE_SETTING',
     }, items);
     store.dispatch(action);
-  })
+  });
 
   store.subscribe(() => {
-    console.log(store.getState().settings);
     ReactDOM.render(
       <OptionsPage
         onSave={() => {
@@ -49,5 +50,5 @@ document.addEventListener('DOMContentLoaded', () => {
       />,
       root
     );
-  })
+  });
 });

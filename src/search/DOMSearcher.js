@@ -1,4 +1,4 @@
-import MatchFactory from './MatchFactory'
+import MatchFactory from './MatchFactory';
 
 class DOMSearcher {
 
@@ -17,10 +17,9 @@ class DOMSearcher {
   get matches() {
     if (typeof this._matches !== 'undefined') {
       return this._matches;
-    } else {
-      this._matches = [];
-      return this._matches;
     }
+    this._matches = [];
+    return this._matches;
   }
 
   get MAX_NUMBER_MATCHES() {
@@ -35,10 +34,10 @@ class DOMSearcher {
     this.query = query;
     this.clearMatches();
 
-    let d = window.document;
-    if (!d || !d.body) return;
+    const d = window.document;
+    if (!d || !d.body) return 0;
 
-    let nodeIterator = d.createNodeIterator(document.body, NodeFilter.SHOW_ALL, {
+    const nodeIterator = d.createNodeIterator(document.body, NodeFilter.SHOW_ALL, {
       acceptNode: (n) => {
         if (
           (
@@ -61,23 +60,25 @@ class DOMSearcher {
             )
           ) && (
             // Check that node is either an element (1) or text (3)
-            (n.nodeType == 1) ||
-            (n.nodeType == 3)
+            (n.nodeType === 1) ||
+            (n.nodeType === 3)
           )
         ) {
-          return NodeFilter.FILTER_ACCEPT
+          return NodeFilter.FILTER_ACCEPT;
         }
-      }
-    }, false)
 
-    let node;
-    while (node = nodeIterator.nextNode()) {
+        return NodeFilter.FILTER_REJECT;
+      },
+    }, false);
+
+    let node = nodeIterator.nextNode();
+    while (node) {
       this.matches.push(
         MatchFactory({ node })
-      )
+      );
+      node = nodeIterator.nextNode();
     }
 
-    console.log(this.matches);
     this.highlightMatches();
     return this.matches.length;
   }
@@ -87,7 +88,7 @@ class DOMSearcher {
 
     this.matches.forEach(match => {
       match.highlight();
-    })
+    });
   }
 
   clearMatches() {
@@ -104,10 +105,11 @@ class DOMSearcher {
     if (
       (typeof callback !== 'function') ||
       (typeof this.matches[0] === 'undefined')
-    )
+    ) {
       return;
+    }
 
-    return callback(this.matches[0]);
+    callback(this.matches[0]);
   }
 
   nextMatch(callback) {
@@ -122,4 +124,4 @@ class DOMSearcher {
 
 }
 
-export default DOMSearcher
+export default DOMSearcher;

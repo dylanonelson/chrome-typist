@@ -1,5 +1,4 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
+import React from 'react';
 
 class Browse extends React.Component {
   render() {
@@ -8,12 +7,12 @@ class Browse extends React.Component {
         ref="input"
         style={{
           clear: 'both',
-          display: 'block'
+          display: 'block',
         }}
         onKeyDown={this.props.onKeyDown}
       />
-    )
+    );
   }
 }
 
-export default Browse
+export default Browse;

@@ -1,10 +1,8 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
+import React from 'react';
 
 class Setting extends React.Component {
 
   render() {
-    console.log(this.props);
     return (
       <div
         className="setting clearfix"
@@ -12,7 +10,7 @@ class Setting extends React.Component {
           display: 'block',
           height: this.props.rowHeight,
           lineHeight: `${this.props.rowHeight}px`,
-          marginBottom: this.props.rowHeight * 0.35
+          marginBottom: this.props.rowHeight * 0.35,
         }}
       >
         <label
@@ -24,7 +22,7 @@ class Setting extends React.Component {
             float: 'left',
             paddingRight: 10,
             textAlign: 'right',
-            width: '40%'
+            width: '40%',
           }}
           htmlFor={this.props.name}
         >
@@ -36,8 +34,8 @@ class Setting extends React.Component {
             e.preventDefault();
             this.props.store.dispatch({
               type: 'UPDATE_SETTINGS',
-              [this.props.name]: this.refs.input.value
-            })
+              [this.props.name]: this.refs.input.value,
+            });
           }}
           ref="input"
           style={{
@@ -46,14 +44,14 @@ class Setting extends React.Component {
             height: this.props.rowHeight,
             lineHeight: `${this.props.rowHeight}px`,
             float: 'right',
-            width: '60%'
+            width: '60%',
           }}
           value={this.props.value}
         />
       </div>
-    )
+    );
   }
 
 }
 
-export default Setting
+export default Setting;
