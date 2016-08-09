@@ -16,13 +16,9 @@ module.exports = {
       test: /\.jsx$/,
       exclude: /node_modules/,
       loader: 'babel-loader'
-    },{
+    }, {
       test: /\.css$/,
       loader: 'style!css'
-    }, {
-      test: /\.html$/,
-      exclude: /node_modules/,
-      loader: 'dom?tag=main!html'
     }, {
       test: /\.ejs$/,
       exclude: /node_modules/,
