@@ -82,22 +82,22 @@ class CmdlineCorrespondent extends Correspondent {
   }
 
   onCommandCmdline() {
+    this.sendMessage('content', 'mode:regex');
+    this.sendMessage('content', 'query', store.getState().query);
+
     store.dispatch({
       type: 'CHANGE_MODE',
       mode: 'REGEX',
     });
-
-    this.sendMessage('content', 'mode:regex');
-    this.sendMessage('content', 'query', store.getState().query);
   }
 
   onCommandExit() {
+    this.sendMessage('content', 'mode:inactive');
+
     store.dispatch({
       type: 'CHANGE_MODE',
       mode: 'INACTIVE',
     });
-
-    this.sendMessage('content', 'mode:inactive');
   }
 
   onBrowseCurrent(nodeName) {

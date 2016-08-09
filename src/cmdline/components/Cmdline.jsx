@@ -13,7 +13,10 @@ class Cmdline extends React.Component {
       (prevProps.mode !== 'REGEX') &&
       (this.props.mode === 'REGEX')
     ) {
-      ReactDOM.findDOMNode(this.refs.query.refs.input).select();
+      setTimeout(
+        () => ReactDOM.findDOMNode(this.refs.query.refs.input).select(),
+        0
+      );
     }
   }
 
