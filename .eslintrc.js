@@ -12,7 +12,9 @@ module.exports = {
       webextensions: true,
     },
     'rules': {
-      'no-underscore-dangle': 0,
+      'import/extensions': 2,
       'new-cap': 0,
+      'no-underscore-dangle': 0,
+      'react/require-extension': 0,
     }
 };
