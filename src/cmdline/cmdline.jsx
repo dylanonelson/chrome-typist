@@ -82,6 +82,13 @@ class CmdlineCorrespondent extends Correspondent {
   }
 
   onCommandCmdline() {
+    // TODO: Handle async more elegantly here
+    //
+    // The listener in the content script fires asynchronously. The following
+    // code depends on that handler's code, which focuses the iframe, being
+    // added to the queue before the setTimeout callback, which focuses the
+    // input inside the iframe and which is ultimately added by the action
+    // dispatched below.
     this.sendMessage('content', 'mode:regex');
     this.sendMessage('content', 'query', store.getState().query);
 
