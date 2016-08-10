@@ -1,18 +1,44 @@
 import React from 'react';
 
-class Browse extends React.Component {
-  render() {
-    return (
-      <input
-        ref="input"
-        style={{
-          clear: 'both',
-          display: 'block',
-        }}
-        onKeyDown={this.props.onKeyDown}
-      />
-    );
-  }
-}
+const Browse = ({ onNext, onOpen, onPrevious, onSelect, onYank }) => (
+  <input
+    id="browse"
+    onKeyDown={(e) => {
+      switch (e.keyCode) {
+        case 78:
+          if (e.getModifierState('Shift')) {
+            onPrevious();
+          } else {
+            onNext();
+          }
+          break;
+        case 13:
+          if (e.getModifierState('Shift')) {
+            onOpen();
+          } else {
+            onSelect();
+          }
+          break;
+        case 89:
+          onYank();
+          break;
+        default:
+          // do nothing
+      }
+    }}
+    style={{
+      clear: 'both',
+      display: 'block',
+    }}
+  />
+);
+
+Browse.propTypes = {
+  onNext: React.PropTypes.func,
+  onOpen: React.PropTypes.func,
+  onPrevious: React.PropTypes.func,
+  onSelect: React.PropTypes.func,
+  onYank: React.PropTypes.func,
+};
 
 export default Browse;

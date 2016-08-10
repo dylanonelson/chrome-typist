@@ -1,6 +1,6 @@
 import React from 'react';
 
-class Setting extends React.Component {
+class Option extends React.Component {
 
   render() {
     return (
@@ -34,10 +34,10 @@ class Setting extends React.Component {
             e.preventDefault();
             this.props.store.dispatch({
               type: 'UPDATE_SETTINGS',
-              [this.props.name]: this.refs.input.value,
+              [this.props.name]: this.input.value,
             });
           }}
-          ref="input"
+          ref={(input) => this.input = input} /* eslint no-return-assign: 0 */
           style={{
             boxSizing: 'border-box',
             display: 'block',
@@ -54,4 +54,11 @@ class Setting extends React.Component {
 
 }
 
-export default Setting;
+Option.propTypes = {
+  name: React.PropTypes.string,
+  rowHeight: React.PropTypes.number,
+  store: React.PropTypes.object,
+  value: React.PropTypes.string,
+};
+
+export default Option;

@@ -1,37 +1,27 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 import './reset.css';
 import Browse from './Browse.jsx';
 import Query from './Query.jsx';
 import SearchInfo from './SearchInfo.jsx';
 
-class Cmdline extends React.Component {
-
-  componentDidUpdate(prevProps) {
-    if (
-      (prevProps.mode !== 'REGEX') &&
-      (this.props.mode === 'REGEX')
-    ) {
-      setTimeout(
-        () => ReactDOM.findDOMNode(this.refs.query.refs.input).select(),
-        0
-      );
-    }
-  }
+class Cmdline extends React.Component { /* eslint react/prefer-stateless-function: 0 */
 
   render() {
+    const store = this.props.store;
+    const { currentMatch, mode, searchResults, settings } = store.getState();
+
     return (
       <main
         style={{
-          backgroundColor: this.props.settings.backgroundColor || '#eee',
-          borderTop: `2px solid ${this.props.settings.borderColor || '#444'}`,
+          backgroundColor: settings.backgroundColor || '#eee',
+          borderTop: `2px solid ${settings.borderColor || '#444'}`,
           bottom: 0,
-          boxShadow: `0 0 3px 0 ${this.props.settings.borderColor || '#444'}`,
+          boxShadow: `0 0 3px 0 ${settings.borderColor || '#444'}`,
           boxSizing: 'border-box',
-          color: this.props.settings.textColor,
-          display: (this.props.mode === 'INACTIVE' ? 'none' : 'block'),
-          fontFamily: this.props.settings.fontFamily || 'monospace',
+          color: settings.textColor,
+          display: (mode === 'INACTIVE' ? 'none' : 'block'),
+          fontFamily: settings.fontFamily || 'monospace',
           fontSize: 16,
           height: 70,
           left: 0,
@@ -43,36 +33,47 @@ class Cmdline extends React.Component {
       >
         <Query
           onInput={(e) => {
-            this.props.store.dispatch({
-              type: 'UPDATE_QUERY',
-              query: this.refs.query.refs.input.value,
-            });
-
-            this.props.onQuery(e);
+            this.props.onQuery(e.target.value);
           }}
           onKeyDown={(e) => {
-            this.props.onQueryCommand(e);
-            if (e.keyCode === 13) {
-              ReactDOM.findDOMNode(this.refs.browse.refs.input).focus();
+            if (e.key === 'Enter') {
+              this.props.onQuerySubmit();
             }
           }}
-          ref="query"
         />
         <SearchInfo
-          currentMatch={this.props.currentMatch}
-          infoColor={this.props.settings.infoColor}
-          numberOfMatches={this.props.searchResults.numberOfMatches}
-          overMaxNumber={this.props.searchResults.overMaxNumber}
-          warningColor={this.props.settings.warningColor}
+          currentMatch={currentMatch}
+          infoColor={settings.infoColor}
+          numberOfMatches={searchResults.numberOfMatches}
+          overMaxNumber={searchResults.overMaxNumber}
+          warningColor={settings.warningColor}
         />
         <Browse
-          onKeyDown={this.props.onBrowseCommand}
-          ref="browse"
+          onNext={this.props.onBrowseNext}
+          onOpen={this.props.onBrowseOpen}
+          onPrevious={this.props.onBrowsePrevious}
+          onSelect={this.props.onBrowseSelect}
+          onYank={this.props.onBrowseYank}
         />
       </main>
     );
   }
 
 }
+
+Cmdline.propTypes = {
+  currentMatch: React.PropTypes.string,
+  mode: React.PropTypes.string,
+  onBrowseNext: React.PropTypes.func,
+  onBrowseOpen: React.PropTypes.func,
+  onBrowsePrevious: React.PropTypes.func,
+  onBrowseSelect: React.PropTypes.func,
+  onBrowseYank: React.PropTypes.func,
+  onQuery: React.PropTypes.func,
+  onQuerySubmit: React.PropTypes.func,
+  searchResults: React.PropTypes.string,
+  settings: React.PropTypes.object,
+  store: React.PropTypes.object,
+};
 
 export default Cmdline;
