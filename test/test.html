@@ -14,13 +14,32 @@
   input[type=radio] {
     display: inline-block;
   }
+  input.with-outline {
+    outline: 1px solid purple;
+  }
 </style>
 
 <h1>chrome-typist</h1>
 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 <input
-  value="Text input target"
+  value="Text input inline-block target"
   type="text"
+/>
+<input
+  value="Text input block target"
+  type="text"
+  style="display:block;margin-top:5px"
+/>
+<input
+  value="Text input block target with inline outline"
+  type="text"
+  style="display:block;margin-top:5px;outline:1px solid green"
+/>
+<input
+  class="with-outline"
+  value="Text input block target with CSS outline"
+  type="text"
+  style="display:block;margin-top:5px"
 />
 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 <textarea>Textarea target</textarea>

@@ -87,13 +87,34 @@ class InputMatch extends Match {
     return this.node.nodeName;
   }
 
+  copy() {
+    this.node.select();
+    document.execCommand('copy');
+  }
+
   select() {
     setTimeout(() => { this.node.select(); }, 0);
   }
 
-  copy() {
-    this.node.select();
-    document.execCommand('copy');
+}
+
+class BlockInputMatch extends InputMatch {
+
+  clear() {
+    this.node.style.outline = this.originalOutline;
+  }
+
+  focus() {
+    this.node.style.outline = '1px solid orange';
+  }
+
+  highlight() {
+    this.originalOutline = window.getComputedStyle(this.node).outline;
+    this.node.style.outline = '1px solid yellow';
+  }
+
+  unfocus() {
+    this.node.style.outline = '1px solid yellow';
   }
 
 }
@@ -102,6 +123,9 @@ const MatchFactory = ({ node }) => {
   switch (node.nodeType) {
     // ELEMENT_NODE (either an input or a textarea)
     case 1:
+      if (window.getComputedStyle(node).display === 'block') {
+        return new BlockInputMatch({ node });
+      }
       return new InputMatch({ node });
     // TEXT_NODE
     case 3:
