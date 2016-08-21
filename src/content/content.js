@@ -37,6 +37,12 @@ class ContentCorrespondent extends Correspondent {
     this.cmdline.blur();
   }
 
+  onCmdlineModeRegex() {
+    this.cmdline.show();
+    this.cmdline.focus();
+    this.sendMessage('cmdline', 'focus');
+  }
+
   onCmdlineOpen() {
     this.searcher.currentMatch(match => match.open());
     this.onCmdlineModeInactive();
@@ -50,11 +56,6 @@ class ContentCorrespondent extends Correspondent {
   onCmdlineYank() {
     this.searcher.currentMatch(match => match.copy());
     this.onCmdlineModeInactive();
-  }
-
-  onCmdlineModeRegex() {
-    this.cmdline.show();
-    this.cmdline.focus();
   }
 
   onCommandExit() {
