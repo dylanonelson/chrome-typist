@@ -1,18 +1,7 @@
 import MatchFactory from './MatchFactory';
+import NodeMatcherFactory from './NodeMatcherFactory';
 
 class DOMSearcher {
-
-  get query() {
-    return this._query;
-  }
-
-  set query(query) {
-    if (query) {
-      this._query = new RegExp(query, 'i');
-    } else {
-      this._query = new RegExp('', 'i');
-    }
-  }
 
   get matches() {
     if (typeof this._matches !== 'undefined') {
@@ -31,39 +20,15 @@ class DOMSearcher {
   }
 
   search(query) {
-    this.query = query;
     this.clearMatches();
+    const matcher = NodeMatcherFactory(query);
 
     const d = window.document;
     if (!d || !d.body) return 0;
 
     const nodeIterator = d.createNodeIterator(document.body, NodeFilter.SHOW_ALL, {
-      acceptNode: (n) => {
-        if (
-          (
-            // Check if the text matches the query
-            this.query.test(n.data) ||
-            this.query.test(n.value) ||
-            this.query.test(n.placeholder)
-          ) && (
-            // Check if the node is visible
-            (
-              // Text nodes should have visible parents
-              (n.nodeType === 3) &&
-              (n.parentNode.offsetWidth !== 0) &&
-              (n.parentNode.offsetHeight !== 0)
-            ) || (
-              // Element nodes should be visible
-              (n.nodeType === 1) &&
-              (n.offsetWidth !== 0) &&
-              (n.offsetHeight !== 0)
-            )
-          ) && (
-            // Check that node is either an element (1) or text (3)
-            (n.nodeType === 1) ||
-            (n.nodeType === 3)
-          )
-        ) {
+      acceptNode: (node) => {
+        if (matcher.matches(node)) {
           return NodeFilter.FILTER_ACCEPT;
         }
 
