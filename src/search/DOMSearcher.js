@@ -19,6 +19,40 @@ class DOMSearcher {
     this._matches = matches;
   }
 
+  addMatch(node) {
+    this.matches.push(
+      MatchFactory({ node })
+    );
+  }
+
+  getAllNodes() {
+    const nodes = [];
+
+    const elementWalker = document.createTreeWalker(
+      document.body,
+      NodeFilter.SHOW_ELEMENT,
+      null,
+      false
+    );
+
+    const textWalker = document.createTreeWalker(
+      document.body,
+      NodeFilter.SHOW_TEXT,
+      null,
+      false
+    );
+
+    [elementWalker, textWalker].forEach((walker) => {
+      let node = walker.nextNode();
+      while (node) {
+        nodes.push(node);
+        node = walker.nextNode();
+      }
+    });
+
+    return nodes;
+  }
+
   search(query) {
     this.clearMatches();
     const matcher = NodeMatcherFactory(query);
@@ -26,11 +60,9 @@ class DOMSearcher {
     const d = window.document;
     if (!d || !d.body) return 0;
 
-    for (const node of d.getElementsByTagName('*')) {
+    for (const node of this.getAllNodes()) {
       if (matcher.matches(node)) {
-        this.matches.push(
-          MatchFactory({ node })
-        );
+        this.addMatch(node);
       }
     }
 

@@ -6,38 +6,37 @@ class NodeMatcher {
     this.query = new RegExp(query || '', 'i');
   }
 
+  isVisible(node) {
+    return (
+      (node.offsetHeight !== 0) &&
+      (node.offsetWidth !== 0)
+    );
+  }
+
   matches(node) {
+    // Text nodes
     if (
-        (
-          // Check if the text matches the query
-          this.query.test(node.data) ||
-          this.query.test(node.value) ||
-          this.query.test(node.placeholder)
-        ) && (
-          // Check if the node is visible
-          (
-            // Text nodes should have visible parents
-            (node.nodeType === 3) &&
-            (node.parentNode.offsetWidth !== 0) &&
-            (node.parentNode.offsetHeight !== 0)
-          ) || (
-            // Element nodes should be visible
-            (node.nodeType === 1) &&
-            (node.offsetWidth !== 0) &&
-            (node.offsetHeight !== 0)
-          )
-        ) && (
-          // Check that node is either an element (1) or text (3)
-          (node.nodeType === 1) ||
-          (node.nodeType === 3)
-        )
-      ) {
+      node.nodeType === 3 &&
+      this.query.test(node.data) &&
+      this.isVisible(node.parentNode)
+    ) {
+      return true;
+    }
+
+    // Element nodes (textareas & inputs)
+    if (
+      node.nodeType === 1 && (
+        this.query.test(node.value) ||
+        this.query.test(node.placeholder)
+      ) && (
+      this.isVisible(node)
+      )
+    ) {
       return true;
     }
 
     return false;
   }
-
 }
 
 const NodeMatcherFactory = (query) => new NodeMatcher(query);
