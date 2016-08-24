@@ -2,3 +2,4 @@
 .s[w-z]?
 node_modules/
 dist/*bundle*
+build/
