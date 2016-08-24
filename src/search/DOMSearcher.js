@@ -26,23 +26,13 @@ class DOMSearcher {
     const d = window.document;
     if (!d || !d.body) return 0;
 
-    const nodeIterator = d.createNodeIterator(document.body, NodeFilter.SHOW_ALL, {
-      acceptNode: (node) => {
-        if (matcher.matches(node)) {
-          return NodeFilter.FILTER_ACCEPT;
-        }
-
-        return NodeFilter.FILTER_REJECT;
-      },
-    }, false);
-
-    let node = nodeIterator.nextNode();
-    while (node) {
-      this.matches.push(
-        MatchFactory({ node })
-      );
-      node = nodeIterator.nextNode();
-    }
+    d.getElementsByTagName('*').forEach((node) => {
+      if (matcher.matches(node)) {
+        this.matches.push(
+          MatchFactory({ node })
+        );
+      }
+    })
 
     this.highlightMatches();
     return this.matches.length;
