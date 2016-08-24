@@ -26,13 +26,13 @@ class DOMSearcher {
     const d = window.document;
     if (!d || !d.body) return 0;
 
-    d.getElementsByTagName('*').forEach((node) => {
+    for (const node of d.getElementsByTagName('*')) {
       if (matcher.matches(node)) {
         this.matches.push(
           MatchFactory({ node })
         );
       }
-    })
+    }
 
     this.highlightMatches();
     return this.matches.length;
