@@ -39,6 +39,18 @@ class Cmdline extends React.Component { /* eslint react/prefer-stateless-functio
             if (e.key === 'Enter') {
               this.props.onQuerySubmit();
             }
+            if (e.getModifierState('Control')) {
+              switch (e.key) {
+                case 'p':
+                  this.props.onCommand('back');
+                  break;
+                case 'n':
+                  this.props.onCommand('forward');
+                  break;
+                default:
+                  // do nothing
+              }
+            }
           }}
         />
         <SearchInfo
@@ -69,6 +81,7 @@ Cmdline.propTypes = {
   onBrowsePrevious: React.PropTypes.func,
   onBrowseSelect: React.PropTypes.func,
   onBrowseYank: React.PropTypes.func,
+  onCommand: React.PropTypes.func,
   onQuery: React.PropTypes.func,
   onQuerySubmit: React.PropTypes.func,
   searchResults: React.PropTypes.string,

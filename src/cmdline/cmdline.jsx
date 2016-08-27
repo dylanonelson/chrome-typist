@@ -6,6 +6,19 @@ import store from './store';
 
 class CmdlineCorrespondent extends Correspondent {
 
+  constructor() {
+    super();
+
+    this.handleBrowseNext = this.handleBrowseNext.bind(this);
+    this.handleBrowseOpen = this.handleBrowseOpen.bind(this);
+    this.handleBrowsePrevious = this.handleBrowsePrevious.bind(this);
+    this.handleBrowseSelect = this.handleBrowseSelect.bind(this);
+    this.handleBrowseYank = this.handleBrowseYank.bind(this);
+    this.handleCommand = this.handleCommand.bind(this);
+    this.handleQuery = this.handleQuery.bind(this);
+    this.handleQuerySubmit = this.handleQuerySubmit.bind(this);
+  }
+
   // ============
   // MESSAGING ID
   // ============
@@ -16,26 +29,6 @@ class CmdlineCorrespondent extends Correspondent {
   // ====================
   // REACT EVENT HANDLERS
   // ====================
-  handleQuery(query) {
-    this.sendMessage('content', 'query', query);
-
-    store.dispatch({
-      type: 'UPDATE_QUERY',
-      query,
-    });
-  }
-
-  handleQuerySubmit() {
-    this.sendMessage('content', 'browse', 'current');
-
-    store.dispatch({
-      type: 'CHANGE_MODE',
-      mode: 'BROWSE',
-    });
-
-    setTimeout(() => document.getElementById('browse').select(), 0);
-  }
-
   handleBrowseNext() {
     this.sendMessage('content', 'browse', 'next');
   }
@@ -68,6 +61,39 @@ class CmdlineCorrespondent extends Correspondent {
       type: 'CHANGE_MODE',
       mode: 'INACTIVE',
     });
+  }
+
+  handleCommand(command) {
+    switch (command) {
+      case 'back':
+        window.history.back();
+        break;
+      case 'forward':
+        window.history.forward();
+        break;
+      default:
+        // do nothing
+    }
+  }
+
+  handleQuery(query) {
+    this.sendMessage('content', 'query', query);
+
+    store.dispatch({
+      type: 'UPDATE_QUERY',
+      query,
+    });
+  }
+
+  handleQuerySubmit() {
+    this.sendMessage('content', 'browse', 'current');
+
+    store.dispatch({
+      type: 'CHANGE_MODE',
+      mode: 'BROWSE',
+    });
+
+    setTimeout(() => document.getElementById('browse').select(), 0);
   }
 
   // =================
@@ -119,13 +145,14 @@ class CmdlineCorrespondent extends Correspondent {
   render() {
     ReactDOM.render(
       <Cmdline
-        onQuery={(query) => this.handleQuery(query)}
-        onQuerySubmit={() => this.handleQuerySubmit()}
-        onBrowseNext={() => this.handleBrowseNext()}
-        onBrowseOpen={() => this.handleBrowseOpen()}
-        onBrowsePrevious={() => this.handleBrowsePrevious()}
-        onBrowseSelect={() => this.handleBrowseSelect()}
-        onBrowseYank={() => this.handleBrowseYank()}
+        onBrowseNext={this.handleBrowseNext}
+        onBrowseOpen={this.handleBrowseOpen}
+        onBrowsePrevious={this.handleBrowsePrevious}
+        onBrowseSelect={this.handleBrowseSelect}
+        onBrowseYank={this.handleBrowseYank}
+        onCommand={this.handleCommand}
+        onQuery={this.handleQuery}
+        onQuerySubmit={this.handleQuerySubmit}
         store={store}
       />,
       document.getElementById('root')
