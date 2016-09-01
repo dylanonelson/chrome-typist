@@ -1,6 +1,6 @@
 {
   "background": {
-    "persistent": false,
+    "persistent": true,
     "scripts": ["dist/background.bundle.js"]
   },
   "commands": {
