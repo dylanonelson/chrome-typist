@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Correspondent from 'messaging/Correspondent';
+import Commands from './Commands';
 import Cmdline from './components/Cmdline.jsx';
 import store from './store';
 
@@ -8,15 +9,8 @@ class CmdlineCorrespondent extends Correspondent {
 
   constructor() {
     super();
-
-    this.handleBrowseNext = this.handleBrowseNext.bind(this);
-    this.handleBrowseOpen = this.handleBrowseOpen.bind(this);
-    this.handleBrowsePrevious = this.handleBrowsePrevious.bind(this);
-    this.handleBrowseSelect = this.handleBrowseSelect.bind(this);
-    this.handleBrowseYank = this.handleBrowseYank.bind(this);
     this.handleCommand = this.handleCommand.bind(this);
     this.handleQuery = this.handleQuery.bind(this);
-    this.handleQuerySubmit = this.handleQuerySubmit.bind(this);
   }
 
   // ============
@@ -65,14 +59,35 @@ class CmdlineCorrespondent extends Correspondent {
 
   handleCommand(command) {
     switch (command) {
-      case 'back':
+      case Commands.BACK:
         window.history.back();
         break;
-      case 'forward':
+      case Commands.BROWSE_FIRST:
+        this.handleQuerySubmit(true);
+        break;
+      case Commands.BROWSE_NEXT:
+        this.handleBrowseNext();
+        break;
+      case Commands.BROWSE_PREVIOUS:
+        this.handleBrowsePrevious();
+        break;
+      case Commands.BROWSE_LAST:
+        this.handleQuerySubmit(false);
+        break;
+      case Commands.FORWARD:
         window.history.forward();
         break;
+      case Commands.OPEN:
+        this.handleBrowseOpen();
+        break;
+      case Commands.SELECT:
+        this.handleBrowseSelect();
+        break;
+      case Commands.YANK:
+        this.handleBrowseYank();
+        break;
       default:
-        // do nothing
+        throw new Error(`Cannot handle command ${command}`);
     }
   }
 
@@ -85,8 +100,8 @@ class CmdlineCorrespondent extends Correspondent {
     });
   }
 
-  handleQuerySubmit() {
-    this.sendMessage('content', 'browse', 'current');
+  handleQuerySubmit(first = true) {
+    this.sendMessage('content', 'browse', (first ? 'current' : 'previous'));
 
     store.dispatch({
       type: 'CHANGE_MODE',
@@ -145,14 +160,8 @@ class CmdlineCorrespondent extends Correspondent {
   render() {
     ReactDOM.render(
       <Cmdline
-        onBrowseNext={this.handleBrowseNext}
-        onBrowseOpen={this.handleBrowseOpen}
-        onBrowsePrevious={this.handleBrowsePrevious}
-        onBrowseSelect={this.handleBrowseSelect}
-        onBrowseYank={this.handleBrowseYank}
         onCommand={this.handleCommand}
         onQuery={this.handleQuery}
-        onQuerySubmit={this.handleQuerySubmit}
         store={store}
       />,
       document.getElementById('root')

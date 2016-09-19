@@ -2,10 +2,73 @@ import React from 'react';
 
 import './reset.css';
 import Browse from './Browse.jsx';
+import Commands from '../Commands';
 import Query from './Query.jsx';
 import SearchInfo from './SearchInfo.jsx';
 
 class Cmdline extends React.Component { /* eslint react/prefer-stateless-function: 0 */
+
+  constructor() {
+    super();
+    this.handleBrowseKeyDown = this.handleBrowseKeyDown.bind(this);
+    this.handleQueryKeyDown = this.handleQueryKeyDown.bind(this);
+  }
+
+  handleBrowseKeyDown(e) {
+    let command = null;
+
+    switch (e.keyCode) {
+      case 78:
+        command = (
+          e.getModifierState('Shift') ?
+            Commands.BROWSE_PREVIOUS :
+            Commands.BROWSE_NEXT
+        );
+        break;
+      case 13:
+        command = (
+          e.getModifierState('Shift') ?
+            Commands.OPEN :
+            Commands.SELECT
+        );
+        break;
+      case 89:
+        command = Commands.YANK;
+        break;
+      default:
+        // do nothing
+    }
+
+    if (command) { this.props.onCommand(command); }
+  }
+
+  handleQueryKeyDown(e) {
+    let command = null;
+    if (e.key === 'Enter') {
+      command = (
+        e.getModifierState('Shift') ?
+          Commands.BROWSE_LAST :
+          Commands.BROWSE_FIRST
+      );
+    }
+    if (e.getModifierState('Control')) {
+      switch (e.key) {
+        case 'p':
+          command = Commands.BACK;
+          break;
+        case 'n':
+          command = Commands.FORWARD;
+          break;
+        default:
+          // do nothing
+      }
+    }
+    if (command) {
+      this.props.onCommand(command);
+    } else {
+      this.props.onQuery(e.target.value);
+    }
+  }
 
   render() {
     const store = this.props.store;
@@ -32,26 +95,7 @@ class Cmdline extends React.Component { /* eslint react/prefer-stateless-functio
         }}
       >
         <Query
-          onInput={(e) => {
-            this.props.onQuery(e.target.value);
-          }}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter') {
-              this.props.onQuerySubmit();
-            }
-            if (e.getModifierState('Control')) {
-              switch (e.key) {
-                case 'p':
-                  this.props.onCommand('back');
-                  break;
-                case 'n':
-                  this.props.onCommand('forward');
-                  break;
-                default:
-                  // do nothing
-              }
-            }
-          }}
+          onKeyDown={this.handleQueryKeyDown}
         />
         <SearchInfo
           currentMatch={currentMatch}
@@ -61,11 +105,7 @@ class Cmdline extends React.Component { /* eslint react/prefer-stateless-functio
           warningColor={settings.warningColor}
         />
         <Browse
-          onNext={this.props.onBrowseNext}
-          onOpen={this.props.onBrowseOpen}
-          onPrevious={this.props.onBrowsePrevious}
-          onSelect={this.props.onBrowseSelect}
-          onYank={this.props.onBrowseYank}
+          onKeyDown={this.handleBrowseKeyDown}
         />
       </main>
     );
@@ -74,18 +114,8 @@ class Cmdline extends React.Component { /* eslint react/prefer-stateless-functio
 }
 
 Cmdline.propTypes = {
-  currentMatch: React.PropTypes.string,
-  mode: React.PropTypes.string,
-  onBrowseNext: React.PropTypes.func,
-  onBrowseOpen: React.PropTypes.func,
-  onBrowsePrevious: React.PropTypes.func,
-  onBrowseSelect: React.PropTypes.func,
-  onBrowseYank: React.PropTypes.func,
   onCommand: React.PropTypes.func,
   onQuery: React.PropTypes.func,
-  onQuerySubmit: React.PropTypes.func,
-  searchResults: React.PropTypes.string,
-  settings: React.PropTypes.object,
   store: React.PropTypes.object,
 };
 
