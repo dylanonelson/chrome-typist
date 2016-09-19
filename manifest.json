@@ -24,6 +24,9 @@
     "js": ["dist/content.bundle.js"]
   }],
   "description": "Chrome extension for faster browser use, especially with complex web apps.",
+  "icons": {
+    "128": "dist/icons/typist-icon-128.png"
+  },
   "manifest_version": 2,
   "name": "Chrome Typist",
   "options_ui": {
