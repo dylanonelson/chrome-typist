@@ -21,7 +21,7 @@ class CmdlineCorrespondent extends Correspondent {
   }
 
   // ====================
-  // REACT EVENT HANDLERS
+  // COMMAND HANDLERS
   // ====================
   handleBrowseNext() {
     this.sendMessage('content', 'browse', 'next');
