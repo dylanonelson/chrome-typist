@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Query = ({ onKeyDown }) => (
+const Query = ({ onKeyDown, onKeyPress }) => (
   <label
     htmlFor="query-input"
     style={{
@@ -20,6 +20,7 @@ const Query = ({ onKeyDown }) => (
     <input
       id="query"
       onKeyDown={onKeyDown}
+      onKeyPress={onKeyPress}
       style={{
         boxSizing: 'border-box',
         display: 'block',

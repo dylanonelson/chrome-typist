@@ -12,6 +12,7 @@ class Cmdline extends React.Component { /* eslint react/prefer-stateless-functio
     super();
     this.handleBrowseKeyDown = this.handleBrowseKeyDown.bind(this);
     this.handleQueryKeyDown = this.handleQueryKeyDown.bind(this);
+    this.handleQueryKeyPress = this.handleQueryKeyPress.bind(this);
   }
 
   handleBrowseKeyDown(e) {
@@ -65,9 +66,11 @@ class Cmdline extends React.Component { /* eslint react/prefer-stateless-functio
     }
     if (command) {
       this.props.onCommand(command);
-    } else {
-      this.props.onQuery(e.target.value);
     }
+  }
+
+  handleQueryKeyPress(e) {
+    this.props.onQuery(e.target.value);
   }
 
   render() {
@@ -96,6 +99,7 @@ class Cmdline extends React.Component { /* eslint react/prefer-stateless-functio
       >
         <Query
           onKeyDown={this.handleQueryKeyDown}
+          onKeyPress={this.handleQueryKeyPress}
         />
         <SearchInfo
           currentMatch={currentMatch}
