@@ -45,6 +45,7 @@ class Cmdline extends React.Component { /* eslint react/prefer-stateless-functio
 
   handleQueryKeyDown(e) {
     let command = null;
+
     if (e.key === 'Enter') {
       command = (
         e.getModifierState('Shift') ?
@@ -64,13 +65,17 @@ class Cmdline extends React.Component { /* eslint react/prefer-stateless-functio
           // do nothing
       }
     }
-    if (command) {
-      this.props.onCommand(command);
-    }
+
+    if (command) { this.props.onCommand(command); }
   }
 
   handleQueryKeyPress(e) {
-    this.props.onQuery(e.target.value);
+    if (
+      (e.key !== 'Enter') &&
+      (!e.getModifierState('Control'))
+    ) {
+      this.props.onQuery(e.target.value);
+    }
   }
 
   render() {

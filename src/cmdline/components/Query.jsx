@@ -37,6 +37,7 @@ const Query = ({ onKeyDown, onKeyPress }) => (
 
 Query.propTypes = {
   onKeyDown: React.PropTypes.func,
+  onKeyPress: React.PropTypes.func,
 };
 
 export default Query;
