@@ -93,7 +93,13 @@ class InputMatch extends Match {
   }
 
   select() {
-    setTimeout(() => { this.node.select(); }, 0);
+    const callback = () => (
+      this.node.getAttribute('type').toLowerCase() === 'submit' ?
+        this.node.click() :
+        this.node.select()
+    );
+
+    setTimeout(callback, 0);
   }
 
 }
