@@ -2,8 +2,9 @@ class NodeMatcher {
 
   constructor(query) {
     // If the query is null or undefined, JavaScript will coerce the value into
-    // a string, so we default to an empty string if it's falsy.
-    this.query = new RegExp(query || '', 'i');
+    // a string. Default to a regex that's impossible to match so that empty
+    // queries don't match every node.
+    this.query = new RegExp(query || '(?!a)a', 'i');
   }
 
   isVisible(node) {
