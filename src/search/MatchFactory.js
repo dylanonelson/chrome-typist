@@ -7,10 +7,6 @@ class Match {
     this.parent = node.parentNode;
   }
 
-  set highlightNode(node) {
-    this._highlightNode = node;
-  }
-
   get highlightNode() {
     if (typeof this._highlightNode !== 'undefined') {
       return this._highlightNode;
@@ -21,12 +17,24 @@ class Match {
     return this._highlightNode;
   }
 
-  set node(node) {
-    this._node = node;
+  set highlightNode(node) {
+    this._highlightNode = node;
   }
 
   get node() {
     return this._node;
+  }
+
+  set node(node) {
+    this._node = node;
+  }
+
+}
+
+class TextMatch extends Match {
+
+  get nodeName() {
+    return this.parent.nodeName;
   }
 
   clear() {
@@ -40,24 +48,6 @@ class Match {
     this.highlightNode.scrollIntoViewIfNeeded(true);
   }
 
-  highlight() {
-    if (!this.parent) return;
-    this.parent.insertBefore(this.highlightNode, this.node);
-    this.highlightNode.appendChild(this.node);
-  }
-
-  unfocus() {
-    this.highlightNode.className = 'unfocused';
-  }
-
-}
-
-class TextMatch extends Match {
-
-  get nodeName() {
-    return this.parent.nodeName;
-  }
-
   copy() {
     const range = document.createRange();
     const selection = window.getSelection();
@@ -65,6 +55,12 @@ class TextMatch extends Match {
     selection.removeAllRanges();
     selection.addRange(range);
     document.execCommand('copy');
+  }
+
+  highlight() {
+    if (!this.parent) return;
+    this.parent.insertBefore(this.highlightNode, this.node);
+    this.highlightNode.appendChild(this.node);
   }
 
   open() {
@@ -79,32 +75,32 @@ class TextMatch extends Match {
     }
   }
 
+  unfocus() {
+    this.highlightNode.className = 'unfocused';
+  }
+
 }
 
-class InputMatch extends Match {
+const copyText = (text) => {
+  const placeholder = document.createElement('div');
+  placeholder.style.position = 'fixed';
+  placeholder.style.top = -10000;
+  document.body.appendChild(placeholder);
+  placeholder.textContent = text;
+  const range = document.createRange();
+  const selection = window.getSelection();
+  range.selectNode(placeholder);
+  selection.removeAllRanges();
+  selection.addRange(range);
+  document.execCommand('copy');
+  document.body.removeChild(placeholder);
+};
+
+class ElementMatch extends Match {
 
   get nodeName() {
     return this.node.nodeName;
   }
-
-  copy() {
-    this.node.select();
-    document.execCommand('copy');
-  }
-
-  select() {
-    const callback = () => (
-      this.node.getAttribute('type').toLowerCase() === 'submit' ?
-        this.node.click() :
-        this.node.select()
-    );
-
-    setTimeout(callback, 0);
-  }
-
-}
-
-class BlockInputMatch extends InputMatch {
 
   clear() {
     this.node.style.outline = this.originalOutline;
@@ -125,14 +121,93 @@ class BlockInputMatch extends InputMatch {
 
 }
 
+class InputMatch extends ElementMatch {
+
+  copy() {
+    copyText(this.node.value);
+  }
+
+  select() {
+    let callback = () => {};
+
+    switch (this.node.getAttribute('type').toLowerCase()) {
+      case 'text':
+        callback = () => this.node.select();
+        break;
+      case 'password':
+        callback = () => this.node.select();
+        break;
+      case 'search':
+        callback = () => this.node.select();
+        break;
+      case 'radio':
+        callback = () => { this.node.checked = !this.node.checked; };
+        break;
+      default:
+        callback = () => this.node.click();
+    }
+
+    setTimeout(callback, 0);
+  }
+
+}
+
+class TextareaMatch extends ElementMatch {
+
+  copy() {
+    copyText(this.node.value);
+  }
+
+  select() {
+    setTimeout(() => this.node.select(), 0);
+  }
+
+}
+
+class SelectMatch extends ElementMatch {
+
+  copy() {
+    const text = (() => {
+      const children = this.node.childNodes;
+
+      for (let i = 0; i < children.length; i++) {
+        const child = children[i];
+
+        if (child.value === this.node.value) {
+          return child.textContent;
+        }
+      }
+
+      return '';
+    })();
+
+    copyText(text);
+  }
+
+  select() {
+    setTimeout(() => this.node.focus(), 0);
+  }
+
+}
+
+const ElementMatchFactory = ({ node }) => {
+  switch (node.tagName.toLowerCase()) {
+    case 'input':
+      return new InputMatch({ node });
+    case 'textarea':
+      return new TextareaMatch({ node });
+    case 'select':
+      return new SelectMatch({ node });
+    default:
+      throw new Error(`Cannot generate match for tag name ${node.tagName}`);
+  }
+};
+
 const MatchFactory = ({ node }) => {
   switch (node.nodeType) {
-    // ELEMENT_NODE (either an input or a textarea)
+    // ELEMENT_NODE
     case 1:
-      if (window.getComputedStyle(node).display === 'block') {
-        return new BlockInputMatch({ node });
-      }
-      return new InputMatch({ node });
+      return ElementMatchFactory({ node });
     // TEXT_NODE
     case 3:
       return new TextMatch({ node });
