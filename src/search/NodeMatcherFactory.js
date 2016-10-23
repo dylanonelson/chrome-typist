@@ -15,28 +15,61 @@ class NodeMatcher {
 
   matches(node) {
     // Text nodes
-    if (
-      node.nodeType === 3 &&
-      this.query.test(node.data) &&
-      this.isVisible(node.parentNode)
-    ) {
-      return true;
+    if (node.nodeType === 3) {
+      return this.matchTextNode(node);
     }
 
-    // Element nodes (textareas & inputs)
-    if (
-      node.nodeType === 1 && (
-        this.query.test(node.value) ||
-        this.query.test(node.placeholder)
-      ) && (
-      this.isVisible(node)
-      )
-    ) {
-      return true;
+    // Element nodes
+    // Match against inputs, textareas, and selects. Disregard others.
+    if (node.nodeType === 1) {
+      switch (node.tagName.toLowerCase()) {
+        case 'input':
+          return this.matchTextField(node);
+        case 'textarea':
+          return this.matchTextField(node);
+        case 'select':
+          return this.matchSelect(node);
+        default:
+          // do nothing
+      }
     }
 
     return false;
   }
+
+  matchTextField(node) {
+    // JavaScript will coerce `undefined` into a string, so nodes without
+    // a value or placeholder property will match the wrong queries. Default
+    // test value to an empty string.
+    return (
+      (
+        this.query.test(node.value || '') ||
+        this.query.test(node.placeholder || '')
+      ) && (
+        this.isVisible(node)
+      )
+    );
+  }
+
+  matchTextNode(node) {
+    return (
+      this.query.test(node.data) &&
+      this.isVisible(node.parentNode)
+    );
+  }
+
+  matchSelect(node) {
+    // See above comment re matching undefined values.
+    return (
+      (
+        this.query.test(node.textContent || '') ||
+        this.query.test(node.value || '')
+      ) && (
+        this.isVisible(node)
+      )
+    );
+  }
+
 }
 
 const NodeMatcherFactory = (query) => new NodeMatcher(query);
