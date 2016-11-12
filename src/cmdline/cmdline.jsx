@@ -48,6 +48,15 @@ class CmdlineCorrespondent extends Correspondent {
     });
   }
 
+  handleBrowseSoftSelect() {
+    this.sendMessage('content', 'softselect');
+
+    store.dispatch({
+      type: 'CHANGE_MODE',
+      mode: 'INACTIVE',
+    });
+  }
+
   handleBrowseYank() {
     this.sendMessage('content', 'yank');
 
@@ -82,6 +91,9 @@ class CmdlineCorrespondent extends Correspondent {
         break;
       case Commands.SELECT:
         this.handleBrowseSelect();
+        break;
+      case Commands.SOFT_SELECT:
+        this.handleBrowseSoftSelect();
         break;
       case Commands.YANK:
         this.handleBrowseYank();

@@ -53,6 +53,11 @@ class ContentCorrespondent extends Correspondent {
     this.onCmdlineModeInactive();
   }
 
+  onCmdlineSoftselect() {
+    this.searcher.currentMatch(match => match.softSelect());
+    this.onCmdlineModeInactive();
+  }
+
   onCmdlineYank() {
     this.searcher.currentMatch(match => match.copy());
     this.onCmdlineModeInactive();

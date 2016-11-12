@@ -75,6 +75,14 @@ class TextMatch extends Match {
     }
   }
 
+  softSelect() {
+    if (this.parent.tabIndex === -1) {
+      this.parent.tabIndex = 0;
+    }
+
+    this.parent.focus();
+  }
+
   unfocus() {
     this.highlightNode.className = 'unfocused';
   }
@@ -117,6 +125,14 @@ class ElementMatch extends Match {
 
   unfocus() {
     this.node.style.outline = '1px solid yellow';
+  }
+
+  softSelect() {
+    if (this.node.tabIndex === -1) {
+      this.node.tabIndex = 0;
+    }
+
+    this.node.focus();
   }
 
 }

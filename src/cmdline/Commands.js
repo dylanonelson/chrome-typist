@@ -17,6 +17,7 @@ class Commands {
   static get FORWARD() { return 'forward'; }
   static get OPEN() { return 'open'; }
   static get SELECT() { return 'select'; }
+  static get SOFT_SELECT() { return 'softselect'; }
   static get YANK() { return 'yank'; }
 }
 

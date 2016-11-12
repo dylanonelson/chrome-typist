@@ -30,6 +30,10 @@ class Cmdline extends React.Component { /* eslint react/prefer-stateless-functio
         command = Commands.OPEN;
         break;
       }
+      case 'Shift + Enter': {
+        command = Commands.SOFT_SELECT;
+        break;
+      }
       case 'Y': {
         command = Commands.YANK;
         break;
