@@ -1,10 +1,13 @@
 import React from 'react';
+import KeyEventToString from 'key-event-to-string';
 
 import './reset.css';
 import Browse from './Browse.jsx';
 import Commands from '../Commands';
 import Query from './Query.jsx';
 import SearchInfo from './SearchInfo.jsx';
+
+const keyEventToString = KeyEventToString();
 
 class Cmdline extends React.Component { /* eslint react/prefer-stateless-function: 0 */
 
@@ -18,26 +21,30 @@ class Cmdline extends React.Component { /* eslint react/prefer-stateless-functio
   handleBrowseKeyDown(e) {
     let command = null;
 
-    switch (e.keyCode) {
-      case 78:
-        command = (
-          e.getModifierState('Shift') ?
-            Commands.BROWSE_PREVIOUS :
-            Commands.BROWSE_NEXT
-        );
+    switch (keyEventToString(e)) {
+      case 'Enter': {
+        command = Commands.SELECT;
         break;
-      case 13:
-        command = (
-          e.getModifierState('Shift') ?
-            Commands.OPEN :
-            Commands.SELECT
-        );
+      }
+      case 'Cmd + Enter': {
+        command = Commands.OPEN;
         break;
-      case 89:
+      }
+      case 'Y': {
         command = Commands.YANK;
         break;
-      default:
+      }
+      case 'N': {
+        command = Commands.BROWSE_NEXT;
+        break;
+      }
+      case 'Shift + N': {
+        command = Commands.BROWSE_PREVIOUS;
+        break;
+      }
+      default: {
         // do nothing
+      }
     }
 
     if (command) { this.props.onCommand(command); }
@@ -46,23 +53,25 @@ class Cmdline extends React.Component { /* eslint react/prefer-stateless-functio
   handleQueryKeyDown(e) {
     let command = null;
 
-    if (e.key === 'Enter') {
-      command = (
-        e.getModifierState('Shift') ?
-          Commands.BROWSE_LAST :
-          Commands.BROWSE_FIRST
-      );
-    }
-    if (e.getModifierState('Control')) {
-      switch (e.key) {
-        case 'p':
-          command = Commands.BACK;
-          break;
-        case 'n':
-          command = Commands.FORWARD;
-          break;
-        default:
-          // do nothing
+    switch (keyEventToString(e)) {
+      case 'Enter': {
+        command = Commands.BROWSE_FIRST;
+        break;
+      }
+      case 'Shift + Enter': {
+        command = Commands.BROWSE_LAST;
+        break;
+      }
+      case 'Ctrl + P': {
+        command = Commands.BACK;
+        break;
+      }
+      case 'Ctrl + N': {
+        command = Commands.FORWARD;
+        break;
+      }
+      default: {
+        // do nothing
       }
     }
 

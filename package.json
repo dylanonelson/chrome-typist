@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/dylanonelson/chrome-typist#readme",
   "dependencies": {
+    "key-event-to-string": "^1.1.1",
     "react": "^15.2.1",
     "react-dom": "^15.2.1",
     "redux": "^3.5.2"
