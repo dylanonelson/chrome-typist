@@ -3,6 +3,15 @@ import NodeMatcherFactory from './NodeMatcherFactory';
 
 class DOMSearcher {
 
+  constructor() {
+    console.log(this.MAX_NUMBER_MATCHES);
+    chrome.storage.sync.get([
+      'maxMatches',
+    ], (items) => {
+      this.MAX_NUMBER_MATCHES = items.maxMatches;
+    });
+  }
+
   get matches() {
     if (typeof this._matches !== 'undefined') {
       return this._matches;
@@ -12,7 +21,11 @@ class DOMSearcher {
   }
 
   get MAX_NUMBER_MATCHES() {
-    return 50;
+    return this._max_number_matches || 50;
+  }
+
+  set MAX_NUMBER_MATCHES(num) {
+    this._max_number_matches = num;
   }
 
   set matches(matches) {

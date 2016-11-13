@@ -12,6 +12,7 @@ const SETTING_TYPES = [
   'infoColor',
   'textColor',
   'warningColor',
+  'maxMatches',
 ];
 
 const store = createStore((previous, action) => {
