@@ -2,6 +2,8 @@
 
 > Chrome extension for faster browser use, especially with complex web apps.
 
+![Demo](./meta/screenshots/demo.gif)
+
 ## Premise
 Stop clicking on things! Use Vim-style shortcuts to find and select inputs or links on webpages in Chrome.
 
