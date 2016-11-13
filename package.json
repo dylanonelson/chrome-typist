@@ -5,7 +5,7 @@
   "main": "manifest.json",
   "scripts": {
     "build": "webpack --colors --progress",
-    "build:extension": "npm run build && ./build.sh",
+    "build:extension": "npm run build && ./bin/build.sh",
     "watch": "webpack --colors --progress --watch"
   },
   "repository": {
