@@ -1,4 +1,4 @@
-dir_name="build/"
+dir_name="builds/"
 dir_name=$dir_name$(basename $(pwd))-
 dir_name=$dir_name$(date +"%Y-%m-%d_%H-%M-%S.%s")
 mkdir -p $dir_name
