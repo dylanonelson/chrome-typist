@@ -4,7 +4,6 @@ import NodeMatcherFactory from './NodeMatcherFactory';
 class DOMSearcher {
 
   constructor() {
-    console.log(this.MAX_NUMBER_MATCHES);
     chrome.storage.sync.get([
       'maxMatches',
     ], (items) => {
