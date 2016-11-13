@@ -44,11 +44,18 @@ Typist goes into browse mode when you hit enter in Regex mode. The cmdline will 
 
 - **Enter** issues the "Select" command to the currently highlighted node. Selecting a node will do different things based on what type of node it is. Selecting will click on links, labels, and other elements and select the text inside text inputs.
 
-- **Shift+Enter** issues the "Open" command to the currently highlighted node. Only links (`<a>` tags) will respond to this command. They will open in a new tab.
+- **Cmd+Enter** issues the "Open" command to the currently highlighted node. Only links (`<a>` tags) will respond to this command. They will open in a new tab.
+
+- **Shift+Enter** issues the "Soft select" command to the currently highlighted node and focus that node.
 
 - **Y** issues the "Yank" command to the currently highlighted node. Yanking a node copies its text, or, in the case of text inputs, its current value, to the clipboard.
 
 - Press **Ctrl+C** to go into Inactive mode or **Ctrl+F** to go into Regex mode at any time.
+
+### Options
+Typist takes options for six display values: background color, border color, font, text color, informational text color, and warning color. The string value of these options will be applied to Typist's components' CSS unparsed, so you can use named colors or hex values, and you can set the font to one installed on your machine.
+
+The final option, max matches, determines how many matches Typist will process at once on the page. Setting this value to a very high number may break some pages on generic RegEx searches like `.`. If the number of matches for the current query is above the max number, Typist will neither highlight nor focus on them, and the cmdline will show the number in red (or the warning color from the options). The default is 50.
 
 ## Development
 
@@ -70,6 +77,8 @@ If you are interested in contributing to Typist, send me a message!
 - [ ] Close unpinned tabs
 - [ ] Scrolling
 - [ ] Query selector mode
+- [ ] Inspect command
+- [ ] Open cmdline in new window
 - [ ] Fuzzy tab search
 
 ## Shoutout
