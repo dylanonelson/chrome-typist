@@ -12,7 +12,7 @@ class DOMSearcher {
   }
 
   get MAX_NUMBER_MATCHES() {
-    return 15;
+    return 50;
   }
 
   set matches(matches) {
@@ -66,25 +66,22 @@ class DOMSearcher {
       }
     }
 
-    this.highlightMatches();
-    return this.matches.length;
+    const length = this.matches.length;
+
+    if (length > this.MAX_NUMBER_MATCHES) {
+      this.clearMatches();
+    } else {
+      this.highlightMatches();
+    }
+
+    return length;
   }
 
   highlightMatches() {
-    if (this.matches.length > this.MAX_NUMBER_MATCHES) return;
-
-    this.matches.forEach(match => {
-      match.highlight();
-    });
+    this.matches.forEach(match => match.highlight());
   }
 
   clearMatches() {
-    if (this.matches.length <= this.MAX_NUMBER_MATCHES) {
-      this.matches.forEach(match => {
-        match.clear();
-      });
-    }
-
     this.matches = [];
   }
 
