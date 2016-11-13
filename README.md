@@ -13,6 +13,10 @@ Typist is half type-ahead-find, half Vim/Tmux emulator. It is my attempt to add 
 - Fill out web forms without using a mouse
 - Stop using Cmd+F to find fields buried on the page
 
+## Installation
+
+[Install Typist](https://chrome.google.com/webstore/detail/chrome-typist/madafhibjmdfbgngbimfegjdlddkefle) from the Chrome Web Store.
+
 ## Use
 If you use Vim or Tmux, the keyboard shortcuts for Typist will feel familiar to you.
 
