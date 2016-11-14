@@ -31,68 +31,6 @@ class Match {
 
 }
 
-class TextMatch extends Match {
-
-  get nodeName() {
-    return this.parent.nodeName;
-  }
-
-  clear() {
-    if (!this.parent) return;
-    const children = Array.prototype.slice.call(this.parent.childNodes);
-
-    if (children.indexOf(this.highlightNode) !== -1) {
-      this.parent.insertBefore(this.node, this.highlightNode);
-      this.highlightNode.remove();
-    }
-  }
-
-  focus() {
-    this.highlightNode.className = 'focused';
-    this.highlightNode.scrollIntoViewIfNeeded(true);
-  }
-
-  copy() {
-    const range = document.createRange();
-    const selection = window.getSelection();
-    range.selectNode(this.node);
-    selection.removeAllRanges();
-    selection.addRange(range);
-    document.execCommand('copy');
-  }
-
-  highlight() {
-    if (!this.parent) return;
-    this.parent.insertBefore(this.highlightNode, this.node);
-    this.highlightNode.appendChild(this.node);
-  }
-
-  open() {
-    if (typeof this.parent.href === 'string') {
-      window.open(this.parent.href, '_blank');
-    }
-  }
-
-  select() {
-    if (typeof this.parent.click === 'function') {
-      this.parent.click();
-    }
-  }
-
-  softSelect() {
-    if (this.parent.tabIndex === -1) {
-      this.parent.tabIndex = 0;
-    }
-
-    this.parent.focus();
-  }
-
-  unfocus() {
-    this.highlightNode.className = 'unfocused';
-  }
-
-}
-
 const copyText = (text) => {
   const placeholder = document.createElement('div');
   placeholder.style.position = 'fixed';
@@ -114,21 +52,61 @@ class ElementMatch extends Match {
     return this.node.nodeName;
   }
 
+  get focusedNodes() {
+    if (typeof this._focusedNodes !== 'undefined') {
+      return this._focusedNodes;
+    }
+
+    this._focusedNodes = [];
+    return this._focusedNodes;
+  }
+
   clear() {
-    this.node.style.outline = this.originalOutline;
+    this.node.style['background-color'] = this.originalBackgroundColor;
+  }
+
+  copy() {
+    copyText(this.node.textContent);
   }
 
   focus() {
-    this.node.style.outline = '1px solid orange';
+    this.node.style['background-color'] = 'orange';
+  }
+
+  focusIn() {
+    const nodeIn = this.focusedNodes.pop();
+
+    if (nodeIn) {
+      this.clear();
+      this.node = nodeIn;
+      this.highlight();
+      this.focus();
+    }
+  }
+
+  focusOut() {
+    const nodeOut = this.node.parentNode;
+
+    if (nodeOut && nodeOut !== document) {
+      this.clear();
+      this.focusedNodes.push(this.node);
+      this.node = nodeOut;
+      this.highlight();
+      this.focus();
+    }
   }
 
   highlight() {
-    this.originalOutline = window.getComputedStyle(this.node).outline;
-    this.node.style.outline = '1px solid yellow';
+    this.originalBackgroundColor = window.getComputedStyle(this.node)['background-color'];
+    this.node.style['background-color'] = 'yellow';
   }
 
   unfocus() {
-    this.node.style.outline = '1px solid yellow';
+    this.node.style['background-color'] = 'yellow';
+  }
+
+  select() {
+    this.node.click();
   }
 
   softSelect() {
@@ -212,14 +190,18 @@ class SelectMatch extends ElementMatch {
 
 const ElementMatchFactory = ({ node }) => {
   switch (node.tagName.toLowerCase()) {
-    case 'input':
+    case 'input': {
       return new InputMatch({ node });
-    case 'textarea':
+    }
+    case 'textarea': {
       return new TextareaMatch({ node });
-    case 'select':
+    }
+    case 'select': {
       return new SelectMatch({ node });
-    default:
-      throw new Error(`Cannot generate match for tag name ${node.tagName}`);
+    }
+    default: {
+      return new ElementMatch({ node });
+    }
   }
 };
 
@@ -230,7 +212,9 @@ const MatchFactory = ({ node }) => {
       return ElementMatchFactory({ node });
     // TEXT_NODE
     case 3:
-      return new TextMatch({ node });
+      return ElementMatchFactory({
+        node: node.parentNode,
+      });
     default:
       throw new Error(`Cannot generate match with node type ${node.nodeType}`);
   }

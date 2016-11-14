@@ -46,6 +46,14 @@ class Cmdline extends React.Component { /* eslint react/prefer-stateless-functio
         command = Commands.BROWSE_PREVIOUS;
         break;
       }
+      case 'O': {
+        command = Commands.FOCUS_OUT;
+        break;
+      }
+      case 'I': {
+        command = Commands.FOCUS_IN;
+        break;
+      }
       default: {
         // do nothing
       }

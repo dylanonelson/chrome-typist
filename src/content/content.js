@@ -16,11 +16,8 @@ class ContentCorrespondent extends Correspondent {
 
   browse(which) {
     this.searcher.currentMatch(match => match.unfocus());
-
-    this.searcher[`${which}Match`](match => {
-      match.focus();
-      this.sendMessage('cmdline', 'browse:current', match.nodeName);
-    });
+    this.searcher[`${which}Match`](match => match.focus());
+    this.sendCurrentMatch();
   }
 
   onCmdlineCommand(command) {
@@ -43,6 +40,16 @@ class ContentCorrespondent extends Correspondent {
       }
       case Commands.BROWSE_PREVIOUS: {
         this.browse('previous');
+        break;
+      }
+      case Commands.FOCUS_OUT: {
+        this.searcher.currentMatch(match => match.focusOut());
+        this.sendCurrentMatch();
+        break;
+      }
+      case Commands.FOCUS_IN: {
+        this.searcher.currentMatch(match => match.focusIn());
+        this.sendCurrentMatch();
         break;
       }
       case Commands.FORWARD: {
@@ -96,6 +103,12 @@ class ContentCorrespondent extends Correspondent {
     if (document.activeElement) {
       document.activeElement.blur();
     }
+  }
+
+  sendCurrentMatch() {
+    this.searcher.currentMatch((match) => {
+      this.sendMessage('cmdline', 'browse:current', match.nodeName);
+    });
   }
 
 }
