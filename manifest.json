@@ -38,7 +38,7 @@
     "storage"
   ],
   "short_name": "Typist",
-  "version": "0.4",
+  "version": "0.5",
   "web_accessible_resources": [
     "dist/cmdline.html"
   ]

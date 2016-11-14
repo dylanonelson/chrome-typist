@@ -39,8 +39,9 @@ class TextMatch extends Match {
 
   clear() {
     if (!this.parent) return;
+    const children = Array.prototype.slice.call(this.parent.childNodes);
 
-    if (this.parent.childNodes.indexOf(this.highlightNode) !== -1) {
+    if (children.indexOf(this.highlightNode) !== -1) {
       this.parent.insertBefore(this.node, this.highlightNode);
       this.highlightNode.remove();
     }
