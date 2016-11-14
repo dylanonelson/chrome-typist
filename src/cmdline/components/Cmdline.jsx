@@ -1,9 +1,9 @@
+import Commands from 'commands';
 import React from 'react';
 import KeyEventToString from 'key-event-to-string';
 
 import './reset.css';
 import Browse from './Browse.jsx';
-import Commands from '../Commands';
 import Query from './Query.jsx';
 import SearchInfo from './SearchInfo.jsx';
 

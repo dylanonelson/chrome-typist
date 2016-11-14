@@ -1,4 +1,5 @@
 import CmdlineIframe from 'iframe/iframe';
+import Commands from 'commands';
 import Correspondent from 'messaging/Correspondent';
 import DOMSearcher from 'search/DOMSearcher';
 
@@ -13,13 +14,61 @@ class ContentCorrespondent extends Correspondent {
     return 'content';
   }
 
-  onCmdlineBrowse(which) {
+  browse(which) {
     this.searcher.currentMatch(match => match.unfocus());
 
     this.searcher[`${which}Match`](match => {
       match.focus();
       this.sendMessage('cmdline', 'browse:current', match.nodeName);
     });
+  }
+
+  onCmdlineCommand(command) {
+    switch (command) {
+      case Commands.BACK: {
+        window.history.back();
+        break;
+      }
+      case Commands.BROWSE_FIRST: {
+        this.browse('current');
+        break;
+      }
+      case Commands.BROWSE_LAST: {
+        this.browse('previous');
+        break;
+      }
+      case Commands.BROWSE_NEXT: {
+        this.browse('next');
+        break;
+      }
+      case Commands.BROWSE_PREVIOUS: {
+        this.browse('previous');
+        break;
+      }
+      case Commands.FORWARD: {
+        window.history.forward();
+        break;
+      }
+      case Commands.OPEN: {
+        this.searcher.currentMatch(match => match.open());
+        break;
+      }
+      case Commands.SELECT: {
+        this.searcher.currentMatch(match => match.select());
+        break;
+      }
+      case Commands.SOFT_SELECT: {
+        this.searcher.currentMatch(match => match.softSelect());
+        break;
+      }
+      case Commands.YANK: {
+        this.searcher.currentMatch(match => match.copy());
+        break;
+      }
+      default: {
+        // do nothing
+      }
+    }
   }
 
   onCmdlineQuery(value) {
@@ -41,26 +90,6 @@ class ContentCorrespondent extends Correspondent {
     this.cmdline.show();
     this.cmdline.focus();
     this.sendMessage('cmdline', 'focus');
-  }
-
-  onCmdlineOpen() {
-    this.searcher.currentMatch(match => match.open());
-    this.onCmdlineModeInactive();
-  }
-
-  onCmdlineSelect() {
-    this.searcher.currentMatch(match => match.select());
-    this.onCmdlineModeInactive();
-  }
-
-  onCmdlineSoftselect() {
-    this.searcher.currentMatch(match => match.softSelect());
-    this.onCmdlineModeInactive();
-  }
-
-  onCmdlineYank() {
-    this.searcher.currentMatch(match => match.copy());
-    this.onCmdlineModeInactive();
   }
 
   onCommandExit() {

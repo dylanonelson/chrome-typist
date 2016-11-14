@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Correspondent from 'messaging/Correspondent';
-import Commands from './Commands';
+import Commands from 'commands';
 import Cmdline from './components/Cmdline.jsx';
 import store from './store';
 
@@ -23,83 +23,37 @@ class CmdlineCorrespondent extends Correspondent {
   // ====================
   // COMMAND HANDLERS
   // ====================
-  handleBrowseNext() {
-    this.sendMessage('content', 'browse', 'next');
-  }
-
-  handleBrowsePrevious() {
-    this.sendMessage('content', 'browse', 'previous');
-  }
-
-  handleBrowseOpen() {
-    this.sendMessage('content', 'open');
-    store.dispatch({
-      type: 'CHANGE_MODE',
-      mode: 'INACTIVE',
-    });
-  }
-
-  handleBrowseSelect() {
-    this.sendMessage('content', 'select');
-
-    store.dispatch({
-      type: 'CHANGE_MODE',
-      mode: 'INACTIVE',
-    });
-  }
-
-  handleBrowseSoftSelect() {
-    this.sendMessage('content', 'softselect');
-
-    store.dispatch({
-      type: 'CHANGE_MODE',
-      mode: 'INACTIVE',
-    });
-  }
-
-  handleBrowseYank() {
-    this.sendMessage('content', 'yank');
-
-    store.dispatch({
-      type: 'CHANGE_MODE',
-      mode: 'INACTIVE',
-    });
-  }
-
   handleCommand(command) {
+    this.sendMessage('content', 'command', command);
+
     switch (command) {
-      case Commands.BACK:
-        window.history.back();
-        break;
-      case Commands.BROWSE_FIRST:
+      case Commands.BROWSE_FIRST: {
         this.handleQuerySubmit(true);
         break;
-      case Commands.BROWSE_NEXT:
-        this.handleBrowseNext();
-        break;
-      case Commands.BROWSE_PREVIOUS:
-        this.handleBrowsePrevious();
-        break;
-      case Commands.BROWSE_LAST:
+      }
+      case Commands.BROWSE_LAST: {
         this.handleQuerySubmit(false);
         break;
-      case Commands.FORWARD:
-        window.history.forward();
+      }
+      case Commands.OPEN: {
+        this.inactive();
         break;
-      case Commands.OPEN:
-        this.handleBrowseOpen();
+      }
+      case Commands.SELECT: {
+        this.inactive();
         break;
-      case Commands.SELECT:
-        this.handleBrowseSelect();
+      }
+      case Commands.SOFT_SELECT: {
+        this.inactive();
         break;
-      case Commands.SOFT_SELECT:
-        this.handleBrowseSoftSelect();
+      }
+      case Commands.YANK: {
+        this.inactive();
         break;
-      case Commands.YANK:
-        this.handleBrowseYank();
-        break;
-      default:
-        throw new Error(`Cannot handle command ${command}`);
+      }
+      default: {
+        // do nothing
+      }
     }
   }
 
@@ -112,15 +66,18 @@ class CmdlineCorrespondent extends Correspondent {
     });
   }
 
-  handleQuerySubmit(first = true) {
-    this.sendMessage('content', 'browse', (first ? 'current' : 'previous'));
-
+  handleQuerySubmit() {
     store.dispatch({
       type: 'CHANGE_MODE',
       mode: 'BROWSE',
     });
 
     setTimeout(() => document.getElementById('browse').select(), 0);
+  }
+
+  inactive() {
+    store.dispatch({ type: 'CHANGE_MODE', mode: 'INACTIVE' });
+    this.sendMessage('content', 'mode:inactive');
   }
 
   // =================
