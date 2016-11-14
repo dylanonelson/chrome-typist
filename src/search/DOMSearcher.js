@@ -67,6 +67,7 @@ class DOMSearcher {
 
   search(query) {
     this.clearMatches();
+    this.resetMatches();
     const matcher = NodeMatcherFactory(query);
 
     const d = window.document;
@@ -81,7 +82,7 @@ class DOMSearcher {
     const length = this.matches.length;
 
     if (length > this.MAX_NUMBER_MATCHES) {
-      this.clearMatches();
+      this.resetMatches();
     } else {
       this.highlightMatches();
     }
@@ -95,6 +96,9 @@ class DOMSearcher {
 
   clearMatches() {
     this.matches.forEach(match => match.clear());
+  }
+
+  resetMatches() {
     this.matches = [];
   }
 
