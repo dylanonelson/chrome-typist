@@ -39,8 +39,11 @@ class TextMatch extends Match {
 
   clear() {
     if (!this.parent) return;
-    this.parent.insertBefore(this.node, this.highlightNode);
-    this.highlightNode.remove();
+
+    if (this.parent.childNodes.indexOf(this.highlightNode) !== -1) {
+      this.parent.insertBefore(this.node, this.highlightNode);
+      this.highlightNode.remove();
+    }
   }
 
   focus() {

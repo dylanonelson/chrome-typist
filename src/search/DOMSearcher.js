@@ -94,6 +94,7 @@ class DOMSearcher {
   }
 
   clearMatches() {
+    this.matches.forEach(match => match.clear());
     this.matches = [];
   }
 
