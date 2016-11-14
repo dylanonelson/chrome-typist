@@ -1,6 +1,6 @@
 {
   "name": "chrome-typist",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Chrome extension for faster browser use, especially with complex web apps.",
   "main": "manifest.json",
   "scripts": {
