@@ -63,6 +63,7 @@ class ElementMatch extends Match {
 
   clear() {
     this.node.style['background-color'] = this.originalBackgroundColor;
+    this.node.style['background-image'] = this.originalBackgroundImage;
   }
 
   copy() {
@@ -97,8 +98,11 @@ class ElementMatch extends Match {
   }
 
   highlight() {
-    this.originalBackgroundColor = window.getComputedStyle(this.node)['background-color'];
+    this.originalBackgroundColor = this.node.style['background-color'];
+    this.originalBackgroundImage = this.node.style['background-image'];
+
     this.node.style['background-color'] = 'yellow';
+    this.node.style['background-image'] = 'none';
   }
 
   unfocus() {
