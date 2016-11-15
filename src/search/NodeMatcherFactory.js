@@ -7,6 +7,19 @@ class NodeMatcher {
     this.query = new RegExp(query || '(?!a)a', 'i');
   }
 
+  // Ignore text nodes that are children of text fields, scripts, and CSS
+  isSearchableText(node) {
+    const tagName = node.parentNode.nodeName.toLowerCase();
+
+    return [
+      'textarea',
+      'input',
+      'select',
+      'script',
+      'style',
+    ].indexOf(tagName) === -1;
+  }
+
   isVisible(node) {
     return (
       (node.offsetHeight !== 0) &&
@@ -15,14 +28,12 @@ class NodeMatcher {
   }
 
   matches(node) {
-    // Text nodes
-    if (node.nodeType === 3) {
+    if (node.nodeType === Node.TEXT_NODE) {
       return this.matchTextNode(node);
     }
 
-    // Element nodes
     // Match against inputs, textareas, and selects. Disregard others.
-    if (node.nodeType === 1) {
+    if (node.nodeType === Node.ELEMENT_NODE) {
       switch (node.tagName.toLowerCase()) {
         case 'input':
           return this.matchTextField(node);
@@ -55,7 +66,8 @@ class NodeMatcher {
   matchTextNode(node) {
     return (
       this.query.test(node.data) &&
-      this.isVisible(node.parentNode)
+      this.isVisible(node.parentNode) &&
+      this.isSearchableText(node)
     );
   }
 

@@ -7,20 +7,6 @@ class Match {
     this.parent = node.parentNode;
   }
 
-  get highlightNode() {
-    if (typeof this._highlightNode !== 'undefined') {
-      return this._highlightNode;
-    }
-
-    this._highlightNode = document.createElement('mark');
-    this._highlightNode.className = 'unfocused';
-    return this._highlightNode;
-  }
-
-  set highlightNode(node) {
-    this._highlightNode = node;
-  }
-
   get node() {
     return this._node;
   }
@@ -72,6 +58,7 @@ class ElementMatch extends Match {
 
   focus() {
     this.node.style['background-color'] = 'orange';
+    this.node.scrollIntoViewIfNeeded(true);
   }
 
   focusIn() {
@@ -211,16 +198,15 @@ const ElementMatchFactory = ({ node }) => {
 
 const MatchFactory = ({ node }) => {
   switch (node.nodeType) {
-    // ELEMENT_NODE
-    case 1:
+    case Node.ELEMENT_NODE: {
       return ElementMatchFactory({ node });
-    // TEXT_NODE
-    case 3:
-      return ElementMatchFactory({
-        node: node.parentNode,
-      });
-    default:
+    }
+    case Node.TEXT_NODE: {
+      return ElementMatchFactory({ node: node.parentNode });
+    }
+    default: {
       throw new Error(`Cannot generate match with node type ${node.nodeType}`);
+    }
   }
 };
 
