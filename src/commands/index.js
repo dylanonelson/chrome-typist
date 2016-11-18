@@ -21,6 +21,7 @@ class Commands {
   static get SELECT() { return 'select'; }
   static get SOFT_SELECT() { return 'softselect'; }
   static get YANK() { return 'yank'; }
+  static get YANK_META() { return 'softyank'; }
 }
 
 export default new Proxy(Commands, handler);

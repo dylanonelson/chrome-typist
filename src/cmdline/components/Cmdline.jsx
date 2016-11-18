@@ -54,12 +54,20 @@ class Cmdline extends React.Component { /* eslint react/prefer-stateless-functio
         command = Commands.FOCUS_IN;
         break;
       }
+      case 'Cmd + Y': {
+        command = Commands.YANK_META;
+        break;
+      }
       default: {
         // do nothing
       }
     }
 
-    if (command) { this.props.onCommand(command); }
+    if (command) {
+      e.stopPropagation();
+      e.preventDefault();
+      this.props.onCommand(command);
+    }
   }
 
   handleQueryKeyDown(e) {

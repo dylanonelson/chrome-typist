@@ -72,6 +72,10 @@ class ContentCorrespondent extends Correspondent {
         this.searcher.currentMatch(match => match.copy());
         break;
       }
+      case Commands.YANK_META: {
+        this.searcher.currentMatch(match => match.softYank());
+        break;
+      }
       default: {
         // do nothing
       }

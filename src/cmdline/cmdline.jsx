@@ -51,6 +51,10 @@ class CmdlineCorrespondent extends Correspondent {
         this.inactive();
         break;
       }
+      case Commands.YANK_META: {
+        this.inactive();
+        break;
+      }
       default: {
         // do nothing
       }

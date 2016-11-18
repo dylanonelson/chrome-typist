@@ -92,6 +92,12 @@ class ElementMatch extends Match {
     this.node.style['background-image'] = 'none';
   }
 
+  open() {
+    if (typeof this.node.href === 'string') {
+      window.open(this.node.href, '_blank');
+    }
+  }
+
   unfocus() {
     this.node.style['background-color'] = 'yellow';
   }
@@ -106,6 +112,12 @@ class ElementMatch extends Match {
     }
 
     this.node.focus();
+  }
+
+  softYank() {
+    if (typeof this.node.href === 'string') {
+      copyText(this.node.href);
+    }
   }
 
 }
