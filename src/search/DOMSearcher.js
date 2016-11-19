@@ -110,6 +110,7 @@ class DOMSearcher {
 
   resetMatches() {
     this.matches = {};
+    this.matchIndex = [];
   }
 
   search(query) {
