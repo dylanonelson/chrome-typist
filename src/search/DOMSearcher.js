@@ -12,11 +12,27 @@ class DOMSearcher {
   }
 
   get matches() {
-    if (typeof this._matches !== 'undefined') {
-      return this._matches;
+    if (typeof this._matches === 'undefined') {
+      this._matches = {};
     }
-    this._matches = [];
+
     return this._matches;
+  }
+
+  set matches(matches) {
+    this._matches = matches;
+  }
+
+  get matchIndex() {
+    if (typeof this._matchIndex === 'undefined') {
+      this._matchIndex = [];
+    }
+
+    return this._matchIndex;
+  }
+
+  set matchIndex(matchIndex) {
+    this._matchIndex = matchIndex;
   }
 
   get MAX_NUMBER_MATCHES() {
@@ -27,14 +43,23 @@ class DOMSearcher {
     this._max_number_matches = num;
   }
 
-  set matches(matches) {
-    this._matches = matches;
+  addMatch(node) {
+    const match = MatchFactory({ node });
+    this.matches[match.nodeid] = match;
   }
 
-  addMatch(node) {
-    this.matches.push(
-      MatchFactory({ node })
-    );
+  clearMatches() {
+    this.matchIndex.forEach(node => this.matches[node].clear());
+  }
+
+  currentMatch(callback) {
+    if (
+      (typeof callback === 'function') ||
+      (typeof this.matches[0] !== 'undefined')
+    ) {
+      const nodeid = this.matchIndex[0];
+      callback(this.matches[nodeid]);
+    }
   }
 
   getAllNodes() {
@@ -65,6 +90,28 @@ class DOMSearcher {
     return nodes;
   }
 
+  highlightMatches() {
+    this.matchIndex.forEach(node => this.matches[node].highlight());
+  }
+
+  indexMatches() {
+    this.matchIndex = Object.keys(this.matches);
+  }
+
+  nextMatch(callback) {
+    this.matchIndex.push(this.matchIndex.shift());
+    return this.currentMatch(callback);
+  }
+
+  previousMatch(callback) {
+    this.matchIndex.unshift(this.matchIndex.pop());
+    return this.currentMatch(callback);
+  }
+
+  resetMatches() {
+    this.matches = {};
+  }
+
   search(query) {
     this.clearMatches();
     this.resetMatches();
@@ -79,7 +126,8 @@ class DOMSearcher {
       }
     }
 
-    const length = this.matches.length;
+    this.indexMatches();
+    const length = this.matchIndex.length;
 
     if (length > this.MAX_NUMBER_MATCHES) {
       this.resetMatches();
@@ -88,39 +136,6 @@ class DOMSearcher {
     }
 
     return length;
-  }
-
-  highlightMatches() {
-    this.matches.forEach(match => match.highlight());
-  }
-
-  clearMatches() {
-    this.matches.forEach(match => match.clear());
-  }
-
-  resetMatches() {
-    this.matches = [];
-  }
-
-  currentMatch(callback) {
-    if (
-      (typeof callback !== 'function') ||
-      (typeof this.matches[0] === 'undefined')
-    ) {
-      return;
-    }
-
-    callback(this.matches[0]);
-  }
-
-  nextMatch(callback) {
-    this.matches.push(this.matches.shift());
-    return this.currentMatch(callback);
-  }
-
-  previousMatch(callback) {
-    this.matches.unshift(this.matches.pop());
-    return this.currentMatch(callback);
   }
 
 }

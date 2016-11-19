@@ -1,22 +1,7 @@
 import './match.css';
 
-class Match {
-
-  constructor({ node }) {
-    this.node = node;
-    this.parent = node.parentNode;
-  }
-
-  get node() {
-    return this._node;
-  }
-
-  set node(node) {
-    this._node = node;
-  }
-
-}
-
+const matchTag = `${chrome.runtime.id}-nodeid`;
+const highlightTag = `${chrome.runtime.id}-highlighted`;
 const copyText = (text) => {
   const placeholder = document.createElement('div');
   placeholder.style.position = 'fixed';
@@ -32,9 +17,31 @@ const copyText = (text) => {
   document.body.removeChild(placeholder);
 };
 
-const tag = `${chrome.runtime.id}-highlighted`;
+let index = 1;
 
-class ElementMatch extends Match {
+class Match {
+
+  constructor({ node }) {
+    this.node = node;
+  }
+
+  get node() {
+    return this._node;
+  }
+
+  set node(node) {
+    this._node = node;
+  }
+
+  // The DOM APIs do not guarantee a unique id for any given node. Match objects
+  // generate one to avoid duplicating matches.
+  get nodeid() {
+    if (typeof this.node[matchTag] === 'undefined') {
+      this.node[matchTag] = ++index;
+    }
+
+    return this.node[matchTag];
+  }
 
   get nodeName() {
     return this.node.nodeName;
@@ -49,10 +56,14 @@ class ElementMatch extends Match {
     return this._focusedNodes;
   }
 
+}
+
+class ElementMatch extends Match {
+
   clear() {
     this.node.style['background-color'] = this.originalBackgroundColor;
     this.node.style['background-image'] = this.originalBackgroundImage;
-    this.node[tag] = false;
+    this.node[highlightTag] = false;
   }
 
   copy() {
@@ -88,8 +99,8 @@ class ElementMatch extends Match {
   }
 
   highlight() {
-    if (this.node[tag]) return;
-    this.node[tag] = true;
+    if (this.node[highlightTag]) return;
+    this.node[highlightTag] = true;
 
     this.originalBackgroundColor = this.node.style['background-color'];
     this.originalBackgroundImage = this.node.style['background-image'];
