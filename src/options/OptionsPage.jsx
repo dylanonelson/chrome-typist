@@ -6,7 +6,7 @@ const OptionsPage = ({ settings, store, onSave }) => (
     <h1>Options</h1>
 
     {Object.keys(settings).map(setting => {
-      let settingValue = settings[setting];
+      const settingValue = settings[setting];
       return (
         <Option
           key={setting}
