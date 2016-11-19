@@ -32,6 +32,8 @@ const copyText = (text) => {
   document.body.removeChild(placeholder);
 };
 
+const tag = `${chrome.runtime.id}-highlighted`;
+
 class ElementMatch extends Match {
 
   get nodeName() {
@@ -50,6 +52,7 @@ class ElementMatch extends Match {
   clear() {
     this.node.style['background-color'] = this.originalBackgroundColor;
     this.node.style['background-image'] = this.originalBackgroundImage;
+    this.node[tag] = false;
   }
 
   copy() {
@@ -85,6 +88,9 @@ class ElementMatch extends Match {
   }
 
   highlight() {
+    if (this.node[tag]) return;
+    this.node[tag] = true;
+
     this.originalBackgroundColor = this.node.style['background-color'];
     this.originalBackgroundImage = this.node.style['background-image'];
 
