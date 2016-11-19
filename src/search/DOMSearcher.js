@@ -49,15 +49,27 @@ class DOMSearcher {
   }
 
   clearMatches() {
-    this.matchIndex.forEach(node => this.matches[node].clear());
+    this.allMatches(match => match.clear());
+  }
+
+  allMatches(callback) {
+    this.matchIndex.forEach(index => {
+      if (
+        (typeof this.matches[index] !== 'undefined') &&
+        (typeof callback === 'function')
+      ) {
+        callback(this.matches[index]);
+      }
+    });
   }
 
   currentMatch(callback) {
+    const nodeid = this.matchIndex[0];
+
     if (
       (typeof callback === 'function') ||
       (typeof this.matches[0] !== 'undefined')
     ) {
-      const nodeid = this.matchIndex[0];
       callback(this.matches[nodeid]);
     }
   }
@@ -91,7 +103,7 @@ class DOMSearcher {
   }
 
   highlightMatches() {
-    this.matchIndex.forEach(node => this.matches[node].highlight());
+    this.allMatches(match => match.highlight());
   }
 
   indexMatches() {
