@@ -55,8 +55,8 @@ class DOMSearcher {
   allMatches(callback) {
     this.matchIndex.forEach(index => {
       if (
-        (typeof this.matches[index] !== 'undefined') &&
-        (typeof callback === 'function')
+        (typeof callback === 'function') &&
+        (typeof this.matches[index] !== 'undefined')
       ) {
         callback(this.matches[index]);
       }
@@ -67,8 +67,8 @@ class DOMSearcher {
     const nodeid = this.matchIndex[0];
 
     if (
-      (typeof callback === 'function') ||
-      (typeof this.matches[0] !== 'undefined')
+      (typeof callback === 'function') &&
+      (typeof this.matches[nodeid] !== 'undefined')
     ) {
       callback(this.matches[nodeid]);
     }
