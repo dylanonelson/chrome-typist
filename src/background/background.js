@@ -1,5 +1,6 @@
 import Correspondent from 'messaging/Correspondent';
 import Dispatcher from 'messaging/Dispatcher';
+import Commands from '../commands';
 
 class BackgroundCorrespondent extends Correspondent {
 
@@ -10,6 +11,19 @@ class BackgroundCorrespondent extends Correspondent {
 
   get name() {
     return 'background';
+  }
+
+  onCmdlineCommand(name) {
+    switch (name) {
+      case Commands.CLOSE_UNPINNED: {
+        chrome.tabs.query({ pinned: false }, tabs =>
+          chrome.tabs.remove(tabs.map(tab => tab.id)));
+        break;
+      }
+      default: {
+        // do nothing
+      }
+    }
   }
 
 }

@@ -24,7 +24,7 @@ class CmdlineCorrespondent extends Correspondent {
   // COMMAND HANDLERS
   // ====================
   handleCommand(command) {
-    this.sendMessage('content', 'command', command);
+    this.sendMessage('all', 'command', command);
 
     switch (command) {
       case Commands.BROWSE_FIRST: {

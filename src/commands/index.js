@@ -14,6 +14,7 @@ class Commands {
   static get BROWSE_NEXT() { return 'browse:next'; }
   static get BROWSE_PREVIOUS() { return 'browse:previous'; }
   static get BROWSE_LAST() { return 'browse:last'; }
+  static get CLOSE_UNPINNED() { return 'close:unpinned'; }
   static get FOCUS_OUT() { return 'focus:out'; }
   static get FOCUS_IN() { return 'focus:in'; }
   static get FORWARD() { return 'forward'; }

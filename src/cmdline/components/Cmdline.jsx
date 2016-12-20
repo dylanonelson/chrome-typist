@@ -82,6 +82,10 @@ class Cmdline extends React.Component { /* eslint react/prefer-stateless-functio
         command = Commands.BROWSE_LAST;
         break;
       }
+      case 'Ctrl + K': {
+        command = Commands.CLOSE_UNPINNED;
+        break;
+      }
       case 'Ctrl + P': {
         command = Commands.BACK;
         break;

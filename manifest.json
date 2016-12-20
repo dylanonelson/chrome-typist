@@ -35,7 +35,8 @@
   },
   "permissions": [
     "clipboardWrite",
-    "storage"
+    "storage",
+    "tabs"
   ],
   "short_name": "Typist",
   "version": "0.12",
