@@ -46,12 +46,20 @@ class Cmdline extends React.Component { /* eslint react/prefer-stateless-functio
         command = Commands.BROWSE_PREVIOUS;
         break;
       }
-      case 'O': {
-        command = Commands.FOCUS_OUT;
+      case 'H': {
+        command = Commands.FOCUS_PREVIOUS_SIBLING;
         break;
       }
-      case 'I': {
-        command = Commands.FOCUS_IN;
+      case 'L': {
+        command = Commands.FOCUS_NEXT_SIBLING;
+        break;
+      }
+      case 'J': {
+        command = Commands.FOCUS_PARENT;
+        break;
+      }
+      case 'K': {
+        command = Commands.FOCUS_CHILD;
         break;
       }
       case 'Cmd + Y': {

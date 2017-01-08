@@ -42,13 +42,23 @@ class ContentCorrespondent extends Correspondent {
         this.browse('previous');
         break;
       }
-      case Commands.FOCUS_OUT: {
-        this.searcher.currentMatch(match => match.focusOut());
+      case Commands.FOCUS_NEXT_SIBLING: {
+        this.searcher.currentMatch(match => match.focusNextSibling());
         this.sendCurrentMatch();
         break;
       }
-      case Commands.FOCUS_IN: {
-        this.searcher.currentMatch(match => match.focusIn());
+      case Commands.FOCUS_PREVIOUS_SIBLING: {
+        this.searcher.currentMatch(match => match.focusPreviousSibling());
+        this.sendCurrentMatch();
+        break;
+      }
+      case Commands.FOCUS_CHILD: {
+        this.searcher.currentMatch(match => match.focusChild());
+        this.sendCurrentMatch();
+        break;
+      }
+      case Commands.FOCUS_PARENT: {
+        this.searcher.currentMatch(match => match.focusParent());
         this.sendCurrentMatch();
         break;
       }

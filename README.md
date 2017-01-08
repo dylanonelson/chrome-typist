@@ -50,10 +50,6 @@ Typist goes into browse mode when you hit enter in Regex mode. The cmdline will 
 
 - **Shift+N** issues the "Browse previous" command, which highlights the previous match on the page.
 
-- **O** issues the "Focus out" command, which removes the focus from the currently selected node and focuses its parent instead.
-
-- **I** issues the "Focus in" command. After issuing a Focus out command, Focus in removes the focus from the currently selected node and reverts it to the child that was previously focused.
-
 - **Enter** issues the "Select" command to the currently highlighted node. Selecting a node will do different things based on what type of node it is. Selecting will click on links, labels, and other elements and select the text inside text inputs.
 
 - **Shift+Enter** issues the "Soft select" command to the currently higlighted node. Soft selecting a node gives the node browser focus (i.e., calls `HTMLElement.focus()`), even if it is not focusable by default.

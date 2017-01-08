@@ -15,8 +15,10 @@ class Commands {
   static get BROWSE_PREVIOUS() { return 'browse:previous'; }
   static get BROWSE_LAST() { return 'browse:last'; }
   static get CLOSE_UNPINNED() { return 'close:unpinned'; }
-  static get FOCUS_OUT() { return 'focus:out'; }
-  static get FOCUS_IN() { return 'focus:in'; }
+  static get FOCUS_NEXT_SIBLING() { return 'focus:nextSibling'; }
+  static get FOCUS_PREVIOUS_SIBLING() { return 'focus:previousSibling'; }
+  static get FOCUS_PARENT() { return 'focus:parent'; }
+  static get FOCUS_CHILD() { return 'focus:child'; }
   static get FORWARD() { return 'forward'; }
   static get OPEN() { return 'open'; }
   static get SELECT() { return 'select'; }

@@ -1,4 +1,5 @@
 import './match.css';
+import NodeMatcherFactory from './NodeMatcherFactory';
 
 const matchTag = `${chrome.runtime.id}-nodeid`;
 const highlightTag = `${chrome.runtime.id}-highlighted`;
@@ -56,6 +57,10 @@ class Match {
     return this._focusedNodes;
   }
 
+  set focusedNodes(fn) {
+    this._focusedNodes = fn;
+  }
+
 }
 
 class ElementMatch extends Match {
@@ -75,32 +80,44 @@ class ElementMatch extends Match {
     this.node.scrollIntoViewIfNeeded(true);
   }
 
-  focusIn() {
-    const nodeIn = this.focusedNodes.pop();
+  focusChild() {
+    let nodeIn = this.focusedNodes.pop();
 
-    if (nodeIn) {
-      this.clear();
-      this.node = nodeIn;
-      this.highlight();
-      this.focus();
+    // If the node in focus is no longer on the same branch of the tree as the
+    // previously focused child, clear the stack of previously focused nodes and
+    // focus on the first child instead of picking off of it.
+    if (!this.node.contains(nodeIn)) {
+      this.focusedNodes = [];
+      nodeIn = this.node.children[0];
     }
+
+    this.refocus(nodeIn);
   }
 
-  focusOut() {
+  focusNextSibling() {
+    const nextSibling = this.node.nextElementSibling;
+    this.refocus(nextSibling);
+  }
+
+  focusParent() {
     const nodeOut = this.node.parentNode;
 
     if (nodeOut && nodeOut !== document) {
-      this.clear();
       this.focusedNodes.push(this.node);
-      this.node = nodeOut;
-      this.highlight();
-      this.focus();
+      this.refocus(nodeOut);
     }
+  }
+
+  focusPreviousSibling() {
+    const previousSibling = this.node.previousElementSibling;
+    this.refocus(previousSibling);
   }
 
   highlight() {
     if (this.node[highlightTag]) return;
     this.node[highlightTag] = true;
+
+    if (typeof this.node.style === 'undefined') this.node.style = {};
 
     this.originalBackgroundColor = this.node.style['background-color'];
     this.originalBackgroundImage = this.node.style['background-image'];
@@ -119,6 +136,16 @@ class ElementMatch extends Match {
     this.node.style['background-color'] = 'yellow';
   }
 
+  refocus(node) {
+    const matcher = NodeMatcherFactory(null);
+
+    if (node && matcher.isVisible(node)) {
+      this.clear();
+      this.node = node;
+      this.highlight();
+      this.focus();
+    }
+  }
   select() {
     this.node.click();
   }
