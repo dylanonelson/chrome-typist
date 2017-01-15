@@ -28,7 +28,7 @@ class BackgroundCorrespondent extends Correspondent {
 
   onMoveTab({ target }) {
     chrome.tabs.query({ active: true }, tabs => {
-      chrome.tabs.move(tabs[0].id, { index: target - 1 });
+      chrome.tabs.move(tabs[0].id, { index: target });
     });
   }
 
