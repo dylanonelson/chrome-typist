@@ -23,7 +23,7 @@ class CmdlineCorrespondent extends Correspondent {
   // ====================
   // COMMAND HANDLERS
   // ====================
-  handleCommand(command) {
+  handleCommand(command, options) {
     this.sendMessage('all', 'command', command);
 
     switch (command) {
@@ -33,6 +33,10 @@ class CmdlineCorrespondent extends Correspondent {
       }
       case Commands.BROWSE_LAST: {
         this.handleQuerySubmit(false);
+        break;
+      }
+      case Commands.MOVE_TAB: {
+        this.sendMessage('background', 'move:tab', options);
         break;
       }
       case Commands.OPEN: {

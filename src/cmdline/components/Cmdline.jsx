@@ -80,6 +80,21 @@ class Cmdline extends React.Component { /* eslint react/prefer-stateless-functio
 
   handleQueryKeyDown(e) {
     let command = null;
+    let options = {};
+
+    // If the input is a number and we are waiting for input, issue a command
+    // to move the tab to the entered number
+    if (this.awaitingInput) {
+      this.awaitingInput = false;
+
+      e.stopPropagation();
+      e.preventDefault();
+
+      if (parseInt(keyEventToString(e), 10)) {
+        command = Commands.MOVE_TAB;
+        options = { target: parseInt(keyEventToString(e), 10) };
+      }
+    }
 
     switch (keyEventToString(e)) {
       case 'Enter': {
@@ -98,6 +113,10 @@ class Cmdline extends React.Component { /* eslint react/prefer-stateless-functio
         command = Commands.BACK;
         break;
       }
+      case 'Ctrl + M': {
+        this.awaitingInput = true;
+        break;
+      }
       case 'Ctrl + N': {
         command = Commands.FORWARD;
         break;
@@ -107,7 +126,7 @@ class Cmdline extends React.Component { /* eslint react/prefer-stateless-functio
       }
     }
 
-    if (command) { this.props.onCommand(command); }
+    if (command) { this.props.onCommand(command, options); }
   }
 
   handleQueryChange(e) {

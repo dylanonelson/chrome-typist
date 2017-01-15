@@ -21,6 +21,7 @@ class Commands {
   static get FOCUS_CHILD() { return 'focus:child'; }
   static get FORWARD() { return 'forward'; }
   static get OPEN() { return 'open'; }
+  static get MOVE_TAB() { return 'move:tab'; }
   static get SELECT() { return 'select'; }
   static get SOFT_SELECT() { return 'softselect'; }
   static get YANK() { return 'yank'; }
