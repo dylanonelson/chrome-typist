@@ -90,7 +90,9 @@ class Cmdline extends React.Component { /* eslint react/prefer-stateless-functio
       e.stopPropagation();
       e.preventDefault();
 
-      if (parseInt(keyEventToString(e), 10)) {
+      const input = keyEventToString(e);
+
+      if (!isNaN(parseInt(input, 10))) {
         command = Commands.MOVE_TAB;
         options = { target: parseInt(keyEventToString(e), 10) };
       }
