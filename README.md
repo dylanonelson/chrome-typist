@@ -38,6 +38,7 @@ Typist is searching for node matches, not just text matches. So if you type "c.\
 - Press **Ctrl+P** in Regex mode to issue the "Back" command and go back in the browser history. Press **Ctrl+N** in Regex mode to issue the "Forward" command and go forward in the browser history.
 
 - Press **Ctrl+M**, followed by any number between 1 and 9, in regex mode to issue the "Move tab" command and move the currently selected tab to that integer position in your window. This command will fail if you try to move an unpinned tab to a position before the last pinned tab, or to move a pinned tab to a position after the first unpinned tab.
+
 - Press **Ctrl+K** in Regex mode to issue the "Clear tabs" command and close all unpinned tabs.
 
 - Press **Enter** to go into Browse mode and higlight the first match on the page. Press **Shift+Enter** to go into Browse mode and highlight the last match on the page.
