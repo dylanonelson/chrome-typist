@@ -26,7 +26,7 @@ class Messenger {
   sendMessage(to, message, data) {
     const msg = this.buildMessage(to, message, data);
 
-    if (typeof chrome.tabs !== 'undefined') {
+    if (this.correspondent.name === 'background') {
       chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
         chrome.tabs.sendMessage(tabs[0].id, msg);
       });
