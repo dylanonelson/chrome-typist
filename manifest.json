@@ -39,7 +39,7 @@
     "tabs"
   ],
   "short_name": "Typist",
-  "version": "0.15",
+  "version": "0.17",
   "web_accessible_resources": [
     "dist/cmdline.html"
   ]
