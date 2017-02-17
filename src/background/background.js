@@ -16,7 +16,7 @@ class BackgroundCorrespondent extends Correspondent {
   onCmdlineCommand(name) {
     switch (name) {
       case Commands.CLOSE_UNPINNED: {
-        chrome.tabs.query({ pinned: false }, tabs =>
+        chrome.tabs.query({ pinned: false, active: false }, tabs =>
           chrome.tabs.remove(tabs.map(tab => tab.id)));
         break;
       }
