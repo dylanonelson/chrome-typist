@@ -26,6 +26,10 @@ class BackgroundCorrespondent extends Correspondent {
     }
   }
 
+  onCommandCmdline() {
+    this.sendMessage('cmdline', 'mode:regex');
+  }
+
   onMoveTab({ target }) {
     chrome.tabs.query({ active: true }, tabs => {
       chrome.tabs.move(tabs[0].id, { index: target });

@@ -107,7 +107,7 @@ class ContentCorrespondent extends Correspondent {
     this.cmdline.blur();
   }
 
-  onCmdlineModeRegex() {
+  onBackgroundCommandCmdline() {
     this.cmdline.show();
     this.cmdline.focus();
     this.sendMessage('cmdline', 'focus');
