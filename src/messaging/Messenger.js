@@ -1,3 +1,5 @@
+import { GLOBAL_DEBUG_OPTION_NAME } from 'config';
+
 class Messenger {
 
   constructor(options) {
@@ -12,11 +14,19 @@ class Messenger {
       ) &&
         (request.from !== this.correspondent.name)
       ) {
+        /* eslint-disable no-console */
+        if (window[GLOBAL_DEBUG_OPTION_NAME] === true) {
+          console.log(`${this.correspondent.name} receives message:`);
+          console.log(request.message);
+          console.log(request.data);
+        }
+        /* eslint-enable no-console */
+
         this.correspondent.trigger(request.message, request.data);
       }
     });
 
-    if (typeof chrome.commands !== 'undefined') {
+    if (chrome.commands !== undefined) {
       chrome.commands.onCommand.addListener((command) => {
         this.correspondent.trigger(`command:${command}`);
       });
@@ -25,6 +35,13 @@ class Messenger {
 
   sendMessage(to, message, data) {
     const msg = this.buildMessage(to, message, data);
+
+    /* eslint-disable no-console */
+    if (window[GLOBAL_DEBUG_OPTION_NAME] === true) {
+      console.log(`${this.correspondent.name} sends message:`);
+      console.log(msg);
+    }
+    /* eslint-enable no-console */
 
     if (this.correspondent.name === 'background') {
       chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
